@@ -1,0 +1,59 @@
+plugins {
+    alias(libs.plugins.android.application)
+}
+
+android {
+    namespace 'xyz.tbvns.ao3m'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "xyz.tbvns.ao3m"
+        minSdk 29
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    buildFeatures {
+        viewBinding true
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        // You can also add other exclusions if needed
+        // exclude 'META-INF/*.kotlin_module'
+        // exclude 'META-INF/LICENSE'
+    }
+}
+
+
+
+dependencies {
+
+    implementation libs.appcompat
+    implementation libs.material
+    implementation libs.constraintlayout
+    implementation libs.navigation.fragment
+    implementation libs.navigation.ui
+    testImplementation libs.junit
+    androidTestImplementation libs.ext.junit
+    androidTestImplementation libs.espresso.core
+
+    annotationProcessor 'org.projectlombok:lombok:1.18.36'
+    implementation 'org.projectlombok:lombok:1.18.36'
+    implementation 'org.jsoup:jsoup:1.18.3'
+    implementation group: 'org.htmlunit', name: 'htmlunit3-android', version: '4.3.0'
+
+}

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".LoginActivity" android:orientation="vertical"
+        android:clipToPadding="false"
+        app:flow_horizontalAlign="center" app:flow_verticalAlign="center" android:gravity="center_horizontal">
+
+    <TextView
+            android:text="Login"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:id="@+id/textView" android:textSize="50dp"
+            android:textAlignment="center" android:fontFamily="sans-serif-black"/>
+    <EditText
+            android:layout_width="300sp"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:ems="10"
+            android:id="@+id/username" android:hint="Username" android:padding="20dp"/>
+    <EditText
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/password" android:hint="Password"
+            android:padding="20dp"/>
+    <Space
+            android:layout_width="match_parent"
+            android:layout_height="50dp" android:padding="50dp"/>
+    <Button
+            android:text="Proceed"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content" android:id="@+id/loginButton"/>
+</LinearLayout>
