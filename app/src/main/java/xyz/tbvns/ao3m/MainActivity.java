@@ -16,6 +16,7 @@ import com.google.android.material.navigation.NavigationBarView;
 
 import lombok.SneakyThrows;
 import xyz.tbvns.ao3m.AO3.FandomAPI;
+import xyz.tbvns.ao3m.Fragments.BrowseFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         navigationBar.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Fragment selectedFragment = null;
+                Fragment selectedFragment = new BrowseFragment();
 
                 if (selectedFragment != null) {
                     getSupportFragmentManager().beginTransaction()
