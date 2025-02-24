@@ -8,6 +8,7 @@
         android:layout_height="match_parent"
         tools:context=".LoginActivity" android:orientation="vertical"
         android:clipToPadding="false"
+        android:theme="@style/Theme.AO3M"
         app:flow_horizontalAlign="center" app:flow_verticalAlign="center" android:gravity="center_horizontal">
 
     <TextView

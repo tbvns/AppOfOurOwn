@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            android:id="@+id/navigation_librairy"
+            android:icon="@android:drawable/ic_menu_gallery"
+            android:title="Library" />
+    <item
+            android:id="@+id/navigation_update"
+            android:icon="@android:drawable/ic_popup_sync"
+            android:title="Update" />
+    <item
+            android:id="@+id/navigation_browse"
+            android:icon="@android:drawable/ic_menu_search"
+            android:title="Browse" />
+    <item
+            android:id="@+id/navigation_history"
+            android:icon="@android:drawable/ic_menu_recent_history"
+            android:title="History" />
+    <item
+            android:id="@+id/navigation_plus"
+            android:icon="@android:drawable/ic_input_add"
+            android:title="Plus" />
+</menu>
