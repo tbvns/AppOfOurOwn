@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import xyz.tbvns.ao3m.AO3.FandomAPI;
 import xyz.tbvns.ao3m.R;
 
@@ -26,18 +28,14 @@ public class BrowseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_browse, container, false);
-//        LinearLayout list = view.findViewById(R.id.Categories);
-//        new Thread(() -> {
-//            FandomAPI.getCategories().forEach(c -> {
-//                new Handler(Looper.getMainLooper()).post(() -> {
-//                    list.addView(
-//                            new Button(getContext()){{
-//                                setText(c.getName());
-//                            }}
-//                    );
-//                });
-//            });
-//        }).start();
+
+        Button byFandomButton = view.findViewById(R.id.fandomButtons);
+        byFandomButton.setOnClickListener(a -> {
+            FragmentManager manager = getParentFragmentManager();
+            FragmentTransaction ft = manager.beginTransaction();
+            ft.replace(R.id.fragment_container, new FandomMainFragment());
+            ft.commit();
+        });
 
 
         return view;

@@ -1,0 +1,70 @@
+package xyz.tbvns.ao3m.Fragments;
+
+import android.content.res.ColorStateList;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.Space;
+import androidx.fragment.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import xyz.tbvns.ao3m.AO3.FandomCategoryObject;
+import xyz.tbvns.ao3m.R;
+import xyz.tbvns.ao3m.Utils;
+
+import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+@AllArgsConstructor
+public class FandomSubFragment extends Fragment {
+
+    @Getter
+    private final List<FandomCategoryObject> stream;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_fandom_sub, container, false);
+        LinearLayout layout = view.findViewById(R.id.fandomSubList);
+
+        ProgressBar progressBar = new ProgressBar(getContext());
+
+        new Thread(() -> {
+            AtomicBoolean exit = new AtomicBoolean(false);
+            for (int i = 0; i < stream.size(); i++) {
+                FandomCategoryObject obj = stream.get(i);
+                Button button;
+                Space space;
+                try {
+                     button = new Button(getContext()){{
+                        setText(obj.getName());
+                        setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
+                    }};
+
+                    space = new Space(getContext());
+                    space.setMinimumHeight(20);
+                } catch (Exception e) {
+                    break;
+                }
+                new Handler(Looper.getMainLooper()).post(() -> {
+                    try {
+                        layout.addView(button);
+                        layout.addView(space);
+                    } catch (Exception e) {
+                        exit.set(true);
+                    }
+                });
+                Utils.sleep(10);
+                if (exit.get()) {
+                    break;
+                }
+            }
+        }).start();
+        return view;
+    }
+}

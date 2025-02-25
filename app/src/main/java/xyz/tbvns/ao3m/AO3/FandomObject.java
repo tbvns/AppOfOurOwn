@@ -1,20 +1,15 @@
 package xyz.tbvns.ao3m.AO3;
 
-public class Category {
+import lombok.Data;
+
+@Data
+public class FandomObject {
     private final String name;
     private final String url;
 
-    public Category(String name, String url) {
+    public FandomObject(String name, String url) {
         this.name = name;
         this.url = url;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getUrl() {
-        return url;
     }
 
     @Override
