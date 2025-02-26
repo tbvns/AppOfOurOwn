@@ -17,6 +17,7 @@ import com.google.android.material.navigation.NavigationBarView;
 
 import lombok.SneakyThrows;
 import xyz.tbvns.ao3m.AO3.FandomAPI;
+import xyz.tbvns.ao3m.AO3.WorkAPI;
 import xyz.tbvns.ao3m.Fragments.BrowseFragment;
 
 public class MainActivity extends AppCompatActivity {
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
         new Thread(() -> {
             try {
-                System.out.println(FandomAPI.getCategories());
+                System.out.println(WorkAPI.fetchWorks("https://archiveofourown.org/works"));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
