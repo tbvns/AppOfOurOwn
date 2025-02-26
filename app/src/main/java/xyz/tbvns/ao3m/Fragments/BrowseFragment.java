@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import xyz.tbvns.ao3m.AO3.FandomAPI;
+import xyz.tbvns.ao3m.MainActivity;
 import xyz.tbvns.ao3m.R;
 
 public class BrowseFragment extends Fragment {
@@ -28,6 +29,8 @@ public class BrowseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_browse, container, false);
+
+        MainActivity.bar.setTitle("Browse");
 
         Button byFandomButton = view.findViewById(R.id.fandomButtons);
         byFandomButton.setOnClickListener(a -> {

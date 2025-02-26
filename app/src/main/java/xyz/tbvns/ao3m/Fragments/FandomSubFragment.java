@@ -4,6 +4,7 @@ import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.ContextThemeWrapper;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -32,18 +33,18 @@ public class FandomSubFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_fandom_sub, container, false);
         LinearLayout layout = view.findViewById(R.id.fandomSubList);
 
-        ProgressBar progressBar = new ProgressBar(getContext());
-
         new Thread(() -> {
             AtomicBoolean exit = new AtomicBoolean(false);
+            ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(getContext(), R.style.Theme_AO3M);
             for (int i = 0; i < stream.size(); i++) {
                 FandomCategoryObject obj = stream.get(i);
                 Button button;
                 Space space;
                 try {
-                     button = new Button(getContext()){{
+                     button = new Button(contextThemeWrapper, null, R.style.Theme_AO3M){{
                         setText(obj.getName());
                         setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
+
                     }};
 
                     space = new Space(getContext());
@@ -59,7 +60,7 @@ public class FandomSubFragment extends Fragment {
                         exit.set(true);
                     }
                 });
-                Utils.sleep(10);
+                Utils.sleep(5);
                 if (exit.get()) {
                     break;
                 }

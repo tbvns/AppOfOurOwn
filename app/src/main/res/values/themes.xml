@@ -1,5 +1,36 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <style name="Theme.AO3M.main" parent="@style/Theme.Material3.Light">
+    </style>
 
+    <style name="Theme.AO3M.MidnightDusk">
+        <!-- Theme Colors -->
+        <item name="colorPrimary">@color/midnightdusk_primary</item>
+        <item name="colorOnPrimary">@color/midnightdusk_onPrimary</item>
+        <item name="colorPrimaryContainer">@color/midnightdusk_primaryContainer</item>
+        <item name="colorOnPrimaryContainer">@color/midnightdusk_onPrimaryContainer</item>
+        <item name="colorPrimaryInverse">@color/midnightdusk_inversePrimary</item>
+        <item name="colorSecondary">@color/midnightdusk_secondary</item>
+        <item name="colorOnSecondary">@color/midnightdusk_onSecondary</item>
+        <item name="colorSecondaryContainer">@color/midnightdusk_secondaryContainer</item>
+        <item name="colorOnSecondaryContainer">@color/midnightdusk_onSecondaryContainer</item>
+        <item name="colorTertiary">@color/midnightdusk_tertiary</item>
+        <item name="colorOnTertiary">@color/midnightdusk_onTertiary</item>
+        <item name="colorTertiaryContainer">@color/midnightdusk_tertiaryContainer</item>
+        <item name="colorOnTertiaryContainer">@color/midnightdusk_onTertiaryContainer</item>
+        <item name="android:colorBackground">@color/midnightdusk_background</item>
+        <item name="colorOnBackground">@color/midnightdusk_onBackground</item>
+        <item name="colorSurface">@color/midnightdusk_surface</item>
+        <item name="colorOnSurface">@color/midnightdusk_onSurface</item>
+        <item name="colorSurfaceVariant">@color/midnightdusk_surfaceVariant</item>
+        <item name="colorOnSurfaceVariant">@color/midnightdusk_onSurfaceVariant</item>
+        <item name="elevationOverlayColor">@color/midnightdusk_surfaceTint</item>
+        <item name="colorSurfaceInverse">@color/midnightdusk_inverseSurface</item>
+        <item name="colorOnSurfaceInverse">@color/midnightdusk_inverseOnSurface</item>
+        <item name="colorOutline">@color/midnightdusk_outline</item>
+        <item name="colorSurfaceContainer">@color/midnightdusk_surfaceContainer</item>
+        <item name="colorSurfaceContainerHigh">@color/midnightdusk_surfaceContainerHigh</item>
+        <item name="colorSurfaceContainerHighest">@color/midnightdusk_surfaceContainerHighest</item>
+        <item name="colorSurfaceContainerLow">@color/midnightdusk_surfaceContainerLow</item>
+        <item name="colorSurfaceContainerLowest">@color/midnightdusk_surfaceContainerLowest</item>
     </style>
 </resources>
