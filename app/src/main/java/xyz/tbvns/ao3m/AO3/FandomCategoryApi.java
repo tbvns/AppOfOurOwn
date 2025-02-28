@@ -1,10 +1,6 @@
 package xyz.tbvns.ao3m.AO3;
 
 import lombok.SneakyThrows;
-import org.htmlunit.BrowserVersion;
-import org.htmlunit.WebClient;
-import org.htmlunit.html.HtmlAnchor;
-import org.htmlunit.html.HtmlElement;
 import org.htmlunit.html.HtmlPage;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -13,11 +9,12 @@ import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Spliterator;
-import java.util.concurrent.*;
-import java.util.function.Consumer;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
+import static xyz.tbvns.ao3m.AO3.WebBrowser.client;
 
 public class FandomCategoryApi {
 
@@ -25,10 +22,10 @@ public class FandomCategoryApi {
     public static List<FandomCategoryObject> getCategoryList(String url) {
         // Fetch the page using JSoup (no need for HTMLUnit)
         System.out.println("test 1: fetching page with JSoup");
-        Document doc = Jsoup.connect(url)
-                .userAgent("Mozilla/5.0")
-                .timeout(60000)
-                .get();
+
+        HtmlPage page = client.getPage(url);
+        String pageHtml = page.asXml();
+        Document doc = Jsoup.parse(pageHtml);
 
         System.out.println("test 3: page fetched and parsed");
         Elements liElements = doc.select("ul.tags.index.group li");

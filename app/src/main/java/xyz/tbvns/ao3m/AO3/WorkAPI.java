@@ -1,19 +1,33 @@
 package xyz.tbvns.ao3m.AO3;
 
+import android.content.Context;
+import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
+import android.widget.ImageView;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.SneakyThrows;
+import org.htmlunit.WebClient;
+import org.htmlunit.html.HtmlPage;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import static xyz.tbvns.ao3m.AO3.WebBrowser.client;
 
 public class WorkAPI {
     public enum ContentRating {
@@ -138,14 +152,20 @@ public class WorkAPI {
         public int chapterCount;
         public int chapterMax;
         public int hits;
+        public int kudos;
         public LocalDate publishedDate;
     }
 
-    public static List<Work> fetchWorks(String url) throws IOException {
+    @SneakyThrows
+    public static List<Work> fetchWorks(String url) {
         List<Work> works = new ArrayList<>();
-        Document doc = Jsoup.connect(url).get();
+        HtmlPage page = client.getPage(url);
+        String pageContent = page.asXml();
 
+        // Use Jsoup to parse the HtmlUnit-rendered page
+        Document doc = Jsoup.parse(pageContent);
         Elements workElements = doc.select("li.work");
+
         for (Element workElement : workElements) {
             works.add(parseWork(workElement.outerHtml()));
         }
@@ -204,6 +224,7 @@ public class WorkAPI {
         // Word count and hits: parsed from their respective <dd> elements
         int wordCount = parseIntFromText(card.selectFirst("dl.stats dd.words"));
         int hits = parseIntFromText(card.selectFirst("dl.stats dd.hits"));
+        int kudos = parseIntFromText(card.selectFirst("dl.stats dd.kudos"));
 
         // Chapters: extract the current chapter count and maximum chapters (if available)
         int chapterCount = 0, chapterMax = -1;
@@ -219,7 +240,7 @@ public class WorkAPI {
         // Classification: use the classifyFanfic() method on the required-tags section
         Classification classification = classifyFanfic(card.select("ul.required-tags").outerHtml());
 
-        return new Work(workId, title, author, authorUrl, fandoms, tags, classification, summary, language, wordCount, chapterCount, chapterMax, hits, publishedDate);
+        return new Work(workId, title, author, authorUrl, fandoms, tags, classification, summary, language, wordCount, chapterCount, chapterMax, hits, kudos, publishedDate);
     }
 
     private static int parseIntFromText(Element element) {
@@ -233,4 +254,106 @@ public class WorkAPI {
         text = text.replaceAll("\\D", "");
         return text.isEmpty() ? 0 : Integer.parseInt(text);
     }
+
+    public static void applyImage(Classification c, ImageView view, int type) {
+        String resourcePath = null;
+
+        switch (type) {
+            case 0: // Public (Content Rating)
+                switch (c.contentRating) {
+                    case general:
+                        resourcePath = "icons/public/icon-general-public.png";
+                        break;
+                    case teen:
+                        resourcePath = "icons/public/icon-teen-public.png";
+                        break;
+                    case mature:
+                        resourcePath = "icons/public/icon-mature-public.png";
+                        break;
+                    case explicit:
+                        resourcePath = "icons/public/icon-explicite-public.png";
+                        break;
+                    default:
+                        resourcePath = "icons/public/icon-unknown-public.png";
+                        break;
+                }
+                break;
+            case 1: // Relationship
+                switch (c.relationship) {
+                    case ff:
+                        resourcePath = "icons/relationship/icon-ff-relationships.png";
+                        break;
+                    case mm:
+                        resourcePath = "icons/relationship/icon-mm-relationships.png";
+                        break;
+                    case fm:
+                        resourcePath = "icons/relationship/icon-inter-relationships.png";
+                        break;
+                    case multi:
+                        resourcePath = "icons/relationship/icon-multiple-relationships.png";
+                        break;
+                    case other:
+                        resourcePath = "icons/relationship/icon-other-relationships.png";
+                        break;
+                    case gen:
+                    case none:
+                        resourcePath = "icons/relationship/icon-none-relationships.png";
+                        break;
+                    default:
+                        resourcePath = "icons/relationship/icon-unknown-relationships.png";
+                        break;
+                }
+                break;
+            case 2: // Warnings
+                switch (c.warning) {
+                    case warning:
+                        resourcePath = "icons/warnings/icon-has-warning.png";
+                        break;
+                    case unspecified:
+                        resourcePath = "icons/warnings/icon-unspecified-warning.png";
+                        break;
+                    case web:
+                        resourcePath = "icons/warnings/icon-web-warning.png";
+                        break;
+                    default:
+                        resourcePath = "icons/warnings/icon-unknown-warning.png";
+                        break;
+                }
+                break;
+            case 3: // Status
+                switch (c.status) {
+                    case completed:
+                        resourcePath = "icons/status/icon-done-status.png";
+                        break;
+                    case incomplete:
+                        resourcePath = "icons/status/icon-unfinished-status.png";
+                        break;
+                    default:
+                        resourcePath = "icons/status/icon-unknown-status.png";
+                        break;
+                }
+                break;
+        }
+
+        if (resourcePath != null) {
+            applyImageFromAssets(view, resourcePath);
+        }
+    }
+
+    public static void applyImageFromAssets(ImageView view, String path) {
+        try {
+            Context context = view.getContext();
+            AssetManager assetManager = context.getAssets();
+            InputStream inputStream = assetManager.open(path);
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+
+            new Handler(Looper.getMainLooper()).post(() -> view.setImageBitmap(bitmap));
+
+            inputStream.close();
+        } catch (IOException e) {
+            Log.e("applyImage", "Error loading image: " + path, e);
+        }
+    }
+
+
 }

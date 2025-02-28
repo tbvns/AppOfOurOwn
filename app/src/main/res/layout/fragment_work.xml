@@ -1,14 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Fragments.WorkFragment">
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             tools:context=".Fragments.WorkFragment" android:orientation="vertical" android:padding="5dp"
+             android:paddingTop="20dp" android:paddingVertical="20dp">
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" android:background="@drawable/rounded_workview"
+            android:padding="20dp">
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:gravity="center_vertical">
+            <LinearLayout
+                    android:layout_width="50dp"
+                    android:layout_height="50dp">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
-
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="25dp"
+                        android:layout_height="50dp">
+                    <ImageView
+                            android:src="@android:drawable/btn_dialog"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp" android:id="@+id/rating"/>
+                    <ImageView
+                            android:src="@android:drawable/btn_dialog"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp" android:id="@+id/warning"/>
+                </LinearLayout>
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="25dp"
+                        android:layout_height="50dp">
+                    <ImageView
+                            android:src="@android:drawable/btn_dialog"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp" android:id="@+id/relationship"/>
+                    <ImageView
+                            android:src="@android:drawable/btn_dialog"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp" android:id="@+id/status"/>
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                <TextView
+                        android:text="Title"
+                        android:layout_width="wrap_content" android:layout_height="25dp"
+                        android:maxHeight="50dp" android:minHeight="50dp" android:textSize="20sp"
+                        android:id="@+id/title" android:textStyle="bold" android:paddingLeft="10dp"/>
+                <TextView
+                        android:text="Author"
+                        android:layout_width="match_parent" android:layout_height="20dp"
+                        android:maxHeight="20dp" android:minHeight="20dp" android:textSize="14sp"
+                        android:id="@+id/author" android:paddingLeft="10dp"/>
+            </LinearLayout>
+        </LinearLayout>
+        <TextView
+                android:text="Fandom"
+                android:layout_width="match_parent" android:layout_height="20dp"
+                android:maxHeight="20dp" android:minHeight="20dp" android:textSize="14sp"
+                android:id="@+id/fandom"/>
+        <TextView
+                android:text="See all tags / fandoms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/allTags"
+                android:textSize="12sp" android:textStyle="normal|bold|italic"
+                android:background="@android:color/transparent" android:textAlignment="viewStart"/>
+        <TextView
+                android:text="Description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/desc"
+                android:textSize="12sp" android:paddingBottom="10dp"/>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp">
+            <ImageView
+                    android:src="@drawable/views_icon"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content" android:id="@+id/imageView9" android:layout_weight="1"
+                    android:tint="@color/midnightdusk_onBackground"/>
+            <TextView
+                    android:text="0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" android:id="@+id/hits" android:layout_weight="1"
+                    android:gravity="center" android:textSize="15sp" android:paddingEnd="5dp"
+                    android:paddingStart="2dp"/>
+            <ImageView
+                    android:src="@drawable/words_icon"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content" android:id="@+id/imageView8" android:layout_weight="1"
+                    android:tint="@color/midnightdusk_onBackground"/>
+            <TextView
+                    android:text="0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" android:layout_weight="1"
+                    android:gravity="center" android:textSize="15sp" android:id="@+id/words" android:paddingEnd="5dp"
+                    android:paddingStart="2dp"/>
+            <ImageView
+                    android:src="@drawable/chapters_icon"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content" android:id="@+id/imageView7" android:layout_weight="1"
+                    android:tint="@color/midnightdusk_onBackground"/>
+            <TextView
+                    android:text="0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" android:id="@+id/chapters" android:layout_weight="1"
+                    android:gravity="center" android:textSize="15sp" android:paddingEnd="5dp"
+                    android:paddingStart="2dp"/>
+            <ImageView
+                    android:src="@drawable/likes_icon"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content" android:id="@+id/imageView6" android:layout_weight="1"
+                    android:tint="@color/midnightdusk_onBackground"/>
+            <TextView
+                    android:text="0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" android:id="@+id/kudos" android:layout_weight="1"
+                    android:gravity="center" android:textSize="15sp" android:paddingEnd="5dp"
+                    android:paddingStart="2dp"/>
+            <ImageView
+                    android:src="@drawable/history_icon"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content" android:id="@+id/imageView5" android:layout_weight="1"
+                    android:tint="@color/midnightdusk_onBackground"/>
+            <TextView
+                    android:text="0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" android:id="@+id/update" android:layout_weight="1"
+                    android:gravity="center" android:textSize="15sp" android:paddingStart="2dp"/>
+        </LinearLayout>
+    </LinearLayout>
 </FrameLayout>

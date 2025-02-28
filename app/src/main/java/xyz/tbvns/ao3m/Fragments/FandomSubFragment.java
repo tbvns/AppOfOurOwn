@@ -1,21 +1,23 @@
 package xyz.tbvns.ao3m.Fragments;
 
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.ContextThemeWrapper;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.Space;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.Space;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import xyz.tbvns.ao3m.AO3.FandomCategoryApi;
 import xyz.tbvns.ao3m.AO3.FandomCategoryObject;
+import xyz.tbvns.ao3m.AO3.WorkAPI;
 import xyz.tbvns.ao3m.R;
 import xyz.tbvns.ao3m.Utils;
 
@@ -44,7 +46,27 @@ public class FandomSubFragment extends Fragment {
                      button = new Button(contextThemeWrapper, null, R.style.Theme_AO3M){{
                         setText(obj.getName());
                         setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
+                        setOnClickListener(l -> {
+                            new Thread(() -> {
+                                FragmentManager manager = getParentFragmentManager();
 
+                                new Handler(Looper.getMainLooper()).post(() -> {
+                                    FragmentTransaction ft = manager.beginTransaction();
+                                    ft.replace(R.id.fragment_container, new LoadingFragment());
+                                    ft.commit();
+                                });
+
+                                System.out.println("https://archiveofourown.org" + obj.getLink());
+                                List<WorkAPI.Work> works = WorkAPI.fetchWorks("https://archiveofourown.org" + obj.getLink());
+
+                                new Handler(Looper.getMainLooper()).post(() -> {
+                                    FragmentTransaction ft = manager.beginTransaction();
+                                    ft.replace(R.id.fragment_container, new SearchResultFragment(works));
+                                    ft.commit();
+                                });
+
+                            }).start();
+                        });
                     }};
 
                     space = new Space(getContext());

@@ -1,6 +1,7 @@
 package xyz.tbvns.ao3m.AO3;
 
 import lombok.SneakyThrows;
+import org.htmlunit.html.HtmlPage;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -13,14 +14,15 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import static xyz.tbvns.ao3m.AO3.WebBrowser.client;
+
 public class FandomAPI {
     @SneakyThrows
     public static List<FandomObject> getCategories() {
-        // Fetch the page using JSoup
-        Document doc = Jsoup.connect("https://archiveofourown.org/media")
-                .userAgent("Mozilla/5.0")
-                .timeout(60000)
-                .get();
+        HtmlPage page = client.getPage("https://archiveofourown.org/media");
+        String pageHtml = page.asXml();
+        Document doc = Jsoup.parse(pageHtml);
+
 
         // Select all <li> elements with classes "medium listbox group"
         Elements categoryElements = doc.select("li.medium.listbox.group");

@@ -19,8 +19,6 @@ import java.util.Set;
 
 @CommonsLog
 public class LoginAPI {
-    private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
-            "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
     private static final int MAX_RETRIES_FORM_LOAD = 10; // Retries for loading the form
     private static final int MAX_RETRIES_FORM_SUBMIT = 20; // Retries for submitting the form
     private static final int[] TIMEOUT_STAGES = {30000};

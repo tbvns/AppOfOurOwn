@@ -3,22 +3,28 @@ package xyz.tbvns.ao3m;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
-
+import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.navigation.NavigationBarView;
-
 import lombok.SneakyThrows;
-import xyz.tbvns.ao3m.AO3.FandomAPI;
+import xyz.tbvns.ao3m.AO3.WebBrowser;
 import xyz.tbvns.ao3m.AO3.WorkAPI;
 import xyz.tbvns.ao3m.Fragments.BrowseFragment;
+import xyz.tbvns.ao3m.Fragments.FandomMainFragment;
+import xyz.tbvns.ao3m.Fragments.LibrairyFragment;
+import xyz.tbvns.ao3m.Fragments.LoadingFragment;
+import xyz.tbvns.ao3m.Views.WorkView;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,7 +34,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Enable edge-to-edge display
+
+        new Thread(WebBrowser::preload).start();
+
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
 
@@ -46,15 +54,28 @@ public class MainActivity extends AppCompatActivity {
         navigationBar.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Fragment selectedFragment = new BrowseFragment();
-
-                if (selectedFragment != null) {
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.fragment_container, selectedFragment)
-                            .commit();
-                    return true;
+                switch (item.getTitle().toString()) {
+                    case "Library":
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.fragment_container, new LibrairyFragment())
+                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                                .commit();
+                        break;
+                    case "Browse":
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.fragment_container, new BrowseFragment())
+                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                                .commit();
+                        break;
+                    default:
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.fragment_container, new LoadingFragment())
+                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                                .commit();
+                        break;
                 }
-                return false;
+
+                return true;
             }
         });
 
@@ -70,16 +91,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
 
-        new Thread(() -> {
-            try {
-                System.out.println(WorkAPI.fetchWorks("https://archiveofourown.org/works"));
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        }).start();
-
         //This repair the nav bar
         EdgeToEdge.enable(this);
-
     }
 }

@@ -1,18 +1,15 @@
 package xyz.tbvns.ao3m.Fragments;
 
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.provider.CalendarContract;
-import android.view.ContextThemeWrapper;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Space;
 import androidx.fragment.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import xyz.tbvns.ao3m.AO3.FandomAPI;
@@ -22,7 +19,6 @@ import xyz.tbvns.ao3m.MainActivity;
 import xyz.tbvns.ao3m.R;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 public class FandomMainFragment extends Fragment {
 

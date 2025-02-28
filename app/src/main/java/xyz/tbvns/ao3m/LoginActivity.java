@@ -1,7 +1,6 @@
 package xyz.tbvns.ao3m;
 
 import android.os.Bundle;
-
 import android.widget.Button;
 import android.widget.TextView;
 import androidx.activity.EdgeToEdge;
@@ -11,8 +10,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import lombok.SneakyThrows;
 import xyz.tbvns.ao3m.AO3.LoginAPI;
-
-import java.io.IOException;
 
 public class LoginActivity extends AppCompatActivity {
 
