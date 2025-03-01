@@ -3,7 +3,9 @@ package xyz.tbvns.ao3m.Fragments;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.Gravity;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,6 +50,16 @@ public class SearchResultFragment extends Fragment {
         works.forEach(w -> {
             layout.addView(new WorkView(getContext(), w));
         });
+        if (works.isEmpty()) {
+            layout.addView(new TextView(getContext()){{
+                setText("No result found !");
+                setGravity(Gravity.CENTER);
+                layout.setGravity(Gravity.CENTER);
+                setPadding(0, 30, 0, 0);
+                setTextSize(20);
+            }});
+        }
+
         return view;
     }
 }

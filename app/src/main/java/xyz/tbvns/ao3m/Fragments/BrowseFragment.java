@@ -1,15 +1,26 @@
 package xyz.tbvns.ao3m.Fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import xyz.tbvns.ao3m.AO3.SearchAPI;
+import xyz.tbvns.ao3m.AO3.WorkAPI;
 import xyz.tbvns.ao3m.MainActivity;
 import xyz.tbvns.ao3m.R;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class BrowseFragment extends Fragment {
 
@@ -42,8 +53,45 @@ public class BrowseFragment extends Fragment {
             ft.replace(R.id.fragment_container, new AdvancedSearchFragment());
             ft.commit();
         });
+        SearchView searchView = view.findViewById(R.id.searchBar);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Map<String, String> searchParams = new HashMap<>();
+                addIfNotEmpty(searchParams, "work_search[query]", searchView.getQuery().toString());
+                String searchUrl = SearchAPI.generateSearchUrl(searchParams);
+                SearchResultFragment.showResults(getParentFragmentManager(), searchUrl);
+                return true;
+            }
+            @Override public boolean onQueryTextChange(String newText) {return true;}
+        });
 
+        new Thread(() -> System.out.println("yay !!!!" + WorkAPI.fetchWorks("https://archiveofourown.org/works")));
+
+        new Thread(() -> {
+            LoadingFragment loadingFragment = new LoadingFragment();
+            new Handler(Looper.getMainLooper()).post(() -> {
+                getParentFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.workList, loadingFragment
+                        ).commit();
+            });
+            List<WorkAPI.Work> works = WorkAPI.fetchWorks("https://archiveofourown.org/works");
+            new Handler(Looper.getMainLooper()).post(() -> {
+                getParentFragmentManager()
+                        .beginTransaction()
+                        .remove(loadingFragment)
+                        .add(R.id.workList, new SearchResultFragment(works)
+                        ).commit();
+            });
+        }).start();
 
         return view;
+    }
+
+    private void addIfNotEmpty(Map<String, String> map, String key, String value) {
+        if (value != null && !value.isEmpty()) {
+            map.put(key, value);
+        }
     }
 }

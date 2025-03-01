@@ -1,37 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                   xmlns:tools="http://schemas.android.com/tools"
 
-              android:layout_width="match_parent" android:layout_height="match_parent"
-              tools:context=".Fragments.BrowseFragment" android:baselineAligned="false" android:orientation="vertical"
-              android:padding="10dp">
-    <SearchView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="top|left"
-            android:iconifiedByDefault="false"
-            android:background="@drawable/rounded_searchview"
-            android:queryBackground="@null"/>
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="match_parent"
+                                                   tools:context=".Fragments.BrowseFragment"
+                                                   android:orientation="vertical"
+                                                   android:paddingVertical="0dp"
+>
     <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:layout_weight="100">
+
+            android:layout_width="match_parent" android:layout_height="match_parent"
+            android:baselineAligned="false" android:orientation="vertical"
+            android:paddingVertical="0dp" android:paddingLeft="10dp" android:paddingStart="10dp"
+            android:paddingTop="10dp" android:paddingEnd="10dp" android:paddingRight="10dp"
+            android:paddingHorizontal="10dp" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="10dp">
+        <SearchView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0"
+                android:gravity="top|left"
+                android:iconifiedByDefault="false"
+                android:background="@drawable/rounded_searchview"
+                android:queryBackground="@null" android:id="@+id/searchBar" android:queryHint="Search"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:layout_weight="1">
+
+            <androidx.fragment.app.FragmentContainerView
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp" app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent" android:id="@+id/workList"
+                    android:layout_marginTop="5dp">
+            </androidx.fragment.app.FragmentContainerView>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content" android:layout_weight="0"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" app:layout_constraintBottom_toBottomOf="parent"
+                    android:id="@+id/linearLayout">
+                <Button
+                        android:text="Search by fandom"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:id="@+id/fandomButtons"
+                        android:layout_weight="10"/>
+                <Space
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:layout_weight="19"/>
+                <Button
+                        android:text="Advanced search"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:id="@+id/advancedSearchButton"
+                        android:layout_weight="10"/>
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:layout_weight="1">
-        <Button
-                android:text="Search by fandom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:id="@+id/fandomButtons" android:layout_weight="10"/>
-        <Space
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:layout_weight="19"/>
-        <Button
-                android:text="Advanced search"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:id="@+id/advancedSearchButton" android:layout_weight="10"/>
-    </LinearLayout>
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
