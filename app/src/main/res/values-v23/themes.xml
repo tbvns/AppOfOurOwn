@@ -6,7 +6,7 @@
         <item name="android:windowLightStatusBar">?attr/isLightTheme</item>
     </style>
 
-    <style name="Theme.AO3M.MidnightDusk">
+    <style name="Theme.AO3M.MidnightDusk" parent="Base.Theme.AO3M">
         <!-- Theme Colors -->
         <item name="colorPrimary">@color/midnightdusk_primary</item>
         <item name="colorOnPrimary">@color/midnightdusk_onPrimary</item>

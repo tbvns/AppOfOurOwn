@@ -14,7 +14,7 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="Theme.AO3M.MidnightDusk">
+    <style name="Theme.AO3M.MidnightDusk" parent="Base.Theme.AO3M">
         <!-- Theme Colors -->
         <item name="colorPrimary">@color/midnightdusk_primary</item>
         <item name="colorOnPrimary">@color/midnightdusk_onPrimary</item>
@@ -44,5 +44,7 @@
         <item name="colorSurfaceContainerHighest">@color/midnightdusk_surfaceContainerHighest</item>
         <item name="colorSurfaceContainerLow">@color/midnightdusk_surfaceContainerLow</item>
         <item name="colorSurfaceContainerLowest">@color/midnightdusk_surfaceContainerLowest</item>
+
+        <item name="android:statusBarColor">@color/midnightdusk_primary</item>
     </style>
 </resources>

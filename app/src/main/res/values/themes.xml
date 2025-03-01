@@ -1,8 +1,8 @@
-<resources>
-    <style name="Theme.AO3M.main" parent="@style/Theme.Material3.Light">
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Base.Theme.AO3M" parent="@style/Theme.Material3.Light">
     </style>
 
-    <style name="Theme.AO3M.MidnightDusk">
+    <style name="Theme.AO3M.MidnightDusk" parent="Base.Theme.AO3M">
         <!-- Theme Colors -->
         <item name="colorPrimary">@color/midnightdusk_primary</item>
         <item name="colorOnPrimary">@color/midnightdusk_onPrimary</item>
