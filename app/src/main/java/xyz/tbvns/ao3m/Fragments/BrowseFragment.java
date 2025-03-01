@@ -35,6 +35,13 @@ public class BrowseFragment extends Fragment {
             ft.replace(R.id.fragment_container, new FandomMainFragment());
             ft.commit();
         });
+        Button advancedSearch = view.findViewById(R.id.advancedSearchButton);
+        advancedSearch.setOnClickListener(a -> {
+            FragmentManager manager = getParentFragmentManager();
+            FragmentTransaction ft = manager.beginTransaction();
+            ft.replace(R.id.fragment_container, new AdvancedSearchFragment());
+            ft.commit();
+        });
 
 
         return view;

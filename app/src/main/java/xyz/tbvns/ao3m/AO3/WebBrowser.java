@@ -14,6 +14,7 @@ public class WebBrowser {
 
     public static void preload() {
         try {
+            SearchAPI.updateAvailableParameters();
             client.getPage("https://archiveofourown.org/");
             client.getPage("https://archiveofourown.org/works");
             client.getPage("https://archiveofourown.org/media");

@@ -1,14 +1,428 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             tools:context=".Fragments.AdvancedSearchFragment">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+              android:layout_height="match_parent" android:orientation="vertical" android:padding="16dp">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/hello_blank_fragment"/>
+            android:layout_height="match_parent" android:layout_weight="1">
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1">
 
-</FrameLayout>
+            <!-- Work Info Foldable Menu -->
+            <TextView
+                    android:id="@+id/tv_work_info"
+                    android:text="Work Info ▼"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="8dp"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
+            <LinearLayout
+                    android:id="@+id/ll_work_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:layout_marginBottom="8dp" tools:visibility="visible">
+
+                <!-- Any Field -->
+                <EditText
+                        android:id="@+id/et_any_field"
+                        android:hint="Any Field"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"/>
+
+                <!-- Title -->
+                <EditText
+                        android:id="@+id/et_title"
+                        android:hint="Title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"/>
+
+                <!-- Author/Artist -->
+                <EditText
+                        android:id="@+id/et_author"
+                        android:hint="Author/Artist"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"/>
+
+                <!-- Date -->
+                <EditText
+                        android:id="@+id/et_date"
+                        android:hint="Date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"/>
+
+                <!-- Completion Status -->
+                <TextView
+                        android:text="Completion Status"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"/>
+
+                <RadioGroup
+                        android:id="@+id/rg_completion_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp">
+
+                    <RadioButton
+                            android:id="@+id/rb_all_works"
+                            android:text="All works"
+                            android:checked="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    <RadioButton
+                            android:id="@+id/rb_complete"
+                            android:text="Complete works only"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    <RadioButton
+                            android:id="@+id/rb_in_progress"
+                            android:text="Works in progress only"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                </RadioGroup>
+
+                <!-- Crossovers -->
+                <TextView
+                        android:text="Crossovers"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"/>
+
+                <RadioGroup
+                        android:id="@+id/rg_crossovers"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp">
+
+                    <RadioButton
+                            android:id="@+id/rb_include_crossovers"
+                            android:text="Include crossovers"
+                            android:checked="true"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    <RadioButton
+                            android:id="@+id/rb_exclude_crossovers"
+                            android:text="Exclude crossovers"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    <RadioButton
+                            android:id="@+id/rb_only_crossovers"
+                            android:text="Only crossovers"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                </RadioGroup>
+
+                <!-- Single Chapter Checkbox -->
+                <CheckBox
+                        android:id="@+id/cb_single_chapter"
+                        android:text="Single Chapter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"/>
+
+                <!-- Word Count -->
+                <EditText
+                        android:id="@+id/et_word_count"
+                        android:hint="Word Count"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"/>
+
+                <!-- Language Spinner -->
+                <TextView
+                        android:text="Language"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:id="@+id/textView7"/>
+                <Spinner
+                        android:id="@+id/spinner_language"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"/>
+            </LinearLayout>
+
+            <!-- Work Tags Foldable Menu -->
+            <TextView
+                    android:id="@+id/tv_work_tags"
+                    android:text="Work Tags ▼"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="8dp"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
+            <LinearLayout
+                    android:id="@+id/ll_work_tags"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:layout_marginBottom="8dp" tools:visibility="visible">
+
+                <!-- Fandoms Autocomplete -->
+                <EditText
+                        android:id="@+id/et_fandoms"
+                        android:hint="Fandoms"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"/>
+
+                <!-- Rating Spinner -->
+                <TextView
+                        android:text="Rating"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:id="@+id/textView4"/>
+                <Spinner
+                        android:id="@+id/spinner_rating"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"/>
+
+                <!-- Warnings Checkboxes -->
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                    <TextView
+                            android:text="Warnings"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" android:id="@+id/textView2"/>
+                    <CheckBox
+                            android:id="@+id/cb_warning_14"
+                            android:text="Creator Chose Not To Use Archive Warnings"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    <CheckBox
+                            android:id="@+id/cb_warning_17"
+                            android:text="Graphic Depictions Of Violence"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    <CheckBox
+                            android:id="@+id/cb_warning_18"
+                            android:text="Major Character Death"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    <CheckBox
+                            android:id="@+id/cb_warning_16"
+                            android:text="No Archive Warnings Apply"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    <CheckBox
+                            android:id="@+id/cb_warning_19"
+                            android:text="Rape/Non-Con"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    <CheckBox
+                            android:id="@+id/cb_warning_20"
+                            android:text="Underage Sex"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    <TextView
+                            android:text="Realtionships"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" android:id="@+id/textView3"/>
+                </LinearLayout>
+
+                <!-- Categories Checkboxes -->
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                    <CheckBox
+                            android:id="@+id/cb_category_116"
+                            android:text="F/F"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    <CheckBox
+                            android:id="@+id/cb_category_22"
+                            android:text="F/M"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    <CheckBox
+                            android:id="@+id/cb_category_21"
+                            android:text="Gen"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    <CheckBox
+                            android:id="@+id/cb_category_23"
+                            android:text="M/M"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    <CheckBox
+                            android:id="@+id/cb_category_2246"
+                            android:text="Multi"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    <CheckBox
+                            android:id="@+id/cb_category_24"
+                            android:text="Other"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                </LinearLayout>
+
+                <!-- Characters Autocomplete -->
+                <EditText
+                        android:id="@+id/et_characters"
+                        android:hint="Characters"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"/>
+
+                <!-- Relationships Autocomplete -->
+                <EditText
+                        android:id="@+id/et_relationships"
+                        android:hint="Relationships"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"/>
+
+                <!-- Additional Tags Autocomplete -->
+                <EditText
+                        android:id="@+id/et_additional_tags"
+                        android:hint="Additional Tags"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"/>
+            </LinearLayout>
+
+            <!-- Work Stats Foldable Menu -->
+            <TextView
+                    android:id="@+id/tv_work_stats"
+                    android:text="Work Stats ▼"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="8dp"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
+            <LinearLayout
+                    android:id="@+id/ll_work_stats"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:layout_marginBottom="8dp" tools:visibility="visible">
+
+                <!-- Hits -->
+                <EditText
+                        android:id="@+id/et_hits"
+                        android:hint="Hits"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"/>
+
+                <!-- Kudos -->
+                <EditText
+                        android:id="@+id/et_kudos"
+                        android:hint="Kudos"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"/>
+
+                <!-- Comments -->
+                <EditText
+                        android:id="@+id/et_comments"
+                        android:hint="Comments"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"/>
+
+                <!-- Bookmarks -->
+                <EditText
+                        android:id="@+id/et_bookmarks"
+                        android:hint="Bookmarks"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"/>
+            </LinearLayout>
+
+            <!-- Search Parameters Foldable Menu -->
+            <TextView
+                    android:id="@+id/tv_search_parameters"
+                    android:text="Search Parameters ▼"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="8dp"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
+            <LinearLayout
+                    android:id="@+id/ll_search_parameters"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:layout_marginBottom="8dp" tools:visibility="visible">
+
+                <!-- Sort Column Spinner -->
+                <TextView
+                        android:text=" Sort by"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:id="@+id/textView5"/>
+                <Spinner
+                        android:id="@+id/spinner_sort_column"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"/>
+
+                <!-- Sort Direction Spinner -->
+                <TextView
+                        android:text=" Sort direction"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:id="@+id/textView6"/>
+                <Spinner
+                        android:id="@+id/spinner_sort_direction"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"/>
+            </LinearLayout>
+
+            <!-- Search Button -->
+        </LinearLayout>
+    </ScrollView>
+    <Button
+            android:id="@+id/btn_search"
+            android:text="Search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"/>
+</LinearLayout>

@@ -23,15 +23,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" android:layout_weight="1">
         <Button
-                android:text="Search by tags"
+                android:text="Search by fandom"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:id="@+id/tagsButton" android:layout_weight="10"/>
+                android:layout_height="wrap_content" android:id="@+id/fandomButtons" android:layout_weight="10"/>
         <Space
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:layout_weight="19"/>
         <Button
-                android:text="Search by fandom"
+                android:text="Advanced search"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:id="@+id/fandomButtons" android:layout_weight="10"/>
+                android:layout_height="wrap_content" android:id="@+id/advancedSearchButton" android:layout_weight="10"/>
     </LinearLayout>
 </LinearLayout>
