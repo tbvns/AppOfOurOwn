@@ -61,8 +61,8 @@ public class WorkAPI {
                     ", status=" + status +
                     '}';
         }
-    }
 
+    }
     public static Classification classifyFanfic(String html) {
         Classification classification = new Classification();
         Document doc = Jsoup.parse(html);
@@ -135,9 +135,9 @@ public class WorkAPI {
         return classification;
     }
 
+    @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    @Data
     public static class Work {
         public String workId;
         public String title;

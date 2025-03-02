@@ -29,11 +29,14 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     public static ActionBar bar;
+    public static MainActivity main;
 
     @SneakyThrows
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        main = this;
 
         new Thread(WebBrowser::preload).start();
 

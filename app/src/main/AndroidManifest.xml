@@ -16,6 +16,18 @@
             android:theme="@style/Theme.AO3M.MidnightDusk"
             tools:targetApi="33">
         <activity
+                android:name=".FullscreenActivity"
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:exported="false"
+                android:label="@string/title_activity_fullscreen"
+                android:theme="@style/Theme.AO3M.MidnightDusk.Fullscreen"/>
+        <activity
+                android:name=".ReaderActivity"
+                android:configChanges="orientation|keyboardHidden|screenSize"
+                android:exported="false"
+                android:label="@string/title_activity_reader"
+                android:theme="@style/Theme.AO3M.MidnightDusk.Fullscreen"/>
+        <activity
                 android:name=".LoginActivity"
                 android:exported="false"/>
         <activity

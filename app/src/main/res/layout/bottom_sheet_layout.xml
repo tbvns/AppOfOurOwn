@@ -1,0 +1,50 @@
+<!-- res/layout/bottom_sheet_layout.xml -->
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:padding="16dp">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+        <!-- Fandom Section -->
+        <TextView
+                android:id="@+id/fandomTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fandom"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:paddingBottom="8dp"/>
+        <LinearLayout
+                android:id="@+id/fandomButtonsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+        />
+        <androidx.constraintlayout.widget.Barrier
+                android:layout_height="match_parent"
+                app:barrierDirection="top" android:padding="10dp" android:layout_width="match_parent"
+        />
+
+        <!-- Tags Section -->
+        <TextView
+                android:id="@+id/tagsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tags"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:paddingBottom="8dp" android:paddingTop="8dp"/>
+
+        <LinearLayout
+                android:id="@+id/tagsButtonsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"/>
+
+    </LinearLayout>
+</ScrollView>

@@ -33,4 +33,13 @@
         <item name="colorSurfaceContainerLow">@color/midnightdusk_surfaceContainerLow</item>
         <item name="colorSurfaceContainerLowest">@color/midnightdusk_surfaceContainerLowest</item>
     </style>
+    <style name="ThemeOverlay.AO3M.FullscreenContainer" parent="">
+        <item name="fullscreenBackgroundColor">@color/light_blue_600</item>
+        <item name="fullscreenTextColor">@color/light_blue_A200</item>
+    </style>
+    <style name="Theme.AO3M.MidnightDusk.Fullscreen" parent="Theme.AO3M.MidnightDusk">
+        <item name="android:actionBarStyle">@style/Widget.Theme.AO3M.MidnightDusk.ActionBar.Fullscreen</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowBackground">@null</item>
+    </style>
 </resources>

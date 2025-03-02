@@ -6,6 +6,9 @@ import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import xyz.tbvns.ao3m.AO3.WorkAPI;
+import xyz.tbvns.ao3m.Fragments.ChaptersListFragment;
+import xyz.tbvns.ao3m.Fragments.FandomTagsBottomSheet;
+import xyz.tbvns.ao3m.MainActivity;
 import xyz.tbvns.ao3m.R;
 import xyz.tbvns.ao3m.Utils;
 
@@ -67,5 +70,18 @@ public class WorkView extends LinearLayout {
         ((TextView) findViewById(R.id.fandom)).setText(fandomText);
         
         ((TextView) findViewById(R.id.desc)).setText(work.summary);
+
+        findViewById(R.id.allTF).setOnClickListener(l -> {
+            FandomTagsBottomSheet bottomSheet = new FandomTagsBottomSheet(work.fandoms, work.tags);
+            bottomSheet.show(MainActivity.main.getSupportFragmentManager(), bottomSheet.getTag());
+        });
+        findViewById(R.id.fandom).setOnClickListener(l -> {
+            FandomTagsBottomSheet bottomSheet = new FandomTagsBottomSheet(work.fandoms, work.tags);
+            bottomSheet.show(MainActivity.main.getSupportFragmentManager(), bottomSheet.getTag());
+        });
+
+        setOnClickListener(l -> {
+            ChaptersListFragment.show(MainActivity.main.getSupportFragmentManager(), "https://archiveofourown.org/works/" + work.workId);
+        });
     }
 }
