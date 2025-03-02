@@ -153,6 +153,7 @@ public class WorkAPI {
         public int chapterMax;
         public int hits;
         public int kudos;
+        public int bookmarks;
         public LocalDate publishedDate;
     }
 
@@ -225,6 +226,7 @@ public class WorkAPI {
         int wordCount = parseIntFromText(card.selectFirst("dl.stats dd.words"));
         int hits = parseIntFromText(card.selectFirst("dl.stats dd.hits"));
         int kudos = parseIntFromText(card.selectFirst("dl.stats dd.kudos"));
+        int bookmarks = parseIntFromText(card.selectFirst("dl.stats dd.bookmarks"));
 
         // Chapters: extract the current chapter count and maximum chapters (if available)
         int chapterCount = 0, chapterMax = -1;
@@ -240,7 +242,7 @@ public class WorkAPI {
         // Classification: use the classifyFanfic() method on the required-tags section
         Classification classification = classifyFanfic(card.select("ul.required-tags").outerHtml());
 
-        return new Work(workId, title, author, authorUrl, fandoms, tags, classification, summary, language, wordCount, chapterCount, chapterMax, hits, kudos, publishedDate);
+        return new Work(workId, title, author, authorUrl, fandoms, tags, classification, summary, language, wordCount, chapterCount, chapterMax, hits, kudos, bookmarks, publishedDate);
     }
 
     private static int parseIntFromText(Element element) {

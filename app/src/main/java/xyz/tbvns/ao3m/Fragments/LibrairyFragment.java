@@ -38,7 +38,7 @@ public class LibrairyFragment extends Fragment {
                 }},
                 "That's a sumarry",
                 "English",
-                0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0,
                 LocalDate.now()
         )));
         layout.addView(new WorkView(getContext(), new WorkAPI.Work(
@@ -60,7 +60,7 @@ public class LibrairyFragment extends Fragment {
                 }},
                 "That's a sumarry vesrion 2 and ths time it is long long long long long long long long long long long long long long long long long long long long long long",
                 "English",
-                0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0,
                 LocalDate.now()
         )));
         layout.addView(new WorkView(getContext(), new WorkAPI.Work(
@@ -82,7 +82,7 @@ public class LibrairyFragment extends Fragment {
                 }},
                 "That's a sumarry vesrion 3 and ths time it is long long long long long long long long long long long long long long long long long long long long long long",
                 "English",
-                0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0,
                 LocalDate.now()
         )));
 

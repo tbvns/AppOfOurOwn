@@ -78,11 +78,13 @@ public class BrowseFragment extends Fragment {
             });
             List<WorkAPI.Work> works = WorkAPI.fetchWorks("https://archiveofourown.org/works");
             new Handler(Looper.getMainLooper()).post(() -> {
-                getParentFragmentManager()
-                        .beginTransaction()
-                        .remove(loadingFragment)
-                        .add(R.id.workList, new SearchResultFragment(works)
-                        ).commit();
+                try {
+                    getParentFragmentManager()
+                            .beginTransaction()
+                            .remove(loadingFragment)
+                            .add(R.id.workList, new SearchResultFragment(works)
+                            ).commit();
+                } catch (Exception e) {}
             });
         }).start();
 

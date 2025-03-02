@@ -80,7 +80,7 @@
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="20dp">
+                android:layout_height="match_parent">
             <ImageView
                     android:src="@drawable/views_icon"
                     android:layout_width="20dp"
@@ -126,14 +126,41 @@
                     android:gravity="center" android:textSize="15sp" android:paddingEnd="5dp"
                     android:paddingStart="2dp"/>
             <ImageView
+                    android:src="@drawable/bookmark_icon"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content" android:id="@+id/imageView" android:layout_weight="1"
+                    android:tint="@color/midnightdusk_onBackground"/>
+            <TextView
+                    android:text="0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" android:id="@+id/bookmark" android:layout_weight="1"
+                    android:gravity="center" android:textSize="15sp" android:paddingEnd="5dp"
+                    android:paddingStart="2dp"/>
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp">
+            <ImageView
                     android:src="@drawable/history_icon"
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content" android:id="@+id/imageView2" android:layout_weight="1"
+                    android:tint="@color/midnightdusk_onBackground"/>
+            <TextView
+                    android:text="0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" android:id="@+id/update" android:layout_weight="1"
+                    android:gravity="center" android:textSize="15sp" android:paddingStart="2dp"
+                    android:paddingLeft="5dp" android:paddingEnd="5dp"/>
+            <ImageView
+                    android:src="@drawable/translate_icon"
                     android:layout_width="20dp"
                     android:layout_height="wrap_content" android:id="@+id/imageView5" android:layout_weight="1"
                     android:tint="@color/midnightdusk_onBackground"/>
             <TextView
                     android:text="0"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent" android:id="@+id/update" android:layout_weight="1"
+                    android:layout_height="match_parent" android:id="@+id/language" android:layout_weight="1"
                     android:gravity="center" android:textSize="15sp" android:paddingStart="2dp"/>
         </LinearLayout>
     </LinearLayout>

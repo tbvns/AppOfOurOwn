@@ -58,7 +58,9 @@ public class WorkView extends LinearLayout {
             ((TextView) findViewById(R.id.chapters)).setText(work.chapterCount + "/?");
         }
         ((TextView) findViewById(R.id.kudos)).setText(Utils.simplifyNumber(work.kudos));
+        ((TextView) findViewById(R.id.bookmark)).setText(Utils.simplifyNumber(work.bookmarks));
         ((TextView) findViewById(R.id.update)).setText(work.publishedDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        ((TextView) findViewById(R.id.language)).setText(work.language);
 
         List<String> fandoms = work.fandoms;
         String fandomText = !fandoms.isEmpty() ? fandoms.get(0) : "";
