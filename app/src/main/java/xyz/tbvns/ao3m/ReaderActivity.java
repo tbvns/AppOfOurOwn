@@ -25,9 +25,9 @@ import java.util.List;
 public class ReaderActivity extends AppCompatActivity {
     private static final boolean AUTO_HIDE = true;
     private static final int AUTO_HIDE_DELAY_MILLIS = 3000;
-    private static final int UI_ANIMATION_DELAY = 300;
+    private static final int UI_ANIMATION_DELAY = 0;
     private final Handler mHideHandler = new Handler(Looper.myLooper());
-    private LinearLayout mContentView;
+    private View mContentView;
     private final Runnable mHidePart2Runnable = new Runnable() {
         @SuppressLint("InlinedApi")
         @Override
@@ -50,15 +50,12 @@ public class ReaderActivity extends AppCompatActivity {
         }
     };
     private View mControlsView;
+    private View mControlsViewTop;
     private final Runnable mShowPart2Runnable = new Runnable() {
         @Override
         public void run() {
-            // Delayed display of UI elements
-            ActionBar actionBar = getSupportActionBar();
-            if (actionBar != null) {
-                actionBar.show();
-            }
             mControlsView.setVisibility(View.VISIBLE);
+            mControlsViewTop.setVisibility(View.VISIBLE);
         }
     };
     private boolean mVisible;
@@ -117,7 +114,8 @@ public class ReaderActivity extends AppCompatActivity {
 
         mVisible = true;
         mControlsView = binding.fullscreenContentControls;
-        mContentView = binding.fullscreenContent;
+        mControlsViewTop = binding.fullscreenContentControlsTop;
+        mContentView = binding.textDisplay;
 
         // Set up the user interaction to manually show or hide the system UI.
         mContentView.setOnClickListener(new View.OnClickListener() {
@@ -130,10 +128,15 @@ public class ReaderActivity extends AppCompatActivity {
         binding.dummyButton.setOnTouchListener(mDelayHideTouchListener);
 
         setText(currentParagraphs);
+        getSupportActionBar().hide();
+
+        findViewById(R.id.backButton).setOnClickListener(l -> {
+            finish();
+        });
     }
 
     public void setText(List<String> texts) {
-        LinearLayout layout = findViewById(R.id.fullscreen_content);
+        LinearLayout layout = findViewById(R.id.textDisplay);
         for (String paragraph : texts) {
             layout.addView(new TextView(getApplicationContext()){{
                 setText(paragraph);
@@ -162,12 +165,8 @@ public class ReaderActivity extends AppCompatActivity {
     }
 
     private void hide() {
-        // Hide UI first
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.hide();
-        }
         mControlsView.setVisibility(View.GONE);
+        mControlsViewTop.setVisibility(View.GONE);
         mVisible = false;
 
         // Schedule a runnable to remove the status and navigation bar after a delay
@@ -177,13 +176,6 @@ public class ReaderActivity extends AppCompatActivity {
 
     private void show() {
         // Show the system bar
-        if (Build.VERSION.SDK_INT >= 30) {
-            mContentView.getWindowInsetsController().show(
-                    WindowInsets.Type.statusBars() | WindowInsets.Type.navigationBars());
-        } else {
-            mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
-        }
         mVisible = true;
 
         // Schedule a runnable to display UI elements after a delay
