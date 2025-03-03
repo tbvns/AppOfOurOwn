@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Build;
 import android.os.Bundle;
@@ -86,6 +85,7 @@ public class ReaderActivity extends AppCompatActivity {
     private ActivityReaderBinding binding;
 
     public static List<String> currentParagraphs;
+    public static ChaptersAPI.Chapter currentChapter;
 
     public static void showFullscreen(FragmentManager manager, Context context, ChaptersAPI.Chapter chapter) {
         new Thread(() -> {
@@ -97,6 +97,7 @@ public class ReaderActivity extends AppCompatActivity {
             });
 
             currentParagraphs = ChaptersAPI.fetchChapterParagraphs(chapter.getUrl());
+            currentChapter = chapter;
 
             new Handler((Looper.getMainLooper())).post(() -> {
                 Intent intent = new Intent(context, ReaderActivity.class);
@@ -125,14 +126,14 @@ public class ReaderActivity extends AppCompatActivity {
             }
         });
 
-        binding.dummyButton.setOnTouchListener(mDelayHideTouchListener);
-
         setText(currentParagraphs);
         getSupportActionBar().hide();
 
         findViewById(R.id.backButton).setOnClickListener(l -> {
             finish();
         });
+        ((TextView) findViewById(R.id.titleText)).setText(currentChapter.getWork().title);
+        ((TextView) findViewById(R.id.chapterText)).setText(currentChapter.getTitle());
     }
 
     public void setText(List<String> texts) {
@@ -150,9 +151,6 @@ public class ReaderActivity extends AppCompatActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
-        // Trigger the initial hide() shortly after the activity has been
-        // created, to briefly hint to the user that UI controls
-        // are available.
         delayedHide(100);
     }
 
@@ -175,10 +173,8 @@ public class ReaderActivity extends AppCompatActivity {
     }
 
     private void show() {
-        // Show the system bar
         mVisible = true;
 
-        // Schedule a runnable to display UI elements after a delay
         mHideHandler.removeCallbacks(mHidePart2Runnable);
         mHideHandler.postDelayed(mShowPart2Runnable, UI_ANIMATION_DELAY);
     }

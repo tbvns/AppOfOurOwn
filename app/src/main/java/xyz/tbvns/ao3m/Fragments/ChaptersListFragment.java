@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import lombok.AllArgsConstructor;
 import xyz.tbvns.ao3m.AO3.ChaptersAPI;
+import xyz.tbvns.ao3m.AO3.WorkAPI;
 import xyz.tbvns.ao3m.R;
 import xyz.tbvns.ao3m.ReaderActivity;
 
@@ -22,7 +23,7 @@ import java.util.List;
 public class ChaptersListFragment extends Fragment {
     private List<ChaptersAPI.Chapter> chapters;
 
-    public static void show(FragmentManager manager, String url) {
+    public static void show(FragmentManager manager, WorkAPI.Work work) {
         new Thread(() -> {
             new Handler((Looper.getMainLooper())).post(() -> {
                 manager.beginTransaction()
@@ -30,7 +31,7 @@ public class ChaptersListFragment extends Fragment {
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         .commit();
             });
-            List<ChaptersAPI.Chapter> chapters = ChaptersAPI.fetchChapters(url);
+            List<ChaptersAPI.Chapter> chapters = ChaptersAPI.fetchChapters(work);
             new Handler((Looper.getMainLooper())).post(() -> {
                 manager.beginTransaction()
                         .replace(R.id.fragment_container, new ChaptersListFragment(chapters))

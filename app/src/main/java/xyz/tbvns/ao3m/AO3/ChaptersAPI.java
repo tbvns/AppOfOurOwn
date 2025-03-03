@@ -20,10 +20,12 @@ public class ChaptersAPI {
     public static class Chapter {
         private final String title;
         private final String url;
+        private final WorkAPI.Work work;
 
-        public Chapter(String title, String url) {
+        public Chapter(String title, String url, WorkAPI.Work work) {
             this.title = title;
             this.url = url;
+            this.work = work;
         }
 
         @Override
@@ -33,11 +35,12 @@ public class ChaptersAPI {
     }
 
     @SneakyThrows
-    public static List<Chapter> fetchChapters(String workUrl) {
+    public static List<Chapter> fetchChapters(WorkAPI.Work work) {
         List<Chapter> chapters = new ArrayList<>();
 
         // Transform URL to navigate version
-        String navigateUrl = workUrl.replaceAll("/?$", "/navigate");
+        String navigateUrl = ("https://archiveofourown.org/works/" + work.workId).replaceAll("/?$", "/navigate");
+        String workUrl = ("https://archiveofourown.org/works/" + work.workId);
 
         // Fetch the navigate page
         HtmlPage page = client.getPage(navigateUrl);
@@ -51,7 +54,7 @@ public class ChaptersAPI {
             String url = link.attr("abs:href"); // Get absolute URL
 
             if (!title.isEmpty() && !url.isEmpty()) {
-                chapters.add(new Chapter(title, url));
+                chapters.add(new Chapter(title, url, work));
             }
         }
 

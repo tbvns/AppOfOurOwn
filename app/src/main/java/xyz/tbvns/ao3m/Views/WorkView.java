@@ -81,7 +81,7 @@ public class WorkView extends LinearLayout {
         });
 
         setOnClickListener(l -> {
-            ChaptersListFragment.show(MainActivity.main.getSupportFragmentManager(), "https://archiveofourown.org/works/" + work.workId);
+            ChaptersListFragment.show(MainActivity.main.getSupportFragmentManager(), work);
         });
     }
 }
