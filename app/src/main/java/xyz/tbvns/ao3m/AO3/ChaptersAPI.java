@@ -7,6 +7,7 @@ import org.htmlunit.html.HtmlPage;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
 import java.net.URI;
 import java.util.ArrayList;
@@ -20,11 +21,13 @@ public class ChaptersAPI {
     public static class Chapter {
         private final String title;
         private final String url;
+        private final String date;
         private final WorkAPI.Work work;
 
-        public Chapter(String title, String url, WorkAPI.Work work) {
+        public Chapter(String title, String url, String date, WorkAPI.Work work) {
             this.title = title;
             this.url = url;
+            this.date = date;
             this.work = work;
         }
 
@@ -48,13 +51,17 @@ public class ChaptersAPI {
 
         // Extract chapter elements
         Elements chapterLinks = doc.select("ol.chapter.index.group li a");
+        Elements chapterDate = doc.select("ol.chapter.index.group li span");
 
-        for (Element link : chapterLinks) {
+        for (int i = 0; i < chapterLinks.size(); i++) {
+            Element link = chapterLinks.get(i);
+            Element date = chapterDate.get(i);
             String title = link.text();
             String url = link.attr("abs:href"); // Get absolute URL
+            String dateString = date.text().replace("(", "").replace(")", "").replace("-", "/");
 
             if (!title.isEmpty() && !url.isEmpty()) {
-                chapters.add(new Chapter(title, url, work));
+                chapters.add(new Chapter(title, url, dateString, work));
             }
         }
 
@@ -62,27 +69,22 @@ public class ChaptersAPI {
     }
 
     @SneakyThrows
-    public static List<String> fetchChapterParagraphs(String url) {
-        List<String> paragraphs = new ArrayList<>();
-
+    public static String fetchChapterParagraphs(String url) {
         HtmlPage page = client.getPage(url);
         String pageContent = page.asXml();
 
         Document doc = Jsoup.parse(pageContent);
+        doc.select("img").remove();
+        doc.select("#work.landmark.heading").remove();
+        for (Element element : doc.select("blockquote")) {
+            element.replaceWith(new TextNode(element.text()));
+        }
+        doc.select("*").removeAttr("href");
 
         Elements chapterParagraphs = doc.select(
-                "#workskin #chapters .userstuff p"
+                "div #chapters"
         );
 
-        for (Element paragraph : chapterParagraphs) {
-            String text = paragraph.text();
-            if (!text.isEmpty()) {
-                paragraphs.add(text);
-            }
-        }
-
-        System.out.println("Found paragraphs: " + paragraphs);
-        System.out.println(url);
-        return paragraphs;
+        return chapterParagraphs.html();
     }
 }

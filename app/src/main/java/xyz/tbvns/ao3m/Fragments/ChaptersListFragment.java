@@ -14,9 +14,11 @@ import androidx.fragment.app.FragmentTransaction;
 import lombok.AllArgsConstructor;
 import xyz.tbvns.ao3m.AO3.ChaptersAPI;
 import xyz.tbvns.ao3m.AO3.WorkAPI;
+import xyz.tbvns.ao3m.ChaptersView;
 import xyz.tbvns.ao3m.R;
 import xyz.tbvns.ao3m.ReaderActivity;
 
+import java.util.Collections;
 import java.util.List;
 
 @AllArgsConstructor
@@ -46,13 +48,9 @@ public class ChaptersListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_chapters_list, container, false);
 
         LinearLayout layout = view.findViewById(R.id.chaptersList);
+        Collections.reverse(chapters);
         for (ChaptersAPI.Chapter chapter : chapters) {
-            layout.addView(new TextView(getContext()){{
-                setText(chapter.getTitle());
-                setOnClickListener(l -> {
-                    ReaderActivity.showFullscreen(getParentFragmentManager(), getContext(), chapter);
-                });
-            }});
+            layout.addView(new ChaptersView(getContext(), chapter, getParentFragmentManager()));
         }
 
         return view;

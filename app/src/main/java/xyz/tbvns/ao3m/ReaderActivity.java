@@ -1,10 +1,12 @@
 package xyz.tbvns.ao3m;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.text.Html;
+import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,6 +17,10 @@ import android.view.View;
 import android.view.WindowInsets;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import xyz.tbvns.ao3m.AO3.ChaptersAPI;
 import xyz.tbvns.ao3m.Fragments.LoadingFragment;
 import xyz.tbvns.ao3m.databinding.ActivityReaderBinding;
@@ -55,6 +61,9 @@ public class ReaderActivity extends AppCompatActivity {
         public void run() {
             mControlsView.setVisibility(View.VISIBLE);
             mControlsViewTop.setVisibility(View.VISIBLE);
+
+            animateContainer(mControlsView, false, false);
+            animateContainer(mControlsViewTop, false, true);
         }
     };
     private boolean mVisible;
@@ -84,7 +93,7 @@ public class ReaderActivity extends AppCompatActivity {
     };
     private ActivityReaderBinding binding;
 
-    public static List<String> currentParagraphs;
+    public static String currentParagraphs;
     public static ChaptersAPI.Chapter currentChapter;
 
     public static void showFullscreen(FragmentManager manager, Context context, ChaptersAPI.Chapter chapter) {
@@ -134,17 +143,121 @@ public class ReaderActivity extends AppCompatActivity {
         });
         ((TextView) findViewById(R.id.titleText)).setText(currentChapter.getWork().title);
         ((TextView) findViewById(R.id.chapterText)).setText(currentChapter.getTitle());
+
+        ScrollView scrollView = findViewById(R.id.fullscreen_content);
+        SeekBar seekBar = findViewById(R.id.progressBarChapter);
+
+        scrollView.post(() -> {
+            int maxScroll = scrollView.getChildAt(0).getHeight() - scrollView.getHeight();
+            seekBar.setMax(maxScroll);
+        });
+
+        scrollView.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            seekBar.setProgress(scrollY);
+        });
+
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (fromUser) {
+                    scrollView.scrollTo(0, progress);
+                }
+            }
+
+            @Override public void onStartTrackingTouch(SeekBar seekBar) {}
+            @Override public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
     }
 
-    public void setText(List<String> texts) {
+    public void setText(String texts) {
+        Document doc = Jsoup.parse(texts);
+
+        Elements title = doc.select("div.chapter.preface.group h3.title");
+        title.remove();
+
+        Elements summary = doc.select("#summary.summary.module");
+        String summaryString = summary.html();
+        summary.remove();
+
+        Elements startNotes = doc.select("#notes.notes.module");
+        String startNotesString = startNotes.html();
+        startNotes.remove();
+
+        Elements endNotesElement = doc.select("div.end.notes.module");
+        String endNotes = endNotesElement.html();
+        endNotesElement.remove();
+
         LinearLayout layout = findViewById(R.id.textDisplay);
-        for (String paragraph : texts) {
+
+        if (!title.isEmpty()) {
             layout.addView(new TextView(getApplicationContext()){{
-                setText(paragraph);
-                setPadding(0, 50, 0, 0);
-                setTextSize(16);
+                setText(Html.fromHtml(title.html()));
+                setPadding(0, 50, 0, 50);
+                setTextSize(25);
             }});
         }
+
+        if (!summaryString.isEmpty()) {
+            TextView textView = new TextView(getApplicationContext()){{
+                setText(Html.fromHtml(summaryString, Html.FROM_HTML_OPTION_USE_CSS_COLORS | Html.FROM_HTML_MODE_COMPACT));
+                setPadding(50, 50, 50, 50);
+                setTextSize(14);
+            }};
+
+            FrameLayout frameLayout = new FrameLayout(getApplicationContext());
+            frameLayout.setPadding(50, 50, 50, 50); // Ensure outer padding
+            frameLayout.addView(textView);
+            frameLayout.setBackground(getDrawable(R.drawable.rounded_workview));
+
+            layout.addView(frameLayout);
+
+            Space space = new Space(getApplicationContext());
+            space.setMinimumHeight(25);
+            layout.addView(space);
+        }
+
+        if (!startNotesString.isEmpty()) {
+            TextView textView = new TextView(getApplicationContext()){{
+                setText(Html.fromHtml(startNotesString, Html.FROM_HTML_OPTION_USE_CSS_COLORS | Html.FROM_HTML_MODE_COMPACT));
+                setPadding(50, 50, 50, 50);
+                setTextSize(14);
+            }};
+
+            // Wrap in a container to ensure padding is respected
+            FrameLayout frameLayout = new FrameLayout(getApplicationContext());
+            frameLayout.setPadding(50, 50, 50, 50); // Ensure outer padding
+            frameLayout.addView(textView);
+            frameLayout.setBackground(getDrawable(R.drawable.rounded_workview));
+
+            layout.addView(frameLayout);
+
+            Space space = new Space(getApplicationContext());
+            space.setMinimumHeight(25);
+            layout.addView(space);
+        }
+
+        layout.addView(new TextView(getApplicationContext()){{
+            setText(Html.fromHtml(doc.html(), Html.FROM_HTML_OPTION_USE_CSS_COLORS | Html.FROM_HTML_MODE_LEGACY));
+            setPadding(0, 50, 0, 50);
+            setTextSize(16);
+        }});
+
+        if (!endNotes.isEmpty()) {
+            TextView textView = new TextView(getApplicationContext()) {{
+                setText(Html.fromHtml(endNotes, Html.FROM_HTML_OPTION_USE_CSS_COLORS | Html.FROM_HTML_MODE_COMPACT));
+                setPadding(50, 50, 50, 50);
+                setTextSize(14);
+            }};
+
+            // Wrap in a container to ensure padding is respected
+            FrameLayout frameLayout = new FrameLayout(getApplicationContext());
+            frameLayout.setPadding(50, 50, 50, 50); // Ensure outer padding
+            frameLayout.addView(textView);
+            frameLayout.setBackground(getDrawable(R.drawable.rounded_workview));
+
+            layout.addView(frameLayout);
+        }
+
     }
 
     @Override
@@ -163,8 +276,11 @@ public class ReaderActivity extends AppCompatActivity {
     }
 
     private void hide() {
-        mControlsView.setVisibility(View.GONE);
-        mControlsViewTop.setVisibility(View.GONE);
+        animateContainer(mControlsView, true, false);
+        animateContainer(mControlsViewTop, true, true);
+
+//        mControlsView.setVisibility(View.GONE);
+//        mControlsViewTop.setVisibility(View.GONE);
         mVisible = false;
 
         // Schedule a runnable to remove the status and navigation bar after a delay
@@ -182,5 +298,25 @@ public class ReaderActivity extends AppCompatActivity {
     private void delayedHide(int delayMillis) {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
+    }
+
+    private void animateContainer(View view, boolean isGoingOut, boolean isAtTop) {
+        float translationY = isGoingOut ? (isAtTop ? -view.getHeight() : view.getHeight()) : 0;
+        int visibility = isGoingOut ? View.GONE : View.VISIBLE;
+
+        view.animate()
+                .translationY(translationY)
+                .setDuration(250)
+                .setListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        if (animation != null) {
+                            animation.removeAllListeners();
+                        }
+                        view.clearAnimation();
+                        view.setVisibility(visibility);
+                    }
+                });
     }
 }
