@@ -102,7 +102,7 @@ public class ReaderActivity extends AppCompatActivity {
                 manager.beginTransaction()
                         .replace(R.id.fragment_container, new LoadingFragment())
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                        .commit();
+                        .commit(); //TODO: change that to loading activity
             });
 
             currentParagraphs = ChaptersAPI.fetchChapterParagraphs(chapter.getUrl());
@@ -153,9 +153,7 @@ public class ReaderActivity extends AppCompatActivity {
         });
 
         scrollView.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
-            int maxScroll = scrollView.getChildAt(0).getHeight() - scrollView.getHeight();
             seekBar.setProgress(scrollY);
-            System.out.println(maxScroll + "||" + scrollY);
         });
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -259,6 +257,23 @@ public class ReaderActivity extends AppCompatActivity {
 
             layout.addView(frameLayout);
         }
+
+        List<ChaptersAPI.Chapter> chapters = ChaptersAPI.fetchChapters(currentChapter.getWork());
+        for (int i = 0; i < chapters.size(); i++) {
+            if (currentChapter.getTitle().equals(chapters.get(i).getTitle())) {
+                if (chapters.size() > i+1) {
+                    Button button = new Button(getApplicationContext());
+                    layout.addView(button);
+                    button.setText("Next chapter: " + chapters.get(i+1).getTitle());
+                    int finalI = i;
+                    button.setOnClickListener(l -> {
+                        finish();
+                        ReaderActivity.showFullscreen(MainActivity.main.getSupportFragmentManager(), getApplicationContext(), chapters.get(finalI +1));
+                    });
+                }
+            }
+        }
+
     }
 
     @Override
