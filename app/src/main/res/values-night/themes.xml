@@ -10,7 +10,7 @@
         <item name="colorSecondaryVariant">@color/teal_200</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">#00000000</item>
         <!-- Customize your theme here. -->
     </style>
 
@@ -45,7 +45,7 @@
         <item name="colorSurfaceContainerLow">@color/midnightdusk_surfaceContainerLow</item>
         <item name="colorSurfaceContainerLowest">@color/midnightdusk_surfaceContainerLowest</item>
 
-        <item name="android:statusBarColor">@color/midnightdusk_primary</item>
+        <item name="android:statusBarColor">#00000000</item>
     </style>
     <style name="ThemeOverlay.AO3M.FullscreenContainer" parent="">
         <item name="fullscreenBackgroundColor">@color/light_blue_900</item>

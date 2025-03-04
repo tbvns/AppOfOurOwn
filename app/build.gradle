@@ -1,5 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.compose)
 }
 
 android {
@@ -28,6 +30,7 @@ android {
     }
     buildFeatures {
         viewBinding true
+        compose true
     }
 
     packagingOptions {
@@ -35,6 +38,9 @@ android {
         // You can also add other exclusions if needed
         // exclude 'META-INF/*.kotlin_module'
         // exclude 'META-INF/LICENSE'
+    }
+    kotlinOptions {
+        jvmTarget = '11'
     }
 }
 
@@ -48,13 +54,23 @@ dependencies {
     implementation libs.navigation.fragment
     implementation libs.navigation.ui
     implementation libs.legacy.support.v4
+    implementation libs.lifecycle.runtime.ktx
+    implementation platform(libs.compose.bom)
+    implementation libs.ui
+    implementation libs.ui.graphics
+    implementation libs.ui.tooling.preview
+    implementation libs.material3
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
+    androidTestImplementation platform(libs.compose.bom)
+    androidTestImplementation libs.ui.test.junit4
 
     annotationProcessor 'org.projectlombok:lombok:1.18.36'
     implementation 'org.projectlombok:lombok:1.18.36'
     implementation 'org.jsoup:jsoup:1.18.3'
     implementation group: 'org.htmlunit', name: 'htmlunit3-android', version: '4.3.0'
+    debugImplementation libs.ui.tooling
+    debugImplementation libs.ui.test.manifest
 
 }

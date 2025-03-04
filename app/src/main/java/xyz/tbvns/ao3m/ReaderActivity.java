@@ -3,6 +3,8 @@ package xyz.tbvns.ao3m;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.text.Html;
@@ -98,19 +100,19 @@ public class ReaderActivity extends AppCompatActivity {
 
     public static void showFullscreen(FragmentManager manager, Context context, ChaptersAPI.Chapter chapter) {
         new Thread(() -> {
-            new Handler((Looper.getMainLooper())).post(() -> {
-                manager.beginTransaction()
-                        .replace(R.id.fragment_container, new LoadingFragment())
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                        .commit(); //TODO: change that to loading activity
+            new Handler(Looper.getMainLooper()).post(() -> {
+                Intent loadingIntent = new Intent(context, LoadingActivity.class);
+                loadingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY);
+                context.startActivity(loadingIntent);
             });
 
             currentParagraphs = ChaptersAPI.fetchChapterParagraphs(chapter.getUrl());
             currentChapter = chapter;
 
-            new Handler((Looper.getMainLooper())).post(() -> {
-                Intent intent = new Intent(context, ReaderActivity.class);
-                context.startActivity(intent);
+            new Handler(Looper.getMainLooper()).post(() -> {
+                Intent readerIntent = new Intent(context, ReaderActivity.class);
+                readerIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(readerIntent);
             });
         }).start();
     }
@@ -166,6 +168,33 @@ public class ReaderActivity extends AppCompatActivity {
 
             @Override public void onStartTrackingTouch(SeekBar seekBar) {}
             @Override public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
+
+        findViewById(R.id.buttonChapterBack).setOnClickListener(l -> {
+            List<ChaptersAPI.Chapter> chapters = ChaptersAPI.fetchChapters(currentChapter.getWork());
+            for (int i = 0; i < chapters.size(); i++) {
+                if (currentChapter.getTitle().equals(chapters.get(i).getTitle())) {
+                    if (-1 != i-1) {
+                        finish();
+                        ReaderActivity.showFullscreen(MainActivity.main.getSupportFragmentManager(), getApplicationContext(), chapters.get(i-1));
+                    } else {
+                        Toast.makeText(getApplicationContext(), "This chapters does not exist.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
+        findViewById(R.id.buttonChapterForward).setOnClickListener(l -> {
+            List<ChaptersAPI.Chapter> chapters = ChaptersAPI.fetchChapters(currentChapter.getWork());
+            for (int i = 0; i < chapters.size(); i++) {
+                if (currentChapter.getTitle().equals(chapters.get(i).getTitle())) {
+                    if (chapters.size() > i+1) {
+                        finish();
+                        ReaderActivity.showFullscreen(MainActivity.main.getSupportFragmentManager(), getApplicationContext(), chapters.get(i+1));
+                    } else {
+                        Toast.makeText(getApplicationContext(), "This chapters does not exist.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
         });
     }
 

@@ -86,7 +86,7 @@
                 <ImageButton
                         android:layout_width="30dp"
                         android:layout_height="30dp" app:srcCompat="@drawable/arrow_back_icon"
-                        android:id="@+id/imageButton" android:layout_weight="0"
+                        android:id="@+id/buttonChapterBack" android:layout_weight="0"
                         android:background="@android:color/transparent"
                         android:tint="@color/midnightdusk_onBackground"/>
                 <SeekBar
@@ -96,7 +96,7 @@
                 <ImageButton
                         android:layout_width="30dp"
                         android:layout_height="30dp" app:srcCompat="@drawable/arrow_forward_icon"
-                        android:id="@+id/imageButton2" android:layout_weight="0"
+                        android:id="@+id/buttonChapterForward" android:layout_weight="0"
                         android:background="@android:color/transparent"
                         android:tint="@color/midnightdusk_onBackground"/>
             </LinearLayout>
