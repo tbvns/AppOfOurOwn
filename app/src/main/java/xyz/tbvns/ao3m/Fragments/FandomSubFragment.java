@@ -56,12 +56,13 @@ public class FandomSubFragment extends Fragment {
                                     ft.commit();
                                 });
 
-                                System.out.println("https://archiveofourown.org" + obj.getLink());
                                 List<WorkAPI.Work> works = WorkAPI.fetchWorks("https://archiveofourown.org" + obj.getLink());
+                                SearchResultFragment fragment = new SearchResultFragment(works);
+                                fragment.setUrl("https://archiveofourown.org" + obj.getLink());
 
                                 new Handler(Looper.getMainLooper()).post(() -> {
                                     FragmentTransaction ft = manager.beginTransaction();
-                                    ft.replace(R.id.fragment_container, new SearchResultFragment(works));
+                                    ft.replace(R.id.fragment_container, fragment);
                                     ft.commit();
                                 });
 

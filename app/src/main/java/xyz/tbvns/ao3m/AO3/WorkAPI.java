@@ -169,6 +169,7 @@ public class WorkAPI {
 
         for (Element workElement : workElements) {
             works.add(parseWork(workElement.outerHtml()));
+
         }
         return works;
     }

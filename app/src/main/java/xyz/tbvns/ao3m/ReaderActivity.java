@@ -153,7 +153,9 @@ public class ReaderActivity extends AppCompatActivity {
         });
 
         scrollView.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+            int maxScroll = scrollView.getChildAt(0).getHeight() - scrollView.getHeight();
             seekBar.setProgress(scrollY);
+            System.out.println(maxScroll + "||" + scrollY);
         });
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -257,7 +259,6 @@ public class ReaderActivity extends AppCompatActivity {
 
             layout.addView(frameLayout);
         }
-
     }
 
     @Override
