@@ -19,12 +19,12 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import xyz.tbvns.ao3m.AO3.ChaptersAPI;
 import xyz.tbvns.ao3m.Fragments.LoadingFragment;
 import xyz.tbvns.ao3m.databinding.ActivityReaderBinding;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class ReaderActivity extends AppCompatActivity {
@@ -115,6 +115,7 @@ public class ReaderActivity extends AppCompatActivity {
         }).start();
     }
 
+    private boolean fetching = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,7 +136,7 @@ public class ReaderActivity extends AppCompatActivity {
             }
         });
 
-        setText(currentParagraphs);
+        addText(currentChapter);
         getSupportActionBar().hide();
 
         findViewById(R.id.backButton).setOnClickListener(l -> {
@@ -152,11 +153,38 @@ public class ReaderActivity extends AppCompatActivity {
             seekBar.setMax(maxScroll);
         });
 
+        List<ChaptersAPI.Chapter> chapters = ChaptersAPI.fetchChapters(currentChapter.getWork());
+
         scrollView.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
             int maxScroll = scrollView.getChildAt(0).getHeight() - scrollView.getHeight();
             seekBar.setProgress(scrollY);
-            System.out.println(maxScroll + "||" + scrollY);
+
+            System.out.println(maxScroll + "||" + scrollY + "||" + (maxScroll - scrollY));
+
+            if (maxScroll - scrollY <= 500 && !fetching) {
+                for (int i = 0; i < chapters.size(); i++) {
+                    ChaptersAPI.Chapter chapter = chapters.get(i);
+                    if (currentChapter.getUrl().equals(chapter.getUrl())) {
+                        if (chapters.size() <= i+1) {
+                            currentChapter = chapters.get(i+1);
+                            fetching = true;
+                            addText(chapter);
+                        }
+                    }
+                }
+            }
         });
+
+        /*TODO:
+        * Ok so there is two function: textView.getTop() and textView.getBottom()
+        * I set the bar to the top and bottom,
+        * then when the bar is out of bound, I check every currently loaded chapters
+        * and find the one that fit the sidebar, and then resize the bar to this chapter top and bottom
+        *
+        * I also need to replace the "work" used in the activity with a new "readerWork" object that
+        * countains a work object and a chapter object. Like this I would be able to
+        * */
+
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -171,94 +199,127 @@ public class ReaderActivity extends AppCompatActivity {
         });
     }
 
-    public void setText(String texts) {
-        Document doc = Jsoup.parse(texts);
+    private HashMap<ChaptersAPI.Chapter, Float[]> chapterPos = new HashMap<>();
 
-        Elements title = doc.select("div.chapter.preface.group h3.title");
-        title.remove();
+    public View addText(ChaptersAPI.Chapter chapter) {
+        LinearLayout textDisplay = findViewById(R.id.textDisplay);
 
-        Elements summary = doc.select("#summary.summary.module");
-        String summaryString = summary.html();
-        summary.remove();
+        ProgressBar progressBar = new ProgressBar(getApplicationContext());
+        textDisplay.addView(progressBar);
 
-        Elements startNotes = doc.select("#notes.notes.module");
-        String startNotesString = startNotes.html();
-        startNotes.remove();
+        LinearLayout layout = new LinearLayout(getApplicationContext());
+        layout.setOrientation(LinearLayout.VERTICAL);
 
-        Elements endNotesElement = doc.select("div.end.notes.module");
-        String endNotes = endNotesElement.html();
-        endNotesElement.remove();
+        new Thread(() -> {
+            Document doc = Jsoup.parse(ChaptersAPI.fetchChapterParagraphs(chapter.getUrl()));
 
-        LinearLayout layout = findViewById(R.id.textDisplay);
+            Elements title = doc.select("div.chapter.preface.group h3.title");
+            title.remove();
 
-        if (!title.isEmpty()) {
-            layout.addView(new TextView(getApplicationContext()){{
-                setText(Html.fromHtml(title.html()));
-                setPadding(0, 50, 0, 50);
-                setTextSize(25);
-            }});
-        }
+            Elements summary = doc.select("#summary.summary.module");
+            String summaryString = summary.html();
+            summary.remove();
 
-        if (!summaryString.isEmpty()) {
-            TextView textView = new TextView(getApplicationContext()){{
-                setText(Html.fromHtml(summaryString, Html.FROM_HTML_OPTION_USE_CSS_COLORS | Html.FROM_HTML_MODE_COMPACT));
-                setPadding(50, 50, 50, 50);
-                setTextSize(14);
-            }};
+            Elements startNotes = doc.select("#notes.notes.module");
+            String startNotesString = startNotes.html();
+            startNotes.remove();
 
-            FrameLayout frameLayout = new FrameLayout(getApplicationContext());
-            frameLayout.setPadding(50, 50, 50, 50); // Ensure outer padding
-            frameLayout.addView(textView);
-            frameLayout.setBackground(getDrawable(R.drawable.rounded_workview));
+            Elements endNotesElement = doc.select("div.end.notes.module");
+            String endNotes = endNotesElement.html();
+            endNotesElement.remove();
 
-            layout.addView(frameLayout);
+            if (!title.isEmpty()) {
+                new Handler(Looper.getMainLooper()).post(() -> {
+                    layout.addView(new TextView(getApplicationContext()){{
+                        setText(Html.fromHtml(title.html()));
+                        setPadding(0, 50, 0, 50);
+                        setTextSize(25);
+                    }});
+                });
+            }
 
-            Space space = new Space(getApplicationContext());
-            space.setMinimumHeight(25);
-            layout.addView(space);
-        }
+            if (!summaryString.isEmpty()) {
+                TextView textView = new TextView(getApplicationContext()) {{
+                    setText(Html.fromHtml(summaryString, Html.FROM_HTML_OPTION_USE_CSS_COLORS | Html.FROM_HTML_MODE_COMPACT));
+                    setPadding(50, 50, 50, 50);
+                    setTextSize(14);
+                }};
 
-        if (!startNotesString.isEmpty()) {
-            TextView textView = new TextView(getApplicationContext()){{
-                setText(Html.fromHtml(startNotesString, Html.FROM_HTML_OPTION_USE_CSS_COLORS | Html.FROM_HTML_MODE_COMPACT));
-                setPadding(50, 50, 50, 50);
-                setTextSize(14);
-            }};
 
-            // Wrap in a container to ensure padding is respected
-            FrameLayout frameLayout = new FrameLayout(getApplicationContext());
-            frameLayout.setPadding(50, 50, 50, 50); // Ensure outer padding
-            frameLayout.addView(textView);
-            frameLayout.setBackground(getDrawable(R.drawable.rounded_workview));
+                FrameLayout frameLayout = new FrameLayout(getApplicationContext());
+                frameLayout.setPadding(50, 50, 50, 50); // Ensure outer padding
+                frameLayout.addView(textView);
+                frameLayout.setBackground(getDrawable(R.drawable.rounded_workview));
 
-            layout.addView(frameLayout);
+                Space space = new Space(getApplicationContext());
+                space.setMinimumHeight(25);
+                new Handler(Looper.getMainLooper()).post(() -> {
+                    layout.addView(frameLayout);
+                    layout.addView(space);
+                });
+            }
 
-            Space space = new Space(getApplicationContext());
-            space.setMinimumHeight(25);
-            layout.addView(space);
-        }
+            if (!startNotesString.isEmpty()) {
+                TextView textView = new TextView(getApplicationContext()){{
+                    setText(Html.fromHtml(startNotesString, Html.FROM_HTML_OPTION_USE_CSS_COLORS | Html.FROM_HTML_MODE_COMPACT));
+                    setPadding(50, 50, 50, 50);
+                    setTextSize(14);
+                }};
 
-        layout.addView(new TextView(getApplicationContext()){{
-            setText(Html.fromHtml(doc.html(), Html.FROM_HTML_OPTION_USE_CSS_COLORS | Html.FROM_HTML_MODE_LEGACY));
-            setPadding(0, 50, 0, 50);
-            setTextSize(16);
-        }});
+                // Wrap in a container to ensure padding is respected
+                FrameLayout frameLayout = new FrameLayout(getApplicationContext());
+                frameLayout.setPadding(50, 50, 50, 50); // Ensure outer padding
+                new Handler(Looper.getMainLooper()).post(() -> {
+                        frameLayout.addView(textView);
+                });
+                frameLayout.setBackground(getDrawable(R.drawable.rounded_workview));
 
-        if (!endNotes.isEmpty()) {
-            TextView textView = new TextView(getApplicationContext()) {{
-                setText(Html.fromHtml(endNotes, Html.FROM_HTML_OPTION_USE_CSS_COLORS | Html.FROM_HTML_MODE_COMPACT));
-                setPadding(50, 50, 50, 50);
-                setTextSize(14);
-            }};
+                Space space = new Space(getApplicationContext());
+                space.setMinimumHeight(25);
 
-            // Wrap in a container to ensure padding is respected
-            FrameLayout frameLayout = new FrameLayout(getApplicationContext());
-            frameLayout.setPadding(50, 50, 50, 50); // Ensure outer padding
-            frameLayout.addView(textView);
-            frameLayout.setBackground(getDrawable(R.drawable.rounded_workview));
+                new Handler(Looper.getMainLooper()).post(() -> {
+                    layout.addView(frameLayout);
+                    layout.addView(space);
+                });
+            }
 
-            layout.addView(frameLayout);
-        }
+            new Handler(Looper.getMainLooper()).post(() -> {
+                layout.addView(new TextView(getApplicationContext()) {{
+                    setText(Html.fromHtml(doc.html(), Html.FROM_HTML_OPTION_USE_CSS_COLORS | Html.FROM_HTML_MODE_LEGACY));
+                    setPadding(0, 50, 0, 50);
+                    setTextSize(16);
+                }});
+            });
+
+            if (!endNotes.isEmpty()) {
+                TextView textView = new TextView(getApplicationContext()) {{
+                    setText(Html.fromHtml(endNotes, Html.FROM_HTML_OPTION_USE_CSS_COLORS | Html.FROM_HTML_MODE_COMPACT));
+                    setPadding(50, 50, 50, 50);
+                    setTextSize(14);
+                }};
+
+                // Wrap in a container to ensure padding is respected
+                FrameLayout frameLayout = new FrameLayout(getApplicationContext());
+                frameLayout.setPadding(50, 50, 50, 50); // Ensure outer padding
+                new Handler(Looper.getMainLooper()).post(() -> {
+                    frameLayout.addView(textView);
+                });
+                frameLayout.setBackground(getDrawable(R.drawable.rounded_workview));
+
+                new Handler(Looper.getMainLooper()).post(() -> {
+                    layout.addView(frameLayout);
+                });
+            }
+
+            new Handler(Looper.getMainLooper()).post(() -> {
+                textDisplay.removeView(progressBar);
+            });
+
+            fetching = false;
+        }).start();
+
+        textDisplay.addView(layout);
+        return layout;
     }
 
     @Override
