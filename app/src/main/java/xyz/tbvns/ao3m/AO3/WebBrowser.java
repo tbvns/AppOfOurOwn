@@ -5,12 +5,17 @@ import org.htmlunit.WebClient;
 import org.htmlunit.util.Cookie;
 
 public class WebBrowser {
-    public static final WebClient client = new WebClient(BrowserVersion.CHROME){{
+    public static final WebClient client = new WebClient(
+            new BrowserVersion.BrowserVersionBuilder(BrowserVersion.BEST_SUPPORTED)
+                    .setUserAgent("AppOfOurOwn (tbvns601@gmail.com)")
+                    .build()
+    ){{
        getOptions().setJavaScriptEnabled(false);
        getOptions().setCssEnabled(false);
        getOptions().setDownloadImages(false);
        getOptions().setRedirectEnabled(true);
        getOptions().setTimeout(10000);
+
 
     }};
 
