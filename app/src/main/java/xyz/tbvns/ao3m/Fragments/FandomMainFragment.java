@@ -50,6 +50,7 @@ public class FandomMainFragment extends Fragment {
                                         new Handler(Looper.getMainLooper()).post(() -> {
                                             FragmentTransaction ft = manager.beginTransaction();
                                             ft.replace(R.id.fragment_container, new LoadingFragment());
+                                            ft.addToBackStack("fandomList");
                                             ft.commit();
                                         });
 

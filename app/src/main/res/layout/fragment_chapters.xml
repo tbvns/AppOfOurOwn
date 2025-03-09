@@ -11,13 +11,13 @@
         <ImageView
                 android:src="@drawable/views_icon"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/imageView4" android:layout_weight="1"
+                android:layout_height="wrap_content" android:id="@+id/imageView4" android:layout_weight="0"
                 android:tint="@color/midnightdusk_primary" android:paddingRight="5dp"/>
         <TextView
                 android:text="Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:id="@+id/ChapterTitle" android:textSize="20sp"
-                android:textColor="@color/midnightdusk_onBackground"/>
+                android:textColor="@color/midnightdusk_onBackground" android:layout_weight="1"/>
     </LinearLayout>
     <TextView
             android:text="Date"

@@ -112,17 +112,20 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" app:srcCompat="@drawable/tune_icon"
                         android:id="@+id/imageButton3" android:layout_weight="1"
-                        android:background="@android:color/transparent"/>
+                        android:background="@android:color/transparent"
+                        android:tint="@color/midnightdusk_onBackground"/>
                 <ImageButton
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" app:srcCompat="@drawable/likes_icon"
                         android:id="@+id/imageButton4" android:layout_weight="1"
-                        android:background="@android:color/transparent"/>
+                        android:background="@android:color/transparent"
+                        android:tint="@color/midnightdusk_onBackground"/>
                 <ImageButton
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" app:srcCompat="@drawable/chapters_icon"
                         android:id="@+id/imageButton5" android:layout_weight="1"
-                        android:background="@android:color/transparent"/>
+                        android:background="@android:color/transparent"
+                        android:tint="@color/midnightdusk_onBackground"/>
             </LinearLayout>
 
         </LinearLayout>

@@ -82,17 +82,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Load default fragment (e.g., LibraryFragment) if not restoring from a previous state
         if (savedInstanceState == null) {
-//            getSupportFragmentManager().beginTransaction()
-//                    .replace(R.id.fragment_container, new LibraryFragment())
-//                    .commit();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_container, new LibrairyFragment())
+                    .commit();
         }
 
         // Example thread calling FandomAPI (adjust as needed)
 
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(this, LoginActivity.class);
+//        startActivity(intent);
 
         //This repair the nav bar
         EdgeToEdge.enable(this);

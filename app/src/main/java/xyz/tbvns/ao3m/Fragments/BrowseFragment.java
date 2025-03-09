@@ -44,6 +44,7 @@ public class BrowseFragment extends Fragment {
             FragmentManager manager = getParentFragmentManager();
             FragmentTransaction ft = manager.beginTransaction();
             ft.replace(R.id.fragment_container, new FandomMainFragment());
+            ft.addToBackStack("fandom");
             ft.commit();
         });
         Button advancedSearch = view.findViewById(R.id.advancedSearchButton);
@@ -51,6 +52,7 @@ public class BrowseFragment extends Fragment {
             FragmentManager manager = getParentFragmentManager();
             FragmentTransaction ft = manager.beginTransaction();
             ft.replace(R.id.fragment_container, new AdvancedSearchFragment());
+            ft.addToBackStack("advancedSearch");
             ft.commit();
         });
         SearchView searchView = view.findViewById(R.id.searchBar);

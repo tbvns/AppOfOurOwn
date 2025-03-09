@@ -38,6 +38,7 @@ public class SearchResultFragment extends Fragment {
             new Handler((Looper.getMainLooper())).post(() -> {
                 manager.beginTransaction()
                         .replace(R.id.fragment_container, new LoadingFragment())
+                        .addToBackStack("Result")
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                         .commit();
             });
