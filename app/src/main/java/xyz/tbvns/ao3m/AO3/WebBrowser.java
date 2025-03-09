@@ -1,8 +1,12 @@
 package xyz.tbvns.ao3m.AO3;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.htmlunit.BrowserVersion;
 import org.htmlunit.WebClient;
 import org.htmlunit.util.Cookie;
+
+import java.io.IOException;
 
 public class WebBrowser {
     public static final WebClient client = new WebClient(
@@ -33,6 +37,21 @@ public class WebBrowser {
 
         // Add the cookie to the WebClient's CookieManager
         webClient.getCookieManager().addCookie(cookie);
+    }
+
+    @Data
+    @AllArgsConstructor
+    public static class Response {
+        private String data;
+        private boolean success;
+    }
+
+    public static Response fetch(String url) {
+        try {
+            return new Response(client.getPage(url).getWebResponse().getContentAsString(), true);
+        } catch (IOException e) {
+            return new Response(e.getMessage(), false);
+        }
     }
 
 }
