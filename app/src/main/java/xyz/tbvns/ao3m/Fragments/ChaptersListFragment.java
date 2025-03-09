@@ -40,9 +40,11 @@ public class ChaptersListFragment extends Fragment {
             });
             List<ChaptersAPI.Chapter> chapters = ChaptersAPI.fetchChapters(work);
             new Handler((Looper.getMainLooper())).post(() -> {
+                manager.popBackStack("ChaptersList", FragmentManager.POP_BACK_STACK_INCLUSIVE); // Prevent stacking multiple times
                 manager.beginTransaction()
                         .replace(R.id.fragment_container, new ChaptersListFragment(chapters, work))
                         .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        .addToBackStack("ChaptersList")
                         .commit();
             });
         }).start();

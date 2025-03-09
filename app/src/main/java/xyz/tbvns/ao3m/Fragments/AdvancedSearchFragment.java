@@ -268,7 +268,7 @@ public class AdvancedSearchFragment extends Fragment {
             // Generate the search URL
             String searchUrl = SearchAPI.generateSearchUrl(searchParams);
             System.out.println(searchUrl);
-            SearchResultFragment.showResults(getParentFragmentManager(), searchUrl);
+            SearchResultFragment.showResults(getParentFragmentManager(), searchUrl, true);
         });
     }
 

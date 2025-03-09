@@ -62,18 +62,21 @@ public class MainActivity extends AppCompatActivity {
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.fragment_container, new LibrairyFragment())
                                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                                .disallowAddToBackStack()
                                 .commit();
                         break;
                     case "Browse":
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.fragment_container, new BrowseFragment())
                                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                                .disallowAddToBackStack()
                                 .commit();
                         break;
                     default:
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.fragment_container, new LoadingFragment())
                                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                                .disallowAddToBackStack()
                                 .commit();
                         break;
                 }
@@ -85,15 +88,10 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragment_container, new LibrairyFragment())
+                    .disallowAddToBackStack()
                     .commit();
         }
 
-        // Example thread calling FandomAPI (adjust as needed)
-
-//        Intent intent = new Intent(this, LoginActivity.class);
-//        startActivity(intent);
-
-        //This repair the nav bar
-        EdgeToEdge.enable(this);
+//        EdgeToEdge.enable(this);
     }
 }

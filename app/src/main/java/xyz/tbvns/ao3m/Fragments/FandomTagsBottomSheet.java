@@ -49,7 +49,7 @@ public class FandomTagsBottomSheet extends BottomSheetDialogFragment {
             button.setOnClickListener(v -> {
                 Map<String, String> searchParams = new HashMap<>();
                 searchParams.put("work_search[fandom_names]", buttonText);
-                SearchResultFragment.showResults(getParentFragmentManager(), SearchAPI.generateSearchUrl(searchParams));
+                SearchResultFragment.showResults(getParentFragmentManager(), SearchAPI.generateSearchUrl(searchParams), true);
                 dismiss();
             });
             fandomContainer.addView(button);
@@ -64,7 +64,7 @@ public class FandomTagsBottomSheet extends BottomSheetDialogFragment {
             button.setOnClickListener(v -> {
                 Map<String, String> searchParams = new HashMap<>();
                 searchParams.put("work_search[freeform_names]", buttonText);
-                SearchResultFragment.showResults(getParentFragmentManager(), SearchAPI.generateSearchUrl(searchParams));
+                SearchResultFragment.showResults(getParentFragmentManager(), SearchAPI.generateSearchUrl(searchParams), true);
                 dismiss();
             });
             tagsContainer.addView(button);

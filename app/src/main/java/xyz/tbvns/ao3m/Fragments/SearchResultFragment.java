@@ -33,14 +33,16 @@ public class SearchResultFragment extends Fragment {
     private boolean fetching = false;
     @Setter private String url;
 
-    public static void showResults(FragmentManager manager, String url) {
+    public static void showResults(FragmentManager manager, String url, boolean backStack) {
         new Thread(() -> {
             new Handler((Looper.getMainLooper())).post(() -> {
-                manager.beginTransaction()
+                FragmentTransaction transaction = manager.beginTransaction()
                         .replace(R.id.fragment_container, new LoadingFragment())
-                        .addToBackStack("Result")
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                        .commit();
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                if (backStack) {
+                    transaction.addToBackStack("Result");
+                }
+                transaction.commit();
             });
 
 
@@ -48,10 +50,16 @@ public class SearchResultFragment extends Fragment {
             SearchResultFragment fragment = new SearchResultFragment(works);
             fragment.setUrl(url);
             new Handler((Looper.getMainLooper())).post(() -> {
-                manager.beginTransaction()
+                if (backStack) {
+                    manager.popBackStack("Result", FragmentManager.POP_BACK_STACK_INCLUSIVE); // Prevent stacking multiple times
+                }
+                FragmentTransaction transaction= manager.beginTransaction()
                         .replace(R.id.fragment_container, fragment)
-                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                        .commit();
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                if (backStack) {
+                    transaction.addToBackStack("Result");
+                }
+                transaction.commit();
             });
         }).start();
     }

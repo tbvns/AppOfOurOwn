@@ -53,6 +53,7 @@ public class FandomSubFragment extends Fragment {
                                 new Handler(Looper.getMainLooper()).post(() -> {
                                     FragmentTransaction ft = manager.beginTransaction();
                                     ft.replace(R.id.fragment_container, new LoadingFragment());
+                                    ft.addToBackStack("subFandom");
                                     ft.commit();
                                 });
 
@@ -61,8 +62,10 @@ public class FandomSubFragment extends Fragment {
                                 fragment.setUrl("https://archiveofourown.org" + obj.getLink());
 
                                 new Handler(Looper.getMainLooper()).post(() -> {
+                                    manager.popBackStack("subFandom", FragmentManager.POP_BACK_STACK_INCLUSIVE); // Prevent stacking multiple times
                                     FragmentTransaction ft = manager.beginTransaction();
                                     ft.replace(R.id.fragment_container, fragment);
+                                    ft.addToBackStack("subFandom");
                                     ft.commit();
                                 });
 

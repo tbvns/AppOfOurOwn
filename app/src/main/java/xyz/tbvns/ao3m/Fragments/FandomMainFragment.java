@@ -58,8 +58,10 @@ public class FandomMainFragment extends Fragment {
                                         List<FandomCategoryObject> stream = FandomCategoryApi.getCategoryList("https://archiveofourown.org" + c.getUrl());
 
                                         new Handler(Looper.getMainLooper()).post(() -> {
+                                            manager.popBackStack("fandomList", FragmentManager.POP_BACK_STACK_INCLUSIVE); // Prevent stacking multiple times
                                             FragmentTransaction ft = manager.beginTransaction();
                                             ft.replace(R.id.fragment_container, new FandomSubFragment(stream));
+                                            ft.addToBackStack("fandomList");
                                             ft.commit();
                                         });
 

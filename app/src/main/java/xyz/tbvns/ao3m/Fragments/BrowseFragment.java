@@ -62,7 +62,7 @@ public class BrowseFragment extends Fragment {
                 Map<String, String> searchParams = new HashMap<>();
                 addIfNotEmpty(searchParams, "work_search[query]", searchView.getQuery().toString());
                 String searchUrl = SearchAPI.generateSearchUrl(searchParams);
-                SearchResultFragment.showResults(getParentFragmentManager(), searchUrl);
+                SearchResultFragment.showResults(getParentFragment().getParentFragmentManager(), searchUrl, false);
                 return true;
             }
             @Override public boolean onQueryTextChange(String newText) {return true;}
@@ -73,19 +73,18 @@ public class BrowseFragment extends Fragment {
         new Thread(() -> {
             LoadingFragment loadingFragment = new LoadingFragment();
             new Handler(Looper.getMainLooper()).post(() -> {
-                getParentFragmentManager()
+                getChildFragmentManager()
                         .beginTransaction()
-                        .add(R.id.workList, loadingFragment
-                        ).commit();
+                        .replace(R.id.workList, loadingFragment)
+                        .commitAllowingStateLoss();
             });
             List<WorkAPI.Work> works = WorkAPI.fetchWorks("https://archiveofourown.org/works");
             new Handler(Looper.getMainLooper()).post(() -> {
                 try {
-                    getParentFragmentManager()
+                    getChildFragmentManager()
                             .beginTransaction()
-                            .remove(loadingFragment)
-                            .add(R.id.workList, new SearchResultFragment(works)
-                            ).commit();
+                            .replace(R.id.workList, new SearchResultFragment(works))
+                            .commitAllowingStateLoss();
                 } catch (Exception e) {}
             });
         }).start();
