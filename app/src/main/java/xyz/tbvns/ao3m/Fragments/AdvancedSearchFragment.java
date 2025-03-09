@@ -8,6 +8,7 @@ import android.widget.*;
 
 import androidx.fragment.app.Fragment;
 import xyz.tbvns.ao3m.AO3.SearchAPI;
+import xyz.tbvns.ao3m.MainActivity;
 import xyz.tbvns.ao3m.R;
 
 import java.util.ArrayList;
@@ -85,6 +86,9 @@ public class AdvancedSearchFragment extends Fragment {
 
         // Add "None" as the default option to each spinner
         List<SearchAPI.Pair<String, String>> noneOption = List.of(new SearchAPI.Pair<>("", "None"));
+
+        MainActivity.bar.setTitle("Advanced search");
+        MainActivity.navigationBar.getMenu().findItem(R.id.navigation_browse).setChecked(true);
 
         // Populate Language Spinner
         if (parameters.containsKey("languages")) {

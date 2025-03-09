@@ -12,6 +12,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.navigation.NavigationBarView;
 import lombok.SneakyThrows;
@@ -29,6 +30,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     public static ActionBar bar;
+    public static NavigationBarView navigationBar;
     public static MainActivity main;
 
     @SneakyThrows
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         bar = getSupportActionBar();
+        navigationBar = findViewById(R.id.navigation_bar);
 
         // Apply window insets to the root view
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -62,21 +65,21 @@ public class MainActivity extends AppCompatActivity {
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.fragment_container, new LibrairyFragment())
                                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                                .disallowAddToBackStack()
+                                .addToBackStack("main")
                                 .commit();
                         break;
                     case "Browse":
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.fragment_container, new BrowseFragment())
                                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                                .disallowAddToBackStack()
+                                .addToBackStack("main")
                                 .commit();
                         break;
                     default:
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.fragment_container, new LoadingFragment())
                                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                                .disallowAddToBackStack()
+                                .addToBackStack("main")
                                 .commit();
                         break;
                 }

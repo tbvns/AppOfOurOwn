@@ -22,6 +22,7 @@ public class LibrairyFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_librairy, container, false);
 
         MainActivity.bar.setTitle("Library");
+        MainActivity.navigationBar.getMenu().findItem(R.id.navigation_librairy).setChecked(true);
 
         LinearLayout layout = view.findViewById(R.id.mainLibrairy);
         for (WorkAPI.Work work : ConfigManager.getLibraryConf().getWorks()) {

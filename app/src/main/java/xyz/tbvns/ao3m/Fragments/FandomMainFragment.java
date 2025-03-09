@@ -26,6 +26,7 @@ public class FandomMainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         MainActivity.bar.setTitle("Search by fandom");
+        MainActivity.navigationBar.getMenu().findItem(R.id.navigation_browse).setChecked(true);
 
         View view = inflater.inflate(R.layout.fragment_fandom_main, container, false);
 

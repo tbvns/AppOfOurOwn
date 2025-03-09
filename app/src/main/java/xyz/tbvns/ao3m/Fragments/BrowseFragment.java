@@ -38,6 +38,7 @@ public class BrowseFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_browse, container, false);
 
         MainActivity.bar.setTitle("Browse");
+        MainActivity.navigationBar.getMenu().findItem(R.id.navigation_browse).setChecked(true);
 
         Button byFandomButton = view.findViewById(R.id.fandomButtons);
         byFandomButton.setOnClickListener(a -> {
@@ -62,7 +63,7 @@ public class BrowseFragment extends Fragment {
                 Map<String, String> searchParams = new HashMap<>();
                 addIfNotEmpty(searchParams, "work_search[query]", searchView.getQuery().toString());
                 String searchUrl = SearchAPI.generateSearchUrl(searchParams);
-                SearchResultFragment.showResults(getParentFragment().getParentFragmentManager(), searchUrl, false);
+                SearchResultFragment.showResults(getParentFragmentManager(), searchUrl, false);
                 return true;
             }
             @Override public boolean onQueryTextChange(String newText) {return true;}

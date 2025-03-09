@@ -18,6 +18,7 @@ import lombok.Getter;
 import xyz.tbvns.ao3m.AO3.FandomCategoryApi;
 import xyz.tbvns.ao3m.AO3.FandomCategoryObject;
 import xyz.tbvns.ao3m.AO3.WorkAPI;
+import xyz.tbvns.ao3m.MainActivity;
 import xyz.tbvns.ao3m.R;
 import xyz.tbvns.ao3m.Utils;
 
@@ -34,6 +35,8 @@ public class FandomSubFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_fandom_sub, container, false);
         LinearLayout layout = view.findViewById(R.id.fandomSubList);
+
+        MainActivity.navigationBar.getMenu().findItem(R.id.navigation_browse).setChecked(true);
 
         new Thread(() -> {
             AtomicBoolean exit = new AtomicBoolean(false);
