@@ -30,16 +30,13 @@ public class LoginAPI {
         WebClient webClient;
     }
 
-    public static void initialize(Context context) {
-        appContext = context.getApplicationContext();
-    }
+    public static void initialize(Context context) {appContext = context.getApplicationContext();}
 
     public static String login(String username, String password) {
         String loginUrl = "https://archiveofourown.org/users/login";
 
         new Handler(Looper.getMainLooper()).post(() -> showToast("Starting phase (1/2)."));
 
-        // Phase 1: Load the login form with retries
         FormData formData = loadLoginForm(loginUrl);
         if (formData == null) {
             showToast("Failed to load login form after " + MAX_RETRIES_FORM_LOAD + " attempts");

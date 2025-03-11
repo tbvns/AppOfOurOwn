@@ -18,10 +18,8 @@ import com.google.android.material.navigation.NavigationBarView;
 import lombok.SneakyThrows;
 import xyz.tbvns.ao3m.AO3.WebBrowser;
 import xyz.tbvns.ao3m.AO3.WorkAPI;
-import xyz.tbvns.ao3m.Fragments.BrowseFragment;
-import xyz.tbvns.ao3m.Fragments.FandomMainFragment;
-import xyz.tbvns.ao3m.Fragments.LibrairyFragment;
-import xyz.tbvns.ao3m.Fragments.LoadingFragment;
+import xyz.tbvns.ao3m.Fragments.*;
+import xyz.tbvns.ao3m.Storage.HistoryManager;
 import xyz.tbvns.ao3m.Views.WorkView;
 
 import java.time.LocalDate;
@@ -39,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         main = this;
-
         new Thread(WebBrowser::preload).start();
 
         EdgeToEdge.enable(this);
@@ -71,6 +68,13 @@ public class MainActivity extends AppCompatActivity {
                     case "Browse":
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.fragment_container, new BrowseFragment())
+                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                                .addToBackStack("main")
+                                .commit();
+                        break;
+                    case "History":
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.fragment_container, new HistoryFragment())
                                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                                 .addToBackStack("main")
                                 .commit();

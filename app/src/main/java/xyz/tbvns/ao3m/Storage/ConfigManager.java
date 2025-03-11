@@ -1,37 +1,35 @@
 package xyz.tbvns.ao3m.Storage;
 
-import android.os.Environment;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import lombok.SneakyThrows;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import xyz.tbvns.ao3m.MainActivity;
-import xyz.tbvns.ao3m.Storage.Config.LibraryConf;
+import xyz.tbvns.ao3m.Storage.Data.LibraryData;
 
 import java.io.File;
 
 public class ConfigManager {
     private static final Log log = LogFactory.getLog(ConfigManager.class);
 
-    public static LibraryConf getLibraryConf() {
+    public static LibraryData getLibraryConf() {
         File file = new File(MainActivity.main.getFilesDir().getPath() + "/library.json");
         if (!file.exists()) {
-            LibraryConf libraryConf = new LibraryConf();
-            saveLibraryConf(libraryConf);
-            return libraryConf;
+            LibraryData libraryData = new LibraryData();
+            saveLibraryConf(libraryData);
+            return libraryData;
         }
         try {
             ObjectMapper mapper = new ObjectMapper();
             mapper.registerModule(new JavaTimeModule());
-            return mapper.readValue(file, LibraryConf.class);
+            return mapper.readValue(file, LibraryData.class);
         } catch (Exception e) {
             file.delete();
-            return new LibraryConf();
+            return new LibraryData();
         }
     }
 
-    public static void saveLibraryConf(LibraryConf conf) {
+    public static void saveLibraryConf(LibraryData conf) {
         File file = new File(MainActivity.main.getFilesDir().getPath() + "/library.json");
         try {
             ObjectMapper mapper = new ObjectMapper();

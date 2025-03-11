@@ -17,8 +17,7 @@ import xyz.tbvns.ao3m.AO3.ChaptersAPI;
 import xyz.tbvns.ao3m.AO3.WorkAPI;
 import xyz.tbvns.ao3m.ChaptersView;
 import xyz.tbvns.ao3m.R;
-import xyz.tbvns.ao3m.ReaderActivity;
-import xyz.tbvns.ao3m.Storage.Config.LibraryConf;
+import xyz.tbvns.ao3m.Storage.Data.LibraryData;
 import xyz.tbvns.ao3m.Storage.ConfigManager;
 
 import java.util.Collections;
@@ -75,13 +74,13 @@ public class ChaptersListFragment extends Fragment {
 
         button.setOnClickListener(l -> {
             if (ConfigManager.getLibraryConf().isContained(work)) {
-                LibraryConf conf = ConfigManager.getLibraryConf();
+                LibraryData conf = ConfigManager.getLibraryConf();
                 conf.removeWork(work);
                 ConfigManager.saveLibraryConf(conf);
                 button.setImageDrawable(getResources().getDrawable(R.drawable.librairy_icon));
                 ((TextView) view.findViewById(R.id.libraryText)).setText("Add to library");
             } else {
-                LibraryConf conf = ConfigManager.getLibraryConf();
+                LibraryData conf = ConfigManager.getLibraryConf();
                 conf.addWork(work);
                 ConfigManager.saveLibraryConf(conf);
                 button.setImageDrawable(getResources().getDrawable(R.drawable.library_filled_icon));

@@ -1,5 +1,6 @@
 package xyz.tbvns.ao3m.AO3;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.htmlunit.WebClient;
@@ -18,18 +19,13 @@ import static xyz.tbvns.ao3m.AO3.WebBrowser.client;
 public class ChaptersAPI {
 
     @Getter
+    @AllArgsConstructor
     public static class Chapter {
         private final String title;
         private final String url;
         private final String date;
         private final WorkAPI.Work work;
-
-        public Chapter(String title, String url, String date, WorkAPI.Work work) {
-            this.title = title;
-            this.url = url;
-            this.date = date;
-            this.work = work;
-        }
+        private final int number;
 
         @Override
         public String toString() {
@@ -61,7 +57,7 @@ public class ChaptersAPI {
             String dateString = date.text().replace("(", "").replace(")", "").replace("-", "/");
 
             if (!title.isEmpty() && !url.isEmpty()) {
-                chapters.add(new Chapter(title, url, dateString, work));
+                chapters.add(new Chapter(title, url, dateString, work, i));
             }
         }
 

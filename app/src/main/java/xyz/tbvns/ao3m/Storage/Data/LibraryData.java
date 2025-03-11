@@ -1,17 +1,16 @@
-package xyz.tbvns.ao3m.Storage.Config;
+package xyz.tbvns.ao3m.Storage.Data;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import xyz.tbvns.ao3m.AO3.WorkAPI;
 
-import java.util.Arrays;
 import java.util.Objects;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LibraryConf {
+public class LibraryData {
     private WorkAPI.Work[] works = new WorkAPI.Work[0];
 
     public void addWork(WorkAPI.Work work) {

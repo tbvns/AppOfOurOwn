@@ -25,8 +25,10 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import xyz.tbvns.ao3m.AO3.ChaptersAPI;
 import xyz.tbvns.ao3m.Fragments.LoadingFragment;
+import xyz.tbvns.ao3m.Storage.HistoryManager;
 import xyz.tbvns.ao3m.databinding.ActivityReaderBinding;
 
+import java.time.Instant;
 import java.util.List;
 
 public class ReaderActivity extends AppCompatActivity {
@@ -75,6 +77,7 @@ public class ReaderActivity extends AppCompatActivity {
             hide();
         }
     };
+
     private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -93,6 +96,7 @@ public class ReaderActivity extends AppCompatActivity {
             return false;
         }
     };
+
     private ActivityReaderBinding binding;
 
     public static String currentParagraphs;
@@ -108,6 +112,17 @@ public class ReaderActivity extends AppCompatActivity {
 
             currentParagraphs = ChaptersAPI.fetchChapterParagraphs(chapter.getUrl());
             currentChapter = chapter;
+
+            HistoryManager.insertWork(
+                    context.getApplicationContext(),
+                    new HistoryManager.HistoryEntry(
+                            Integer.parseInt(chapter.getWork().workId),
+                            chapter.getWork().title,
+                            Instant.now().getEpochSecond(),
+                            chapter.getNumber(),
+                            0
+                            )
+            );
 
             new Handler(Looper.getMainLooper()).post(() -> {
                 Intent readerIntent = new Intent(context, ReaderActivity.class);
@@ -198,6 +213,7 @@ public class ReaderActivity extends AppCompatActivity {
         });
     }
 
+    @SuppressLint("AppCompatCustomView")
     public void setText(String texts) {
         Document doc = Jsoup.parse(texts);
 
