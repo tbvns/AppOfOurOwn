@@ -174,6 +174,135 @@ public class WorkAPI {
         return works;
     }
 
+    @SneakyThrows
+    public static Work fetchWork(String workId) {
+        String workUrl = "https://archiveofourown.org/works/" + workId;
+        HtmlPage page = client.getPage(workUrl);
+        Document doc = Jsoup.parse(page.asXml(), workUrl);
+
+        Work work = new Work();
+        work.setWorkId(workId);
+
+        Element titleElement = doc.selectFirst("h2.title.heading");
+        if (titleElement != null) {
+            String rawTitle = titleElement.text();
+            work.setTitle(rawTitle.replaceAll("\\|\\d+\\|", "").trim());
+        }
+
+        Elements authorLinks = doc.select("h3.byline.heading a[rel=author]");
+        if (!authorLinks.isEmpty()) {
+            List<String> authors = authorLinks.eachText();
+            work.setAuthor(String.join(", ", authors));
+            work.setAuthorUrl(authorLinks.first().attr("abs:href"));
+        } else if (doc.selectFirst("dd.anonymous") != null) {
+            work.setAuthor("Anonymous");
+        }
+
+        Element summaryElement = doc.selectFirst("div.summary blockquote.userstuff");
+        if (summaryElement != null) {
+            work.setSummary(summaryElement.text().trim());
+        }
+
+        Elements fandomTags = doc.select("dd.fandom.tags a.tag");
+        work.setFandoms(fandomTags.eachText());
+
+        Elements freeformTags = doc.select("dd.freeform.tags a.tag");
+        work.setTags(freeformTags.eachText());
+
+        Classification classification = new Classification();
+
+        Element ratingTag = doc.selectFirst("dd.rating.tags a.tag");
+        if (ratingTag != null) {
+            String rating = ratingTag.text().toLowerCase();
+            if (rating.contains("teen")) {
+                classification.contentRating = ContentRating.teen;
+            } else if (rating.contains("general")) {
+                classification.contentRating = ContentRating.general;
+            } else if (rating.contains("mature")) {
+                classification.contentRating = ContentRating.mature;
+            } else if (rating.contains("explicit")) {
+                classification.contentRating = ContentRating.explicit;
+            }
+        }
+
+        Element warningTag = doc.selectFirst("dd.warning.tags a.tag");
+        if (warningTag != null) {
+            String warning = warningTag.text().toLowerCase();
+            if (warning.contains("no archive warnings apply")) {
+                classification.warning = Warning.none;
+            } else if (warning.contains("creator chose not to use")) {
+                classification.warning = Warning.unspecified;
+            } else {
+                classification.warning = Warning.warning;
+            }
+        }
+
+        Elements categoryTags = doc.select("dd.category.tags a.tag");
+        List<String> categories = categoryTags.eachText();
+        if (categories.size() > 1 || categories.stream().anyMatch(c -> c.equalsIgnoreCase("multi"))) {
+            classification.relationship = Relationship.multi;
+        } else if (!categories.isEmpty()) {
+            String category = categories.get(0).toUpperCase();
+            switch (category) {
+                case "F/M": classification.relationship = Relationship.fm; break;
+                case "F/F": classification.relationship = Relationship.ff; break;
+                case "M/M": classification.relationship = Relationship.mm; break;
+                case "GEN": classification.relationship = Relationship.gen; break;
+                case "MULTI": classification.relationship = Relationship.multi; break;
+                default: classification.relationship = Relationship.other;
+            }
+        }
+
+        Element languageElement = doc.selectFirst("dd.language");
+        if (languageElement != null) {
+            work.setLanguage(languageElement.text());
+        }
+
+        Elements statsDt = doc.select("dl.stats dt");
+        for (Element dt : statsDt) {
+            String statName = dt.text().trim();
+            Element dd = dt.nextElementSibling();
+            if (dd == null) continue;
+
+            String statValue = dd.text().replaceAll(",", "");
+            switch (statName) {
+                case "Published:":
+                    work.setPublishedDate(LocalDate.parse(dd.text().trim()));
+                    break;
+                case "Words:":
+                    work.setWordCount(Integer.parseInt(statValue));
+                    break;
+                case "Chapters:":
+                    String[] chapters = dd.text().split("/");
+                    work.setChapterCount(Integer.parseInt(chapters[0].replaceAll("\\D", "")));
+                    work.setChapterMax(chapters.length > 1
+                            ? chapters[1].contains("?") ? 0 : Integer.parseInt(chapters[1].replaceAll("\\D", ""))
+                            : work.getChapterCount());
+                    break;
+                case "Hits:":
+                    work.setHits(Integer.parseInt(statValue));
+                    break;
+                case "Kudos:":
+                    work.setKudos(Integer.parseInt(statValue));
+                    break;
+                case "Bookmarks:":
+                    Element bookmarkLink = dd.selectFirst("a");
+                    work.setBookmarks(bookmarkLink != null
+                            ? Integer.parseInt(bookmarkLink.text().replaceAll(",", ""))
+                            : Integer.parseInt(statValue));
+                    break;
+            }
+        }
+
+        classification.status = (work.getChapterMax() > 0 && work.getChapterCount() >= work.getChapterMax())
+                ? Status.completed
+                : Status.incomplete;
+
+        work.setClassification(classification);
+
+        return work;
+    }
+
     public static Work parseWork(String html) {
         Document doc = Jsoup.parse(html);
         Element card = doc.selectFirst("li.work");

@@ -34,6 +34,40 @@ public class ChaptersAPI {
     }
 
     @SneakyThrows
+    public static List<Chapter> fetchChapters(String workId) {
+        WorkAPI.Work work = WorkAPI.fetchWork(workId);
+
+        List<Chapter> chapters = new ArrayList<>();
+
+        // Transform URL to navigate version
+        String navigateUrl = ("https://archiveofourown.org/works/" + workId).replaceAll("/?$", "/navigate");
+        String workUrl = ("https://archiveofourown.org/works/" + workId);
+
+        // Fetch the navigate page
+        HtmlPage page = client.getPage(navigateUrl);
+        Document doc = Jsoup.parse(page.asXml(), workUrl);
+
+        // Extract chapter elements
+        Elements chapterLinks = doc.select("ol.chapter.index.group li a");
+        Elements chapterDate = doc.select("ol.chapter.index.group li span");
+
+        for (int i = 0; i < chapterLinks.size(); i++) {
+            Element link = chapterLinks.get(i);
+            Element date = chapterDate.get(i);
+            String title = link.text();
+            String url = link.attr("abs:href"); // Get absolute URL
+            String dateString = date.text().replace("(", "").replace(")", "").replace("-", "/");
+
+            if (!title.isEmpty() && !url.isEmpty()) {
+                chapters.add(new Chapter(title, url, dateString, work, i));
+            }
+        }
+
+        return chapters;
+    }
+
+
+    @SneakyThrows
     public static List<Chapter> fetchChapters(WorkAPI.Work work) {
         List<Chapter> chapters = new ArrayList<>();
 

@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
+import xyz.tbvns.ao3m.AO3.ChaptersAPI;
+import xyz.tbvns.ao3m.AO3.WorkAPI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,10 @@ public class HistoryManager {
         private long epocheDate;
         private int chapter;
         private int length;
+
+        public ChaptersAPI.Chapter getChapterObj() {
+            return ChaptersAPI.fetchChapters(String.valueOf(workId)).get(chapter + length);
+        }
     }
 
     @SneakyThrows

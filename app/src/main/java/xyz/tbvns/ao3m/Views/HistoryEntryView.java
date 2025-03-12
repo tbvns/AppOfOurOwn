@@ -32,17 +32,19 @@ public class HistoryEntryView extends LinearLayout {
         TextView chapterDate = findViewById(R.id.ChapterDate);
 
         chapterTitle.setText(entry.getName());
-        String text = new SimpleDateFormat("HH:mm MM/dd/YYYY").format(entry.getEpocheDate()) + " • Chap. " + (entry.getChapter() + 1);
+        String text = new SimpleDateFormat("HH:mm MM/dd/YYYY").format(entry.getEpocheDate() * 10e2) + " • Chap. " + (entry.getChapter() + 1);
         if (entry.getLength() != 0) {
             text += " to " + (entry.getChapter() + entry.getLength() + 1);
         }
         chapterDate.setText(text);
 
         setOnClickListener(l -> {
-//            ReaderActivity.showFullscreen(manager, getContext(), entry.); TODO: make this work
-            new Handler(Looper.getMainLooper()).post(() -> {
-                Toast.makeText(getContext(), "Not implemented yet", Toast.LENGTH_SHORT).show();
-            });
+            new Thread(() -> {
+                ChaptersAPI.Chapter chapter = entry.getChapterObj();
+                new Handler(Looper.getMainLooper()).post(() -> {
+                    ReaderActivity.showFullscreen(manager, getContext(), chapter);
+                });
+            }).start();
         });
     }
 }
