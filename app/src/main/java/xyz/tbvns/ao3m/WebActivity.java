@@ -82,7 +82,7 @@ public class WebActivity extends AppCompatActivity {
 
         // Add session cookie if available
         String sessionToken = ConfigManager.getAccountData().getToken();
-        if (!sessionToken.isEmpty()) {
+        if (sessionToken != null && !sessionToken.isEmpty()) {
             addCookie("_otwarchive_session", sessionToken, "archiveofourown.org", "/");
         }
     }

@@ -25,7 +25,7 @@ public class WebBrowser {
     public static void preload() {
         try {
             addCookie(client, "view_adult", "true", "archiveofourown.org", "/");
-            if (!ConfigManager.getAccountData().getToken().isEmpty())
+            if (ConfigManager.getAccountData().getToken() != null && !ConfigManager.getAccountData().getToken().isEmpty())
                 addCookie(client, "_otwarchive_session", ConfigManager.getAccountData().getToken(), "archiveofourown.org", "/");
             SearchAPI.updateAvailableParameters();
             client.getPage("https://archiveofourown.org/");
