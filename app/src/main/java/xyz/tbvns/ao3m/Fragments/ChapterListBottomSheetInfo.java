@@ -1,37 +1,56 @@
 package xyz.tbvns.ao3m.Fragments;
 
+import android.content.Context;
 import android.os.Bundle;
+
+import android.util.AttributeSet;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import lombok.AllArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import xyz.tbvns.ao3m.AO3.SearchAPI;
+import xyz.tbvns.ao3m.AO3.WorkAPI;
 import xyz.tbvns.ao3m.R;
+import xyz.tbvns.ao3m.Utils;
 
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class FandomTagsBottomSheet extends BottomSheetDialogFragment {
+@AllArgsConstructor
+public class ChapterListBottomSheetInfo extends BottomSheetDialogFragment {
+    private WorkAPI.Work work;
 
-    private List<String> fandomButtons;
-    private List<String> tagsButtons;
-
-    // Constructor to pass button data
-    public FandomTagsBottomSheet(List<String> fandomButtons, List<String> tagsButtons) {
-        this.fandomButtons = fandomButtons;
-        this.tagsButtons = tagsButtons;
-    }
-
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fandom_bottom_sheet_layout, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_chapter_list_bottom_sheet_info, container, false);
+
+        ((TextView) view.findViewById(R.id.hits)).setText(Utils.simplifyNumber(work.hits));
+        ((TextView) view.findViewById(R.id.words)).setText(Utils.simplifyNumber(work.wordCount));
+        if (work.chapterMax != -1) {
+            ((TextView) view.findViewById(R.id.chapters)).setText(work.chapterCount + "/" + work.chapterMax);
+        } else {
+            ((TextView) view.findViewById(R.id.chapters)).setText(work.chapterCount + "/?");
+        }
+        ((TextView) view.findViewById(R.id.kudos)).setText(Utils.simplifyNumber(work.kudos));
+        ((TextView) view.findViewById(R.id.bookmark)).setText(Utils.simplifyNumber(work.bookmarks));
+        ((TextView) view.findViewById(R.id.update)).setText(work.publishedDate.format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        ((TextView) view.findViewById(R.id.language)).setText(work.language);
+
 
         // Get references to the containers
         LinearLayout fandomContainer = view.findViewById(R.id.fandomButtonsContainer);
@@ -39,7 +58,7 @@ public class FandomTagsBottomSheet extends BottomSheetDialogFragment {
         ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(getContext(), R.style.Theme_AO3M);
 
         // Add Fandom buttons
-        for (String buttonText : fandomButtons) {
+        for (String buttonText : work.fandoms) {
             Button button = new Button(contextThemeWrapper, null, R.style.Theme_AO3M);
             button.setText(buttonText);
             button.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
@@ -54,7 +73,7 @@ public class FandomTagsBottomSheet extends BottomSheetDialogFragment {
         }
 
         // Add Tags buttons
-        for (String buttonText : tagsButtons) {
+        for (String buttonText : work.tags) {
             Button button = new Button(contextThemeWrapper, null, R.style.Theme_AO3M);
             button.setText(buttonText);
             button.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
@@ -67,6 +86,7 @@ public class FandomTagsBottomSheet extends BottomSheetDialogFragment {
             });
             tagsContainer.addView(button);
         }
+
 
         return view;
     }

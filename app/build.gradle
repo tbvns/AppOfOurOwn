@@ -54,11 +54,7 @@ dependencies {
     implementation libs.navigation.fragment
     implementation libs.navigation.ui
     implementation libs.legacy.support.v4
-    implementation libs.lifecycle.runtime.ktx
     implementation platform(libs.compose.bom)
-    implementation libs.ui
-    implementation libs.ui.graphics
-    implementation libs.ui.tooling.preview
     implementation libs.material3
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit

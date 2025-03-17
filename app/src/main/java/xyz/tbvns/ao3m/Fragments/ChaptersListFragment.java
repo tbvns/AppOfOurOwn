@@ -3,6 +3,7 @@ package xyz.tbvns.ao3m.Fragments;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import lombok.AllArgsConstructor;
 import xyz.tbvns.ao3m.AO3.ChaptersAPI;
 import xyz.tbvns.ao3m.AO3.WorkAPI;
 import xyz.tbvns.ao3m.ChaptersView;
+import xyz.tbvns.ao3m.MainActivity;
 import xyz.tbvns.ao3m.R;
 import xyz.tbvns.ao3m.Storage.Data.LibraryData;
 import xyz.tbvns.ao3m.Storage.ConfigManager;
@@ -86,6 +88,12 @@ public class ChaptersListFragment extends Fragment {
                 button.setImageDrawable(getResources().getDrawable(R.drawable.library_filled_icon));
                 ((TextView) view.findViewById(R.id.libraryText)).setText("In library");
             }
+        });
+
+        ImageButton button1 = view.findViewById(R.id.moreButton);
+        button1.setOnClickListener(v -> {
+            ChapterListBottomSheetInfo sheetInfo = new ChapterListBottomSheetInfo(work);
+            sheetInfo.show(MainActivity.main.getSupportFragmentManager(), sheetInfo.getTag());
         });
 
         return view;
