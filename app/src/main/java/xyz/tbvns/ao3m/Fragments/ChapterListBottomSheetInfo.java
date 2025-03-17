@@ -1,9 +1,6 @@
 package xyz.tbvns.ao3m.Fragments;
 
-import android.content.Context;
 import android.os.Bundle;
-
-import android.util.AttributeSet;
 import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,17 +8,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import androidx.activity.EdgeToEdge;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import lombok.AllArgsConstructor;
-import org.jetbrains.annotations.NotNull;
 import xyz.tbvns.ao3m.AO3.SearchAPI;
 import xyz.tbvns.ao3m.AO3.WorkAPI;
 import xyz.tbvns.ao3m.R;

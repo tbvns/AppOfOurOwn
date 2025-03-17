@@ -1,27 +1,30 @@
 package xyz.tbvns.ao3m.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import lombok.AllArgsConstructor;
+import xyz.tbvns.ao3m.*;
 import xyz.tbvns.ao3m.AO3.ChaptersAPI;
+import xyz.tbvns.ao3m.AO3.KudosAPI;
 import xyz.tbvns.ao3m.AO3.WorkAPI;
 import xyz.tbvns.ao3m.ChaptersView;
-import xyz.tbvns.ao3m.MainActivity;
-import xyz.tbvns.ao3m.R;
-import xyz.tbvns.ao3m.Storage.Data.LibraryData;
 import xyz.tbvns.ao3m.Storage.ConfigManager;
+import xyz.tbvns.ao3m.Storage.Data.LibraryData;
+import xyz.tbvns.ao3m.Storage.KudosManager;
 
+import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
 
@@ -94,6 +97,41 @@ public class ChaptersListFragment extends Fragment {
         button1.setOnClickListener(v -> {
             ChapterListBottomSheetInfo sheetInfo = new ChapterListBottomSheetInfo(work);
             sheetInfo.show(MainActivity.main.getSupportFragmentManager(), sheetInfo.getTag());
+        });
+
+        ImageButton button2 = view.findViewById(R.id.kudoButton);
+        if (KudosManager.workExists(getContext(), work.workId)) {
+            button2.setImageDrawable(getResources().getDrawable(R.drawable.likes_icon_filled));
+        } else {
+            button2.setOnClickListener(v -> {
+                new Thread(() -> {
+                    try {
+                        new Handler(Looper.getMainLooper()).post(() -> button2.setImageDrawable(getResources().getDrawable(R.drawable.likes_icon_filled)));
+                        if (!KudosAPI.giveKudos("https://archiveofourown.org/works/" + work.workId))
+                            new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(getContext(), "Already kudoed !", Toast.LENGTH_LONG).show());
+                        KudosManager.addWork(getContext(), new KudosManager.KudosWork(work.workId, work.title, Instant.now().getEpochSecond(), "{}"));
+                    } catch (Exception e) {
+                        new Handler(Looper.getMainLooper()).post(() -> {
+                            try {
+
+                                if (e.getMessage().contains("/users/login")) {
+                                    LoginActivity.show(getContext());
+                                }
+
+                                Toast.makeText(getContext(), "Kudo error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                                button2.setImageDrawable(getResources().getDrawable(R.drawable.likes_icon));
+                            } catch (Exception ignored) {}
+                        });
+                    }
+                }).start();
+            });
+        }
+
+        ImageButton button3 = view.findViewById(R.id.webButton);
+        button3.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), WebActivity.class);
+            intent.putExtra("url", "https://archiveofourown.org/works/" + work.workId);
+            startActivity(intent);
         });
 
         return view;

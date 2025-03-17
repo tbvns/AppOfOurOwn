@@ -9,7 +9,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
 import xyz.tbvns.ao3m.AO3.ChaptersAPI;
-import xyz.tbvns.ao3m.AO3.WorkAPI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +32,7 @@ public class HistoryManager {
 
     @SneakyThrows
     public static void insertWork(Context context, HistoryEntry entry) {
-        DatabaseHelper dbHelper = new DatabaseHelper(context);
+        HistoryDatabaseHelper dbHelper = new HistoryDatabaseHelper(context);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         // 1. Check for existing entry with the same workId and chapter
@@ -111,7 +110,7 @@ public class HistoryManager {
 
     private static List<HistoryEntry> getHistoryEntries(Context context, String column, String value, String secondValue) {
         List<HistoryEntry> entries = new ArrayList<>();
-        DatabaseHelper dbHelper = new DatabaseHelper(context);
+        HistoryDatabaseHelper dbHelper = new HistoryDatabaseHelper(context);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         String selection;
@@ -145,7 +144,7 @@ public class HistoryManager {
 
     public static List<HistoryEntry> getHistoryEntriesPaginated(Context context, int pageNumber) {
         List<HistoryEntry> entries = new ArrayList<>();
-        DatabaseHelper dbHelper = new DatabaseHelper(context);
+        HistoryDatabaseHelper dbHelper = new HistoryDatabaseHelper(context);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
         String sql = "SELECT * FROM history ORDER BY epocheDate DESC LIMIT ? OFFSET ?";

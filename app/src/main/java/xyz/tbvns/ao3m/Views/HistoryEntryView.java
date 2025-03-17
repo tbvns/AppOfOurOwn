@@ -6,7 +6,6 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.fragment.app.FragmentManager;
 import xyz.tbvns.ao3m.AO3.ChaptersAPI;
 import xyz.tbvns.ao3m.R;

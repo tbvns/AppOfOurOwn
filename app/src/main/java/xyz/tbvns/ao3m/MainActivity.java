@@ -1,29 +1,23 @@
 package xyz.tbvns.ao3m;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.navigation.NavigationBarView;
 import lombok.SneakyThrows;
+import xyz.tbvns.ao3m.AO3.LoginAPI;
 import xyz.tbvns.ao3m.AO3.WebBrowser;
-import xyz.tbvns.ao3m.AO3.WorkAPI;
-import xyz.tbvns.ao3m.Fragments.*;
-import xyz.tbvns.ao3m.Storage.HistoryManager;
-import xyz.tbvns.ao3m.Views.WorkView;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
+import xyz.tbvns.ao3m.Fragments.BrowseFragment;
+import xyz.tbvns.ao3m.Fragments.HistoryFragment;
+import xyz.tbvns.ao3m.Fragments.LibrairyFragment;
+import xyz.tbvns.ao3m.Fragments.LoadingFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
         main = this;
         new Thread(WebBrowser::preload).start();
+        LoginAPI.initialize(getApplicationContext());
 
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);

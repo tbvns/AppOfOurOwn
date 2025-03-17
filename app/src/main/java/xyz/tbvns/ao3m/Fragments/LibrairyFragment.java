@@ -1,20 +1,17 @@
 package xyz.tbvns.ao3m.Fragments;
 
 import android.os.Bundle;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import androidx.fragment.app.Fragment;
 import xyz.tbvns.ao3m.AO3.WorkAPI;
 import xyz.tbvns.ao3m.MainActivity;
 import xyz.tbvns.ao3m.R;
 import xyz.tbvns.ao3m.Storage.ConfigManager;
 import xyz.tbvns.ao3m.Views.WorkView;
-
-import java.time.LocalDate;
-import java.util.ArrayList;
 
 public class LibrairyFragment extends Fragment {
     @Override

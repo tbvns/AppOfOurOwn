@@ -1,6 +1,5 @@
 package xyz.tbvns.ao3m.AO3;
 
-import org.htmlunit.WebClient;
 import org.htmlunit.html.HtmlPage;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

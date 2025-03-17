@@ -18,6 +18,9 @@
             android:theme="@style/Theme.AO3M.MidnightDusk"
             tools:targetApi="33">
         <activity
+                android:name=".WebActivity"
+                android:exported="false"/>
+        <activity
                 android:name=".Fragments.ChapterListBottomSheetInfo"
                 android:exported="false"/>
         <activity

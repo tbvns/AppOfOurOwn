@@ -5,6 +5,7 @@ import lombok.Data;
 import org.htmlunit.BrowserVersion;
 import org.htmlunit.WebClient;
 import org.htmlunit.util.Cookie;
+import xyz.tbvns.ao3m.Storage.ConfigManager;
 
 import java.io.IOException;
 
@@ -18,12 +19,14 @@ public class WebBrowser {
        getOptions().setCssEnabled(false);
        getOptions().setDownloadImages(false);
        getOptions().setRedirectEnabled(true);
-       getOptions().setTimeout(10000);
+       getOptions().setTimeout(20000);
     }};
 
     public static void preload() {
         try {
             addCookie(client, "view_adult", "true", "archiveofourown.org", "/");
+            if (!ConfigManager.getAccountData().getToken().isEmpty())
+                addCookie(client, "_otwarchive_session", ConfigManager.getAccountData().getToken(), "archiveofourown.org", "/");
             SearchAPI.updateAvailableParameters();
             client.getPage("https://archiveofourown.org/");
             client.getPage("https://archiveofourown.org/media");

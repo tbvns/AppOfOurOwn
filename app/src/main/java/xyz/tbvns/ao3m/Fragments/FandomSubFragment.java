@@ -15,7 +15,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import xyz.tbvns.ao3m.AO3.FandomCategoryApi;
 import xyz.tbvns.ao3m.AO3.FandomCategoryObject;
 import xyz.tbvns.ao3m.AO3.WorkAPI;
 import xyz.tbvns.ao3m.MainActivity;

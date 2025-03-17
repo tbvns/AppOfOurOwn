@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <style name="Base.Theme.AO3M" parent="@style/Theme.Material3.Light">
     </style>
 

@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.SearchView;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentContainerView;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import xyz.tbvns.ao3m.AO3.SearchAPI;
@@ -17,7 +16,6 @@ import xyz.tbvns.ao3m.AO3.WorkAPI;
 import xyz.tbvns.ao3m.MainActivity;
 import xyz.tbvns.ao3m.R;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
