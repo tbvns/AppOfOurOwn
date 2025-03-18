@@ -59,7 +59,8 @@ public class FandomSubFragment extends Fragment {
                                     ft.commit();
                                 });
 
-                                List<WorkAPI.Work> works = WorkAPI.fetchWorks("https://archiveofourown.org" + obj.getLink());
+                                //TODO: This may cause error (And will cause them). To fix when the error fragment is created
+                                List<WorkAPI.Work> works = WorkAPI.fetchWorks("https://archiveofourown.org" + obj.getLink()).getObject();
                                 SearchResultFragment fragment = new SearchResultFragment(works);
                                 fragment.setUrl("https://archiveofourown.org" + obj.getLink());
 

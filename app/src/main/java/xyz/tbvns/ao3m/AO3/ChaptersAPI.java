@@ -33,8 +33,8 @@ public class ChaptersAPI {
     }
 
     @SneakyThrows
-    public static List<Chapter> fetchChapters(String workId) {
-        WorkAPI.Work work = WorkAPI.fetchWork(workId);
+    public static APIResponse<List<Chapter>> fetchChapters(String workId) {
+        WorkAPI.Work work = WorkAPI.fetchWork(workId).getObject(); //TODO: This may cause error since object can be null, to fix later
 
         List<Chapter> chapters = new ArrayList<>();
 
@@ -43,31 +43,36 @@ public class ChaptersAPI {
         String workUrl = ("https://archiveofourown.org/works/" + workId);
 
         // Fetch the navigate page
-        HtmlPage page = client.getPage(navigateUrl);
-        Document doc = Jsoup.parse(page.asXml(), workUrl);
+        WebBrowser.Response response = WebBrowser.fetch(navigateUrl);
+        if (response.isSuccess()) {
+            HtmlPage page = (HtmlPage) response.getPage();
+            Document doc = Jsoup.parse(page.asXml(), workUrl);
 
-        // Extract chapter elements
-        Elements chapterLinks = doc.select("ol.chapter.index.group li a");
-        Elements chapterDate = doc.select("ol.chapter.index.group li span");
+            // Extract chapter elements
+            Elements chapterLinks = doc.select("ol.chapter.index.group li a");
+            Elements chapterDate = doc.select("ol.chapter.index.group li span");
 
-        for (int i = 0; i < chapterLinks.size(); i++) {
-            Element link = chapterLinks.get(i);
-            Element date = chapterDate.get(i);
-            String title = link.text();
-            String url = link.attr("abs:href"); // Get absolute URL
-            String dateString = date.text().replace("(", "").replace(")", "").replace("-", "/");
+            for (int i = 0; i < chapterLinks.size(); i++) {
+                Element link = chapterLinks.get(i);
+                Element date = chapterDate.get(i);
+                String title = link.text();
+                String url = link.attr("abs:href"); // Get absolute URL
+                String dateString = date.text().replace("(", "").replace(")", "").replace("-", "/");
 
-            if (!title.isEmpty() && !url.isEmpty()) {
-                chapters.add(new Chapter(title, url, dateString, work, i));
+                if (!title.isEmpty() && !url.isEmpty()) {
+                    chapters.add(new Chapter(title, url, dateString, work, i));
+                }
             }
+        } else {
+            return new APIResponse<>(false, response.getMessage(), null);
         }
 
-        return chapters;
+        return new APIResponse<>(true, null, chapters);
     }
 
 
     @SneakyThrows
-    public static List<Chapter> fetchChapters(WorkAPI.Work work) {
+    public static APIResponse<List<Chapter>> fetchChapters(WorkAPI.Work work) {
         List<Chapter> chapters = new ArrayList<>();
 
         // Transform URL to navigate version
@@ -75,45 +80,56 @@ public class ChaptersAPI {
         String workUrl = ("https://archiveofourown.org/works/" + work.workId);
 
         // Fetch the navigate page
-        HtmlPage page = client.getPage(navigateUrl);
-        Document doc = Jsoup.parse(page.asXml(), workUrl);
+        WebBrowser.Response response = WebBrowser.fetch(navigateUrl);
 
-        // Extract chapter elements
-        Elements chapterLinks = doc.select("ol.chapter.index.group li a");
-        Elements chapterDate = doc.select("ol.chapter.index.group li span");
+        if (response.isSuccess()) {
+            HtmlPage page = (HtmlPage) response.getPage();
+            Document doc = Jsoup.parse(page.asXml(), workUrl);
 
-        for (int i = 0; i < chapterLinks.size(); i++) {
-            Element link = chapterLinks.get(i);
-            Element date = chapterDate.get(i);
-            String title = link.text();
-            String url = link.attr("abs:href"); // Get absolute URL
-            String dateString = date.text().replace("(", "").replace(")", "").replace("-", "/");
+            // Extract chapter elements
+            Elements chapterLinks = doc.select("ol.chapter.index.group li a");
+            Elements chapterDate = doc.select("ol.chapter.index.group li span");
 
-            if (!title.isEmpty() && !url.isEmpty()) {
-                chapters.add(new Chapter(title, url, dateString, work, i));
+            for (int i = 0; i < chapterLinks.size(); i++) {
+                Element link = chapterLinks.get(i);
+                Element date = chapterDate.get(i);
+                String title = link.text();
+                String url = link.attr("abs:href"); // Get absolute URL
+                String dateString = date.text().replace("(", "").replace(")", "").replace("-", "/");
+
+                if (!title.isEmpty() && !url.isEmpty()) {
+                    chapters.add(new Chapter(title, url, dateString, work, i));
+                }
             }
+        } else {
+            return new APIResponse<>(false, response.getMessage(), null);
         }
 
-        return chapters;
+        return new APIResponse<>(true, null, chapters);
     }
 
     @SneakyThrows
-    public static String fetchChapterParagraphs(String url) {
-        HtmlPage page = client.getPage(url);
-        String pageContent = page.asXml();
+    public static APIResponse<String> fetchChapterParagraphs(String url) {
+        WebBrowser.Response response = WebBrowser.fetch(url);
+        if (response.isSuccess()) {
+            HtmlPage page = (HtmlPage) response.getPage();
+            String pageContent = page.asXml();
 
-        Document doc = Jsoup.parse(pageContent);
-        doc.select("img").remove();
-        doc.select("#work.landmark.heading").remove();
-        for (Element element : doc.select("blockquote")) {
-            element.replaceWith(new TextNode(element.text()));
+            Document doc = Jsoup.parse(pageContent);
+            doc.select("img").remove();
+            doc.select("#work.landmark.heading").remove();
+            for (Element element : doc.select("blockquote")) {
+                element.replaceWith(new TextNode(element.text()));
+            }
+            doc.select("*").removeAttr("href");
+
+            Elements chapterParagraphs = doc.select(
+                    "div #chapters"
+            );
+
+            return new APIResponse<>(true, null, chapterParagraphs.html());
         }
-        doc.select("*").removeAttr("href");
 
-        Elements chapterParagraphs = doc.select(
-                "div #chapters"
-        );
-
-        return chapterParagraphs.html();
+        return new APIResponse<>(false, response.getMessage(), null);
     }
 }

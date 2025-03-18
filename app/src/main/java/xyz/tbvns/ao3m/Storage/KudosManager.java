@@ -3,6 +3,7 @@ package xyz.tbvns.ao3m.Storage;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -12,10 +13,12 @@ import java.util.List;
 public class KudosManager {
     public static boolean workExists(Context context, String workId) {
         KudosDatabaseHelper helper = new KudosDatabaseHelper(context);
-        Cursor cursor = helper.getWritableDatabase().rawQuery("SELECT COUNT(*) FROM KudosWork WHERE workId = ?", new String[]{workId});
+        SQLiteDatabase database = helper.getWritableDatabase();
+        Cursor cursor = database.rawQuery("SELECT COUNT(*) FROM KudosWork WHERE workId = ?", new String[]{workId});
         cursor.moveToFirst();
         boolean exists = cursor.getInt(0) > 0;
         cursor.close();
+        database.close();
         return exists;
     }
 
@@ -26,7 +29,9 @@ public class KudosManager {
         values.put("kudoDate", work.kudoDate);
         values.put("chapters", work.chapters);
         KudosDatabaseHelper helper = new KudosDatabaseHelper(context);
-        helper.getWritableDatabase().insert("KudosWork", null, values);
+        SQLiteDatabase database = helper.getWritableDatabase();
+        database.insert("KudosWork", null, values);
+        database.close();
     }
 
     public static void modifyWork(Context context, String workId, KudosWork work) {
@@ -36,14 +41,17 @@ public class KudosManager {
         values.put("kudoDate", work.kudoDate);
         values.put("chapters", work.chapters);
         KudosDatabaseHelper helper = new KudosDatabaseHelper(context);
-        helper.getWritableDatabase().update("KudosWork", values, "workId=?", new String[]{workId});
+        SQLiteDatabase database = helper.getWritableDatabase();
+        database.update("KudosWork", values, "workId=?", new String[]{workId});
+        database.close();
     }
 
     public static List<KudosWork> getKudosWorks(Context context, int page) {
         List<KudosWork> works = new ArrayList<>();
         int offset = page * 100;
         KudosDatabaseHelper helper = new KudosDatabaseHelper(context);
-        Cursor cursor = helper.getWritableDatabase().rawQuery("SELECT workId, workName, kudoDate, chapters FROM KudosWork ORDER BY kudoDate DESC LIMIT 100 OFFSET ?", new String[]{String.valueOf(offset)});
+        SQLiteDatabase database = helper.getWritableDatabase();
+        Cursor cursor = database.rawQuery("SELECT workId, workName, kudoDate, chapters FROM KudosWork ORDER BY kudoDate DESC LIMIT 100 OFFSET ?", new String[]{String.valueOf(offset)});
         while (cursor.moveToNext()) {
             works.add(new KudosWork(
                     cursor.getString(0),
@@ -53,6 +61,7 @@ public class KudosManager {
             ));
         }
         cursor.close();
+        database.close();
         return works;
     }
 

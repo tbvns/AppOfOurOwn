@@ -32,7 +32,8 @@ public class FandomMainFragment extends Fragment {
 
         LinearLayout list = view.findViewById(R.id.fandomMainList);
         new Thread(() -> {
-            FandomAPI.getCategories().forEach(c -> {
+            //TODO: This may cause error (And will cause them). To fix when the error fragment is created
+            FandomAPI.getCategories().getObject().forEach(c -> {
                 new Handler(Looper.getMainLooper()).post(() -> {
                     Space space = new Space(getContext());
                     space.setMinimumHeight(15);
@@ -55,8 +56,8 @@ public class FandomMainFragment extends Fragment {
                                             ft.commit();
                                         });
 
-                                        System.out.println("https://archiveofourown.org" + c.getUrl());
-                                        List<FandomCategoryObject> stream = FandomCategoryApi.getCategoryList("https://archiveofourown.org" + c.getUrl());
+                                        //TODO: This may cause error (And will cause them). To fix when the error fragment is created
+                                        List<FandomCategoryObject> stream = FandomCategoryApi.getCategoryList("https://archiveofourown.org" + c.getUrl()).getObject();
 
                                         new Handler(Looper.getMainLooper()).post(() -> {
                                             manager.popBackStack("fandomList", FragmentManager.POP_BACK_STACK_INCLUSIVE); // Prevent stacking multiple times

@@ -42,7 +42,9 @@ public class ChaptersListFragment extends Fragment {
                         .addToBackStack("ChaptersList")
                         .commit();
             });
-            List<ChaptersAPI.Chapter> chapters = ChaptersAPI.fetchChapters(work);
+
+            //TODO: This may cause error (And will cause them). To fix when the error fragment is created
+            List<ChaptersAPI.Chapter> chapters = ChaptersAPI.fetchChapters(work).getObject();
             new Handler((Looper.getMainLooper())).post(() -> {
                 manager.popBackStack("ChaptersList", FragmentManager.POP_BACK_STACK_INCLUSIVE); // Prevent stacking multiple times
                 manager.beginTransaction()

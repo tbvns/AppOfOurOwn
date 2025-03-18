@@ -77,7 +77,8 @@ public class BrowseFragment extends Fragment {
                         .replace(R.id.workList, loadingFragment)
                         .commitAllowingStateLoss();
             });
-            List<WorkAPI.Work> works = WorkAPI.fetchWorks("https://archiveofourown.org/works");
+            //TODO: This may cause error (And will cause them). To fix when the error fragment is created
+            List<WorkAPI.Work> works = WorkAPI.fetchWorks("https://archiveofourown.org/works").getObject();
             new Handler(Looper.getMainLooper()).post(() -> {
                 try {
                     getChildFragmentManager()

@@ -105,7 +105,8 @@ public class ReaderActivity extends AppCompatActivity {
                 context.startActivity(loadingIntent);
             });
 
-            currentParagraphs = ChaptersAPI.fetchChapterParagraphs(chapter.getUrl());
+            //TODO: This may cause error (And will cause them). To fix when the error fragment is created
+            currentParagraphs = ChaptersAPI.fetchChapterParagraphs(chapter.getUrl()).getObject();
             currentChapter = chapter;
 
             HistoryManager.insertWork(
@@ -181,7 +182,8 @@ public class ReaderActivity extends AppCompatActivity {
         });
 
         findViewById(R.id.buttonChapterBack).setOnClickListener(l -> {
-            List<ChaptersAPI.Chapter> chapters = ChaptersAPI.fetchChapters(currentChapter.getWork());
+            //TODO: This may cause error (And will cause them). To fix when the error fragment is created
+            List<ChaptersAPI.Chapter> chapters = ChaptersAPI.fetchChapters(currentChapter.getWork()).getObject();
             for (int i = 0; i < chapters.size(); i++) {
                 if (currentChapter.getTitle().equals(chapters.get(i).getTitle())) {
                     if (-1 != i-1) {
@@ -194,7 +196,8 @@ public class ReaderActivity extends AppCompatActivity {
             }
         });
         findViewById(R.id.buttonChapterForward).setOnClickListener(l -> {
-            List<ChaptersAPI.Chapter> chapters = ChaptersAPI.fetchChapters(currentChapter.getWork());
+            //TODO: This may cause error (And will cause them). To fix when the error fragment is created
+            List<ChaptersAPI.Chapter> chapters = ChaptersAPI.fetchChapters(currentChapter.getWork()).getObject();
             for (int i = 0; i < chapters.size(); i++) {
                 if (currentChapter.getTitle().equals(chapters.get(i).getTitle())) {
                     if (chapters.size() > i+1) {
@@ -298,7 +301,8 @@ public class ReaderActivity extends AppCompatActivity {
             layout.addView(frameLayout);
         }
 
-        List<ChaptersAPI.Chapter> chapters = ChaptersAPI.fetchChapters(currentChapter.getWork());
+        //TODO: This may cause error (And will cause them). To fix when the error fragment is created
+        List<ChaptersAPI.Chapter> chapters = ChaptersAPI.fetchChapters(currentChapter.getWork()).getObject();
         for (int i = 0; i < chapters.size(); i++) {
             if (currentChapter.getTitle().equals(chapters.get(i).getTitle())) {
                 if (chapters.size() > i+1) {

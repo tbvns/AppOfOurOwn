@@ -18,20 +18,21 @@ import static xyz.tbvns.ao3m.AO3.WebBrowser.client;
 
 public class FandomAPI {
     @SneakyThrows
-    public static List<FandomObject> getCategories() {
-        HtmlPage page = client.getPage("https://archiveofourown.org/media");
+    public static APIResponse<List<FandomObject>> getCategories() {
+        WebBrowser.Response response = WebBrowser.fetch("https://archiveofourown.org/media");
+        if (!response.isSuccess()) {
+            return new APIResponse<>(false, response.getMessage(), null);
+        }
+
+        HtmlPage page = (HtmlPage) response.getPage();
         String pageHtml = page.asXml();
         Document doc = Jsoup.parse(pageHtml);
 
-
-        // Select all <li> elements with classes "medium listbox group"
         Elements categoryElements = doc.select("li.medium.listbox.group");
 
-        // Create a fixed thread pool with 5 threads
         ExecutorService executor = Executors.newFixedThreadPool(5);
         List<Callable<FandomObject>> tasks = new ArrayList<>();
 
-        // Create tasks for each category element
         for (Element li : categoryElements) {
             tasks.add(() -> {
                 Element categoryAnchor = li.selectFirst("h3.heading > a");
@@ -55,6 +56,6 @@ public class FandomAPI {
             }
         }
         executor.shutdown();
-        return categories;
+        return new APIResponse<>(true, null, categories);
     }
 }

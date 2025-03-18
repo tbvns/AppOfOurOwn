@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Locale;
 
 import static xyz.tbvns.ao3m.AO3.WebBrowser.client;
+import static xyz.tbvns.ao3m.AO3.WebBrowser.fetch;
 
 public class WorkAPI {
     public enum ContentRating {
@@ -157,9 +158,14 @@ public class WorkAPI {
     }
 
     @SneakyThrows
-    public static List<Work> fetchWorks(String url) {
+    public static APIResponse<List<Work>> fetchWorks(String url) {
+        WebBrowser.Response response = fetch(url);
+        if (!response.isSuccess()) {
+            return new APIResponse<>(false, response.getMessage(), null);
+        }
+
         List<Work> works = new ArrayList<>();
-        HtmlPage page = client.getPage(url);
+        HtmlPage page = (HtmlPage) response.getPage();
         String pageContent = page.asXml();
 
         // Use Jsoup to parse the HtmlUnit-rendered page
@@ -170,13 +176,17 @@ public class WorkAPI {
             works.add(parseWork(workElement.outerHtml()));
 
         }
-        return works;
+        return new APIResponse<>(true, null, works);
     }
 
     @SneakyThrows
-    public static Work fetchWork(String workId) {
+    public static APIResponse<Work> fetchWork(String workId) {
         String workUrl = "https://archiveofourown.org/works/" + workId;
-        HtmlPage page = client.getPage(workUrl);
+        WebBrowser.Response response = fetch(workUrl);
+        if (!response.isSuccess()) {
+            return new APIResponse<>(false, response.getMessage(), null);
+        }
+        HtmlPage page = (HtmlPage) response.getPage();
         Document doc = Jsoup.parse(page.asXml(), workUrl);
 
         Work work = new Work();
@@ -299,7 +309,7 @@ public class WorkAPI {
 
         work.setClassification(classification);
 
-        return work;
+        return new APIResponse<>(true, null, work);
     }
 
     public static Work parseWork(String html) {

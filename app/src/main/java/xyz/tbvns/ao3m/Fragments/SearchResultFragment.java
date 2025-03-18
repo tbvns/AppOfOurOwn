@@ -44,8 +44,8 @@ public class SearchResultFragment extends Fragment {
                 transaction.commit();
             });
 
-
-            List<WorkAPI.Work> works = WorkAPI.fetchWorks(url);
+            //TODO: This may cause error (And will cause them). To fix when the error fragment is created
+            List<WorkAPI.Work> works = WorkAPI.fetchWorks(url).getObject();
             SearchResultFragment fragment = new SearchResultFragment(works);
             fragment.setUrl(url);
             new Handler((Looper.getMainLooper())).post(() -> {
@@ -111,7 +111,8 @@ public class SearchResultFragment extends Fragment {
                         localUrl = url + "?page=" + page;
                     }
 
-                    List<WorkAPI.Work> fetched = WorkAPI.fetchWorks(localUrl);
+                    //TODO: This may cause error (And will cause them). To fix when the error fragment is created
+                    List<WorkAPI.Work> fetched = WorkAPI.fetchWorks(localUrl).getObject();
 
                     new Handler(Looper.getMainLooper()).post(() -> layout.removeView(progressBar));
                     fetched.forEach(w -> {

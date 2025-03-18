@@ -1,10 +1,15 @@
 package xyz.tbvns.ao3m.AO3;
 
+import androidx.annotation.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.htmlunit.BrowserVersion;
+import org.htmlunit.Page;
 import org.htmlunit.WebClient;
+import org.htmlunit.html.HtmlPage;
 import org.htmlunit.util.Cookie;
+import xyz.tbvns.ao3m.MainActivity;
+import xyz.tbvns.ao3m.Storage.CacheManager;
 import xyz.tbvns.ao3m.Storage.ConfigManager;
 
 import java.io.IOException;
@@ -45,15 +50,25 @@ public class WebBrowser {
     @Data
     @AllArgsConstructor
     public static class Response {
-        private String data;
+        @Nullable
+        private Page page;
+        @Nullable
+        private String message;
         private boolean success;
     }
 
     public static Response fetch(String url) {
+        if (CacheManager.containsUrl(MainActivity.main.getApplicationContext(), url)) {
+            System.out.println("Using cache for page: " + url);
+            return new Response(CacheManager.get(MainActivity.main.getApplicationContext(), url), null, true);
+        }
+
         try {
-            return new Response(client.getPage(url).getWebResponse().getContentAsString(), true);
-        } catch (IOException e) {
-            return new Response(e.getMessage(), false);
+            HtmlPage page = client.getPage(url);
+            CacheManager.add(MainActivity.main.getApplicationContext(), page, url);
+            return new Response(page, null, true);
+        } catch (Exception e) {
+            return new Response(null, e.getMessage(), false);
         }
     }
 

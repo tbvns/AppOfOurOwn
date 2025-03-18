@@ -26,7 +26,8 @@ public class HistoryManager {
         private int length;
 
         public ChaptersAPI.Chapter getChapterObj() {
-            return ChaptersAPI.fetchChapters(String.valueOf(workId)).get(chapter + length);
+            //TODO: This may cause error (And will cause them). To fix when the error fragment is created
+            return ChaptersAPI.fetchChapters(String.valueOf(workId)).getObject().get(chapter + length);
         }
     }
 
