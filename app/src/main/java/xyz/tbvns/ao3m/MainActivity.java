@@ -18,6 +18,7 @@ import xyz.tbvns.ao3m.Fragments.BrowseFragment;
 import xyz.tbvns.ao3m.Fragments.HistoryFragment;
 import xyz.tbvns.ao3m.Fragments.LibrairyFragment;
 import xyz.tbvns.ao3m.Fragments.LoadingFragment;
+import xyz.tbvns.ao3m.Storage.CacheManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         main = this;
         new Thread(WebBrowser::preload).start();
         LoginAPI.initialize(getApplicationContext());
+        CacheManager.clearOldCache(getApplicationContext());
 
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);

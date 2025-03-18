@@ -21,6 +21,8 @@ public class WebActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         setContentView(R.layout.activity_web);
 
         // Initialize WebView
@@ -98,5 +100,21 @@ public class WebActivity extends AppCompatActivity {
 
         CookieManager.getInstance().setCookie(domain, cookieString);
         CookieManager.getInstance().flush();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        // Handle back button click
+        onBackPressed();
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (webView.canGoBack()) {
+            webView.goBack();
+        } else {
+            finish();
+        }
     }
 }
