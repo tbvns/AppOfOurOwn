@@ -1,19 +1,12 @@
-package xyz.tbvns.ao3m.Storage;
+package xyz.tbvns.ao3m.Storage.Database;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.htmlunit.Page;
-import org.htmlunit.StringWebResponse;
-import org.htmlunit.WebClient;
 import org.htmlunit.html.HtmlPage;
-import org.htmlunit.html.parser.HTMLParser;
-import org.htmlunit.html.parser.neko.HtmlUnitNekoHtmlParser;
 import xyz.tbvns.ao3m.AO3.WebBrowser;
-
-import java.net.URL;
 
 public class CacheManager {
     private static final ObjectMapper mapper = new ObjectMapper();

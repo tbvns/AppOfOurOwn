@@ -1,4 +1,4 @@
-package xyz.tbvns.ao3m.Storage;
+package xyz.tbvns.ao3m.Storage.Database;
 
 import lombok.SneakyThrows;
 import xyz.tbvns.ao3m.MainActivity;

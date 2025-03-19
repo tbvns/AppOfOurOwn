@@ -1,4 +1,4 @@
-package xyz.tbvns.ao3m.Storage;
+package xyz.tbvns.ao3m.Storage.Database;
 
 import android.content.ContentValues;
 import android.content.Context;

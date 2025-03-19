@@ -8,19 +8,25 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.fragment.app.FragmentManager;
 import xyz.tbvns.ao3m.AO3.ChaptersAPI;
+import xyz.tbvns.ao3m.AO3.WorkAPI;
+import xyz.tbvns.ao3m.Fragments.ChaptersListFragment;
 import xyz.tbvns.ao3m.R;
 import xyz.tbvns.ao3m.ReaderActivity;
 import xyz.tbvns.ao3m.Storage.Database.HistoryManager;
 
 import java.text.SimpleDateFormat;
 
-public class HistoryEntryView extends LinearLayout {
-    private HistoryManager.HistoryEntry entry;
+public class KudoHistoryEntryView extends LinearLayout {
+    private String title;
+    private String url;
     private FragmentManager manager;
-    public HistoryEntryView(Context context, HistoryManager.HistoryEntry entry, FragmentManager manager) {
+    private long date;
+    public KudoHistoryEntryView(Context context, String title, String url, long date, FragmentManager manager) {
         super(context);
-        this.entry = entry;
+        this.title = title;
+        this.url = url;
         this.manager = manager;
+        this.date = date;
         innit();
     }
 
@@ -30,19 +36,15 @@ public class HistoryEntryView extends LinearLayout {
         TextView chapterTitle = findViewById(R.id.ChapterTitle);
         TextView chapterDate = findViewById(R.id.ChapterDate);
 
-        chapterTitle.setText(entry.getName());
-        String text = new SimpleDateFormat("HH:mm MM/dd/YYYY").format(entry.getEpocheDate() * 10e2) + " • Chap. " + (entry.getChapter() + 1);
-        if (entry.getLength() != 0) {
-            text += " to " + (entry.getChapter() + entry.getLength() + 1);
-        }
+        chapterTitle.setText(title);
+        String text = new SimpleDateFormat("HH:mm MM/dd/YYYY").format(date * 10e2);
         chapterDate.setText(text);
 
         setOnClickListener(l -> {
             new Thread(() -> {
-                ChaptersAPI.Chapter chapter = entry.getChapterObj();
-                new Handler(Looper.getMainLooper()).post(() -> {
-                    ReaderActivity.showFullscreen(manager, getContext(), chapter);
-                });
+                //TODO: This will causes issue, to fix in the future.
+                WorkAPI.Work work = WorkAPI.fetchWork(url).getObject();
+                ChaptersListFragment.show(manager, work);
             }).start();
         });
     }

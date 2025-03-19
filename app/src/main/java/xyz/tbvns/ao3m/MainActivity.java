@@ -14,11 +14,8 @@ import com.google.android.material.navigation.NavigationBarView;
 import lombok.SneakyThrows;
 import xyz.tbvns.ao3m.AO3.LoginAPI;
 import xyz.tbvns.ao3m.AO3.WebBrowser;
-import xyz.tbvns.ao3m.Fragments.BrowseFragment;
-import xyz.tbvns.ao3m.Fragments.HistoryFragment;
-import xyz.tbvns.ao3m.Fragments.LibrairyFragment;
-import xyz.tbvns.ao3m.Fragments.LoadingFragment;
-import xyz.tbvns.ao3m.Storage.CacheManager;
+import xyz.tbvns.ao3m.Fragments.*;
+import xyz.tbvns.ao3m.Storage.Database.CacheManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -72,6 +69,13 @@ public class MainActivity extends AppCompatActivity {
                     case "History":
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.fragment_container, new HistoryFragment())
+                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                                .addToBackStack("main")
+                                .commit();
+                        break;
+                    case "More":
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.fragment_container, new MoreFragment())
                                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                                 .addToBackStack("main")
                                 .commit();
