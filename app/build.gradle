@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace 'xyz.tbvns.ao3m'
-    compileSdk 34
+    compileSdk 35
 
     defaultConfig {
         applicationId "xyz.tbvns.ao3m"
@@ -61,6 +61,8 @@ dependencies {
     androidTestImplementation libs.espresso.core
     androidTestImplementation platform(libs.compose.bom)
     androidTestImplementation libs.ui.test.junit4
+    implementation("androidx.work:work-runtime-ktx:2.10.0")
+    runtimeOnly("androidx.work:work-runtime-ktx:2.10.0")
 
     annotationProcessor 'org.projectlombok:lombok:1.18.36'
     implementation 'org.projectlombok:lombok:1.18.36'

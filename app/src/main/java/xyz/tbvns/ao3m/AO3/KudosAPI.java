@@ -1,7 +1,9 @@
 package xyz.tbvns.ao3m.AO3;
 
-import org.htmlunit.WebResponse;
-import org.htmlunit.html.*;
+import org.htmlunit.html.DomElement;
+import org.htmlunit.html.HtmlForm;
+import org.htmlunit.html.HtmlPage;
+import org.htmlunit.html.HtmlSubmitInput;
 
 import static xyz.tbvns.ao3m.AO3.WebBrowser.client;
 

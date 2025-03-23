@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static xyz.tbvns.ao3m.AO3.WebBrowser.client;
 import static xyz.tbvns.ao3m.AO3.WebBrowser.fetch;
 
 public class SearchAPI {

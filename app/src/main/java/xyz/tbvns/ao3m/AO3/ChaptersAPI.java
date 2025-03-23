@@ -13,8 +13,6 @@ import org.jsoup.select.Elements;
 import java.util.ArrayList;
 import java.util.List;
 
-import static xyz.tbvns.ao3m.AO3.WebBrowser.client;
-
 public class ChaptersAPI {
 
     @Getter

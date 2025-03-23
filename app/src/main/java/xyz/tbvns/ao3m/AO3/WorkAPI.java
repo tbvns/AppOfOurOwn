@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import static xyz.tbvns.ao3m.AO3.WebBrowser.client;
 import static xyz.tbvns.ao3m.AO3.WebBrowser.fetch;
 
 public class WorkAPI {

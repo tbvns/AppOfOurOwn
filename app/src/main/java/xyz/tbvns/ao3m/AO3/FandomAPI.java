@@ -14,8 +14,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import static xyz.tbvns.ao3m.AO3.WebBrowser.client;
-
 public class FandomAPI {
     @SneakyThrows
     public static APIResponse<List<FandomObject>> getCategories() {

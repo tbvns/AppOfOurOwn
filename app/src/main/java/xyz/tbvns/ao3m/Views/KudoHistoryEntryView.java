@@ -1,18 +1,13 @@
 package xyz.tbvns.ao3m.Views;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.fragment.app.FragmentManager;
-import xyz.tbvns.ao3m.AO3.ChaptersAPI;
 import xyz.tbvns.ao3m.AO3.WorkAPI;
 import xyz.tbvns.ao3m.Fragments.ChaptersListFragment;
 import xyz.tbvns.ao3m.R;
-import xyz.tbvns.ao3m.ReaderActivity;
-import xyz.tbvns.ao3m.Storage.Database.HistoryManager;
 
 import java.text.SimpleDateFormat;
 

@@ -7,6 +7,7 @@ import org.apache.commons.logging.LogFactory;
 import xyz.tbvns.ao3m.MainActivity;
 import xyz.tbvns.ao3m.Storage.Data.AccountData;
 import xyz.tbvns.ao3m.Storage.Data.LibraryData;
+import xyz.tbvns.ao3m.Storage.Data.UpdatesHistoryData;
 
 import java.io.File;
 
@@ -65,7 +66,35 @@ public class ConfigManager {
             mapper.registerModule(new JavaTimeModule());
             mapper.writerWithDefaultPrettyPrinter().writeValue(file, data);
         } catch (Exception e) {
-            log.error("Failed to save Library.", e);
+            log.error("Failed to save Account data.", e);
+        }
+    }
+
+    public static UpdatesHistoryData getUpdateHistoryData() {
+        File file = new File(MainActivity.main.getFilesDir().getPath() + "/updateHistory.json");
+        if (!file.exists()) {
+            UpdatesHistoryData updatesHistoryData = new UpdatesHistoryData();
+            saveUpdateHistoryData(updatesHistoryData);
+            return updatesHistoryData;
+        }
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.registerModule(new JavaTimeModule());
+            return mapper.readValue(file, UpdatesHistoryData.class);
+        } catch (Exception e) {
+            file.delete();
+            return new UpdatesHistoryData();
+        }
+    }
+
+    public static void saveUpdateHistoryData(UpdatesHistoryData data) {
+        File file = new File(MainActivity.main.getFilesDir().getPath() + "/updateHistory.json");
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.registerModule(new JavaTimeModule());
+            mapper.writerWithDefaultPrettyPrinter().writeValue(file, data);
+        } catch (Exception e) {
+            log.error("Failed to save Update History.", e);
         }
     }
 }

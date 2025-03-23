@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.widget.Toast;
 import lombok.extern.apachecommons.CommonsLog;
-import org.htmlunit.BrowserVersion;
 import org.htmlunit.Page;
 import org.htmlunit.WebClient;
 import org.htmlunit.WebResponse;
