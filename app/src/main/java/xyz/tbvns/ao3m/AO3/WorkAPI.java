@@ -204,6 +204,8 @@ public class WorkAPI {
             work.setAuthorUrl(authorLinks.first().attr("abs:href"));
         } else if (doc.selectFirst("dd.anonymous") != null) {
             work.setAuthor("Anonymous");
+        } else {
+            work.setAuthor("Unknown");
         }
 
         Element summaryElement = doc.selectFirst("div.summary blockquote.userstuff");

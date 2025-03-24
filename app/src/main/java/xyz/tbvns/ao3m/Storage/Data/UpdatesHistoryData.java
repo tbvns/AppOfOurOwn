@@ -16,10 +16,11 @@ public class UpdatesHistoryData {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    static class Entry {
+    public static class Entry {
         private WorkAPI.Work work;
         private long date;
         private String chapter;
+        private int chapterID;
     }
 
     public void addEntry(Entry entry) {

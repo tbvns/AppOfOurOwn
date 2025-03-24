@@ -9,10 +9,13 @@ import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 import lombok.NonNull;
 import xyz.tbvns.ao3m.AO3.APIResponse;
+import xyz.tbvns.ao3m.AO3.ChaptersAPI;
 import xyz.tbvns.ao3m.AO3.WorkAPI;
 import xyz.tbvns.ao3m.Storage.ConfigManager;
 import xyz.tbvns.ao3m.Storage.Data.LibraryData;
+import xyz.tbvns.ao3m.Storage.Data.UpdatesHistoryData;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,10 +60,15 @@ public class UpdateCheckWorker extends Worker {
             APIResponse<WorkAPI.Work> response = WorkAPI.fetchWork(work.workId);
             if (response.isSuccess()) {
                 WorkAPI.Work newWork = response.getObject();
-
                 if (newWork.chapterCount != work.chapterCount) {
                     showUpdateNotification(context, newWork);
-
+                    UpdatesHistoryData data = ConfigManager.getUpdateHistoryData();
+                    APIResponse<List<ChaptersAPI.Chapter>> chapter = ChaptersAPI.fetchChapters(newWork);
+                    if (chapter.isSuccess()) {
+                        data.addEntry(new UpdatesHistoryData.Entry(newWork, Instant.now().getEpochSecond(), chapter.getObject().get(chapter.getObject().size() - 1).getTitle(), chapter.getObject().size()));
+                    } else {
+                        data.addEntry(new UpdatesHistoryData.Entry(newWork, Instant.now().getEpochSecond(), "Error while fetching the chapter", -1));
+                    }
                 }
 
                 updatedWorks.add(newWork);
@@ -109,9 +117,8 @@ public class UpdateCheckWorker extends Worker {
 
 
     private void showCompletionNotification(Context context, List<String> errors) {
+        NotificationManager manager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
         if (!errors.isEmpty()) {
-            NotificationManager manager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
-
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                     .setSmallIcon(R.drawable.ic_stat_name)
                     .setContentTitle(errors.size() + " Works have not been updated !")
@@ -125,6 +132,8 @@ public class UpdateCheckWorker extends Worker {
 
             builder.setContentText(stringBuilder.toString());
             manager.notify(NOTIFICATION_ID, builder.build());
+        } else {
+            manager.cancel(NOTIFICATION_ID);
         }
     }
 

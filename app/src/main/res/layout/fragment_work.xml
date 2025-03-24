@@ -48,17 +48,20 @@
             <LinearLayout
                     android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="match_parent" android:gravity="center_vertical">
                 <TextView
                         android:text="Title"
-                        android:layout_width="wrap_content" android:layout_height="25dp"
-                        android:maxHeight="50dp" android:minHeight="50dp" android:textSize="20sp"
-                        android:id="@+id/title" android:textStyle="bold" android:paddingLeft="10dp"/>
+                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:id="@+id/title" android:textStyle="bold" android:paddingLeft="10dp"
+                        android:autoSizeTextType="uniform" android:autoSizeMaxTextSize="20dp"
+                        android:autoSizeMinTextSize="12dp" android:maxHeight="30dp" android:height="25dp"/>
                 <TextView
                         android:text="Author"
-                        android:layout_width="match_parent" android:layout_height="20dp"
+                        android:layout_width="match_parent"
                         android:maxHeight="20dp" android:minHeight="20dp" android:textSize="14sp"
-                        android:id="@+id/author" android:paddingLeft="10dp"/>
+                        android:id="@+id/author" android:paddingLeft="10dp"
+                        android:layout_height="wrap_content"/>
             </LinearLayout>
         </LinearLayout>
         <TextView

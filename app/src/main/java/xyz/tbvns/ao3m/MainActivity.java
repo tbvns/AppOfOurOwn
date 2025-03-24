@@ -19,6 +19,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.work.OneTimeWorkRequest;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 import androidx.work.WorkRequest;
@@ -114,9 +115,13 @@ public class MainActivity extends AppCompatActivity {
                     .commit();
         }
 
-         checkAndRequestNotificationPermission();
-
+        checkAndRequestNotificationPermission();
         schedulePeriodicUpdateCheck();
+
+        WorkRequest workRequest = new OneTimeWorkRequest(new OneTimeWorkRequest.Builder(
+                    UpdateCheckWorker.class
+                ).addTag("OneTimeUpdate"));
+        WorkManager.getInstance(this).enqueue(workRequest);
     }
 
     public void checkAndRequestNotificationPermission() {
