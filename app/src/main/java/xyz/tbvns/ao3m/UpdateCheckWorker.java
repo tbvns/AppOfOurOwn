@@ -2,7 +2,9 @@ package xyz.tbvns.ao3m;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import androidx.core.app.NotificationCompat;
 import androidx.work.Worker;
@@ -63,7 +65,7 @@ public class UpdateCheckWorker extends Worker {
                 WorkAPI.Work newWork = response.getObject();
                 System.out.println(newWork);
                 if (newWork.chapterCount != work.chapterCount) {
-                    showUpdateNotification(context, newWork);
+                    showUpdateNotification(context, newWork, i);
                     APIResponse<List<ChaptersAPI.Chapter>> chapter = ChaptersAPI.fetchChapters(newWork);
                     if (chapter.isSuccess()) {
                         System.out.println(chapter.getObject().size());
@@ -113,16 +115,19 @@ public class UpdateCheckWorker extends Worker {
         manager.notify(NOTIFICATION_ID, builder.build());
     }
 
-    private void showUpdateNotification(Context context, WorkAPI.Work work) {
+    private void showUpdateNotification(Context context, WorkAPI.Work work, int i) {
         NotificationManager manager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+
+        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_stat_name)
                 .setContentTitle("Update for " + work.title)
                 .setContentText("Chapter " + work.chapterCount + " is out !")
-                .setPriority(NotificationCompat.PRIORITY_LOW);
+                .setPriority(NotificationCompat.PRIORITY_MAX)
+                .setContentIntent(contentIntent);
 
-        manager.notify(NOTIFICATION_ID, builder.build());
+        manager.notify(i + 2, builder.build());
     }
 
 

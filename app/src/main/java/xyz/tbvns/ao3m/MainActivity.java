@@ -74,6 +74,13 @@ public class MainActivity extends AppCompatActivity {
                                 .addToBackStack("main")
                                 .commit();
                         break;
+                    case "Update":
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.fragment_container, new UpdateHistoryFragment())
+                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                                .addToBackStack("main")
+                                .commit();
+                        break;
                     case "Browse":
                         getSupportFragmentManager().beginTransaction()
                                 .replace(R.id.fragment_container, new BrowseFragment())
