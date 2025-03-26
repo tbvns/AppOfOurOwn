@@ -11,7 +11,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Data
 public class UpdatesHistoryData {
-    private Entry[] entries;
+    private Entry[] entries = new Entry[]{};
 
     @Data
     @AllArgsConstructor

@@ -19,6 +19,7 @@ import xyz.tbvns.ao3m.AO3.ChaptersAPI;
 import xyz.tbvns.ao3m.AO3.KudosAPI;
 import xyz.tbvns.ao3m.AO3.WorkAPI;
 import xyz.tbvns.ao3m.*;
+import xyz.tbvns.ao3m.ChaptersView;
 import xyz.tbvns.ao3m.Storage.ConfigManager;
 import xyz.tbvns.ao3m.Storage.Data.LibraryData;
 import xyz.tbvns.ao3m.Storage.Database.KudosManager;

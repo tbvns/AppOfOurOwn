@@ -40,6 +40,7 @@ public class UpdateCheckWorker extends Worker {
         WorkAPI.Work[] works = ConfigManager.getLibraryConf().getWorks();
         List<String> errors = new ArrayList<>();
         List<WorkAPI.Work> updatedWorks = new ArrayList<>();
+        UpdatesHistoryData data = ConfigManager.getUpdateHistoryData();
 
         for (int i = 0; i < works.length; i++) {
             WorkAPI.Work work = works[i];
@@ -60,12 +61,20 @@ public class UpdateCheckWorker extends Worker {
             APIResponse<WorkAPI.Work> response = WorkAPI.fetchWork(work.workId);
             if (response.isSuccess()) {
                 WorkAPI.Work newWork = response.getObject();
+                System.out.println(newWork);
                 if (newWork.chapterCount != work.chapterCount) {
                     showUpdateNotification(context, newWork);
-                    UpdatesHistoryData data = ConfigManager.getUpdateHistoryData();
                     APIResponse<List<ChaptersAPI.Chapter>> chapter = ChaptersAPI.fetchChapters(newWork);
                     if (chapter.isSuccess()) {
-                        data.addEntry(new UpdatesHistoryData.Entry(newWork, Instant.now().getEpochSecond(), chapter.getObject().get(chapter.getObject().size() - 1).getTitle(), chapter.getObject().size()));
+                        System.out.println(chapter.getObject().size());
+                        data.addEntry(
+                                new UpdatesHistoryData.Entry(
+                                        newWork,
+                                        Instant.now().getEpochSecond(),
+                                        chapter.getObject().get(chapter.getObject().size() - 1).getTitle(),
+                                        chapter.getObject().size()
+                                )
+                        );
                     } else {
                         data.addEntry(new UpdatesHistoryData.Entry(newWork, Instant.now().getEpochSecond(), "Error while fetching the chapter", -1));
                     }
@@ -84,6 +93,7 @@ public class UpdateCheckWorker extends Worker {
             }
         }
 
+        ConfigManager.saveUpdateHistoryData(data);
         ConfigManager.saveLibraryConf(new LibraryData(updatedWorks.toArray(new WorkAPI.Work[0])));
         showCompletionNotification(context, errors);
         return Result.success();
