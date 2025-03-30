@@ -7,17 +7,18 @@
     <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content" android:gravity="center_vertical">
         <ImageView
-                android:src="@drawable/views_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/imageView4" android:layout_weight="0"
-                android:tint="@color/midnightdusk_primary" android:paddingRight="5dp"/>
+                android:src="@android:drawable/ic_notification_overlay"
+                android:layout_width="8dp"
+                android:layout_height="8dp" android:id="@+id/SeenIcon" android:layout_weight="0"
+                android:tint="@color/midnightdusk_primary" android:scaleType="fitXY"/>
         <TextView
                 android:text="Title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:id="@+id/ChapterTitle" android:textSize="20sp"
-                android:textColor="@color/midnightdusk_onBackground" android:layout_weight="1"/>
+                android:textColor="@color/midnightdusk_onBackground" android:layout_weight="1"
+                android:paddingLeft="5dp"/>
     </LinearLayout>
     <TextView
             android:text="Date"

@@ -20,6 +20,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import xyz.tbvns.ao3m.AO3.ChaptersAPI;
+import xyz.tbvns.ao3m.Storage.Data.ChapterProgress;
+import xyz.tbvns.ao3m.Storage.Database.ChapterProgressManager;
 import xyz.tbvns.ao3m.Storage.Database.HistoryManager;
 import xyz.tbvns.ao3m.databinding.ActivityReaderBinding;
 
@@ -109,6 +111,10 @@ public class ReaderActivity extends AppCompatActivity {
             currentParagraphs = ChaptersAPI.fetchChapterParagraphs(chapter.getUrl()).getObject();
             currentChapter = chapter;
 
+            if (!ChapterProgressManager.chapterExists(context, Integer.parseInt(chapter.getWork().workId), chapter.getNumber())) {
+                ChapterProgressManager.updateProgress(context, new ChapterProgress(Integer.parseInt(chapter.getWork().workId), chapter.getNumber(), "touched", 0));
+            }
+
             HistoryManager.insertWork(
                     context.getApplicationContext(),
                     new HistoryManager.HistoryEntry(
@@ -163,10 +169,24 @@ public class ReaderActivity extends AppCompatActivity {
         scrollView.post(() -> {
             int maxScroll = scrollView.getChildAt(0).getHeight() - scrollView.getHeight();
             seekBar.setMax(maxScroll);
+
+            if (ChapterProgressManager.chapterExists(getApplicationContext(), Integer.parseInt(currentChapter.getWork().workId), currentChapter.getNumber())) {
+                ChapterProgress progress = ChapterProgressManager.getChapterProgress(getApplicationContext(), Integer.parseInt(currentChapter.getWork().workId), currentChapter.getNumber());
+                seekBar.setProgress(Math.round(progress.getProgress() * maxScroll));
+                scrollView.scrollTo(0, Math.round(progress.getProgress() * maxScroll));
+            }
         });
 
         scrollView.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
             seekBar.setProgress(scrollY);
+
+            int maxScroll = scrollView.getChildAt(0).getHeight() - scrollView.getHeight();
+            String state = "touched";
+            if (maxScroll == scrollY) {
+                state = "finished";
+            }
+            ChapterProgress progress = new ChapterProgress(Integer.parseInt(currentChapter.getWork().workId), currentChapter.getNumber(), state, (float) scrollY/maxScroll);
+            ChapterProgressManager.updateProgress(getApplicationContext(), progress);
         });
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -174,6 +194,16 @@ public class ReaderActivity extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (fromUser) {
                     scrollView.scrollTo(0, progress);
+
+
+                    int maxScroll = scrollView.getChildAt(0).getHeight() - scrollView.getHeight();
+                    String state = "touched";
+                    if (maxScroll == progress) {
+                        state = "finished";
+                    }
+                    ChapterProgress progressObj = new ChapterProgress(Integer.parseInt(currentChapter.getWork().workId), currentChapter.getNumber(), state, (float) progress/maxScroll);
+                    ChapterProgressManager.updateProgress(getApplicationContext(), progressObj);
+
                 }
             }
 
