@@ -11,10 +11,12 @@ import android.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import xyz.tbvns.ao3m.AO3.APIResponse;
 import xyz.tbvns.ao3m.AO3.SearchAPI;
 import xyz.tbvns.ao3m.AO3.WorkAPI;
 import xyz.tbvns.ao3m.MainActivity;
 import xyz.tbvns.ao3m.R;
+import xyz.tbvns.ao3m.Views.ErrorView;
 
 import java.util.HashMap;
 import java.util.List;
@@ -77,8 +79,19 @@ public class BrowseFragment extends Fragment {
                         .replace(R.id.workList, loadingFragment)
                         .commitAllowingStateLoss();
             });
-            //TODO: This may cause error (And will cause them). To fix when the error fragment is created
-            List<WorkAPI.Work> works = WorkAPI.fetchWorks("https://archiveofourown.org/works").getObject();
+            APIResponse<List<WorkAPI.Work>> worksResponce = WorkAPI.fetchWorks("https://archiveofourown.org/works");
+            if (!worksResponce.isSuccess()) {
+                new Handler(Looper.getMainLooper()).post(() -> {
+                    try {
+                        getChildFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.workList, new ErrorScreenFragment(new ErrorView(getContext(), worksResponce.getMessage(), true)))
+                                .commitAllowingStateLoss();
+                    } catch (Exception e) {}
+                });
+                return;
+            }
+            List<WorkAPI.Work> works = worksResponce.getObject();
             new Handler(Looper.getMainLooper()).post(() -> {
                 try {
                     getChildFragmentManager()

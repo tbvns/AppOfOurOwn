@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <stroke android:width="2dp" android:color="@color/midnightdusk_surfaceContainer"/> <!-- 5dp Outline -->
+    <corners android:radius="20dp"/> <!-- Rounded Corners -->
+    <padding android:left="8dp" android:right="8dp" android:top="4dp" android:bottom="4dp"/>
+</shape>

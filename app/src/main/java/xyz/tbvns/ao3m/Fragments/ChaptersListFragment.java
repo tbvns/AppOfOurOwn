@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import lombok.AllArgsConstructor;
+import xyz.tbvns.ao3m.AO3.APIResponse;
 import xyz.tbvns.ao3m.AO3.ChaptersAPI;
 import xyz.tbvns.ao3m.AO3.KudosAPI;
 import xyz.tbvns.ao3m.AO3.WorkAPI;
@@ -23,6 +24,7 @@ import xyz.tbvns.ao3m.Storage.ConfigManager;
 import xyz.tbvns.ao3m.Storage.Data.LibraryData;
 import xyz.tbvns.ao3m.Storage.Database.KudosManager;
 import xyz.tbvns.ao3m.Views.ChaptersView;
+import xyz.tbvns.ao3m.Views.ErrorView;
 
 import java.time.Instant;
 import java.util.Collections;
@@ -43,8 +45,21 @@ public class ChaptersListFragment extends Fragment {
                         .commit();
             });
 
-            //TODO: This may cause error (And will cause them). To fix when the error fragment is created
+            APIResponse<List<ChaptersAPI.Chapter>> chaptersResponce = ChaptersAPI.fetchChapters(work);
+            if (!chaptersResponce.isSuccess()) {
+                new Handler((Looper.getMainLooper())).post(() -> {
+                    manager.popBackStack("ChaptersList", FragmentManager.POP_BACK_STACK_INCLUSIVE); // Prevent stacking multiple times
+                    manager.beginTransaction()
+                            .replace(R.id.fragment_container, new ErrorScreenFragment(new ErrorView(MainActivity.main.getApplicationContext(), chaptersResponce.getMessage(), true)))
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                            .addToBackStack("ChaptersList")
+                            .commit();
+                });
+                return;
+            }
             List<ChaptersAPI.Chapter> chapters = ChaptersAPI.fetchChapters(work).getObject();
+
+
             new Handler((Looper.getMainLooper())).post(() -> {
                 manager.popBackStack("ChaptersList", FragmentManager.POP_BACK_STACK_INCLUSIVE); // Prevent stacking multiple times
                 manager.beginTransaction()

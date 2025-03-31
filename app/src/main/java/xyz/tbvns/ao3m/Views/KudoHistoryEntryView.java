@@ -5,8 +5,10 @@ import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.fragment.app.FragmentManager;
+import xyz.tbvns.ao3m.AO3.APIResponse;
 import xyz.tbvns.ao3m.AO3.WorkAPI;
 import xyz.tbvns.ao3m.Fragments.ChaptersListFragment;
+import xyz.tbvns.ao3m.Fragments.ErrorScreenFragment;
 import xyz.tbvns.ao3m.R;
 
 import java.text.SimpleDateFormat;
@@ -37,9 +39,12 @@ public class KudoHistoryEntryView extends LinearLayout {
 
         setOnClickListener(l -> {
             new Thread(() -> {
-                //TODO: This will causes issue, to fix in the future.
-                WorkAPI.Work work = WorkAPI.fetchWork(url).getObject();
-                ChaptersListFragment.show(manager, work);
+                APIResponse<WorkAPI.Work> work = WorkAPI.fetchWork(url);
+                if (!work.isSuccess()) {
+                    ErrorScreenFragment.show(manager, new ErrorView(getContext(), work.getMessage(), true));
+                    return;
+                }
+                ChaptersListFragment.show(manager, work.getObject());
             }).start();
         });
     }
