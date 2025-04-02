@@ -1,5 +1,7 @@
 package xyz.tbvns.ao3m.Fragments;
 
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -10,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import androidx.fragment.app.Fragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import xyz.tbvns.ao3m.MainActivity;
 import xyz.tbvns.ao3m.R;
 import xyz.tbvns.ao3m.Storage.Database.HistoryManager;
@@ -22,6 +25,10 @@ public class HistoryFragment extends Fragment {
     private int page = 0;
     private int entriesCount = 0;
 
+    private LinearLayout fabDateRangeContainer, fabSingleDateContainer;
+    private FloatingActionButton fabCalendar;
+    private boolean isFabOpen = false;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_history, container, false);
@@ -33,6 +40,12 @@ public class HistoryFragment extends Fragment {
 
         LinearLayout layout = view.findViewById(R.id.HistoryList);
         addEntries(entries, layout);
+
+        fabCalendar = view.findViewById(R.id.fab_calendar);
+        fabDateRangeContainer = view.findViewById(R.id.fab_date_range_container);
+        fabSingleDateContainer = view.findViewById(R.id.fab_single_date_container);
+
+        fabCalendar.setOnClickListener(v -> toggleFabMenu());
 
         if (entriesCount == 0) {
             layout.addView(new TextView(getContext()){{
@@ -66,5 +79,32 @@ public class HistoryFragment extends Fragment {
             setName("AddEntriesThread");
             start();
         }};
+    }
+
+    private void toggleFabMenu() {
+        if (isFabOpen) {
+            animateContainer(fabDateRangeContainer, false);
+            animateContainer(fabSingleDateContainer, false);
+        } else {
+            animateContainer(fabDateRangeContainer, true);
+            animateContainer(fabSingleDateContainer, true);
+        }
+        isFabOpen = !isFabOpen;
+    }
+
+    private void animateContainer(View container, boolean show) {
+        if (show) {
+            container.setVisibility(View.VISIBLE);
+            ObjectAnimator animation = ObjectAnimator.ofPropertyValuesHolder(container,
+                    PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 1f),
+                    PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, 100f, 0f));
+            animation.setDuration(300).start();
+        } else {
+            ObjectAnimator animation = ObjectAnimator.ofPropertyValuesHolder(container,
+                    PropertyValuesHolder.ofFloat(View.ALPHA, 1f, 0f),
+                    PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, 0f, 100f));
+            animation.setDuration(200).start();
+            container.postDelayed(() -> container.setVisibility(View.INVISIBLE), 200);
+        }
     }
 }

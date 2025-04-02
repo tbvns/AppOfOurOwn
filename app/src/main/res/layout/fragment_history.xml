@@ -1,33 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                   xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
-                                                   android:layout_width="match_parent"
-                                                   android:layout_height="match_parent"
-                                                   tools:context=".HistoryFragment">
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:src="@drawable/calendar_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true" android:id="@+id/floatingActionButton" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"/>
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:src="@drawable/search_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true" android:id="@+id/floatingActionButton3"
-            app:layout_constraintBottom_toTopOf="@+id/floatingActionButton" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="16dp" android:layout_marginBottom="16dp"/>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".HistoryFragment">
+
+    <!-- ScrollView remains unchanged -->
     <ScrollView
+            android:id="@+id/HistoryScrollView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent" android:id="@+id/HistoryScrollView"
-            android:layout_marginStart="16dp" android:layout_marginEnd="16dp" android:fadingEdge="vertical"
-            android:requiresFadingEdge="vertical" android:fadingEdgeLength="30dp">
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                      android:orientation="vertical" android:id="@+id/HistoryList" android:gravity="center_horizontal"
-                      android:layout_gravity="center_horizontal"
-                      android:foregroundGravity="center_horizontal"/>
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:fadingEdge="vertical"
+            android:requiresFadingEdge="vertical"
+            android:fadingEdgeLength="30dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+                android:id="@+id/HistoryList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal" />
     </ScrollView>
+
+    <!-- FAB Container -->
+    <LinearLayout
+            android:id="@+id/fabContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="end"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Date Range Selection -->
+        <LinearLayout
+                android:id="@+id/fab_date_range_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="end"
+                android:visibility="invisible"
+                android:layout_marginBottom="5dp"
+                tools:visibility="visible">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/rounded_box"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:text="Range"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:gravity="center_vertical"
+                    android:layout_marginEnd="8dp"/>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_date_range"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:src="@drawable/error_icon"
+                    android:backgroundTint="@color/midnightdusk_outline"
+                    android:layout_marginEnd="4dp"
+                    app:fabCustomSize="45dp"/>
+        </LinearLayout>
+
+        <!-- Single Date Selection -->
+        <LinearLayout
+                android:id="@+id/fab_single_date_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="end"
+                android:visibility="invisible"
+                tools:visibility="visible" android:paddingBottom="5dp">
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/rounded_box"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:text="Single date"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:gravity="center_vertical"
+                    android:layout_marginEnd="8dp"/>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_single_date"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:src="@drawable/error_icon"
+                    android:backgroundTint="@color/midnightdusk_outline"
+                    android:layout_marginEnd="4dp"
+                    app:fabCustomSize="45dp"/>
+        </LinearLayout>
+
+        <!-- Main Calendar FAB -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_calendar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/calendar_icon"
+                android:layout_marginBottom="16dp"/>
+
+        <!-- Search FAB -->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/search_icon"/>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
