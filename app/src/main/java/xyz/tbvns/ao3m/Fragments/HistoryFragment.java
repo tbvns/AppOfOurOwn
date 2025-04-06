@@ -13,6 +13,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import xyz.tbvns.ao3m.DateSearchGUI;
 import xyz.tbvns.ao3m.MainActivity;
 import xyz.tbvns.ao3m.R;
 import xyz.tbvns.ao3m.Storage.Database.HistoryManager;
@@ -28,6 +29,7 @@ public class HistoryFragment extends Fragment {
     private LinearLayout fabDateRangeContainer, fabSingleDateContainer;
     private FloatingActionButton fabCalendar;
     private boolean isFabOpen = false;
+    private boolean isFiltered = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,6 +46,34 @@ public class HistoryFragment extends Fragment {
         fabCalendar = view.findViewById(R.id.fab_calendar);
         fabDateRangeContainer = view.findViewById(R.id.fab_date_range_container);
         fabSingleDateContainer = view.findViewById(R.id.fab_single_date_container);
+
+        fabDateRangeContainer.setOnClickListener(l -> {
+            DateSearchGUI.showDateRangePicker(MainActivity.main, timestamps -> {
+                List<HistoryManager.HistoryEntry> entryList = HistoryManager.getHistoryEntriesByEpocheDate(getContext(), timestamps[0]/1000, (timestamps[1]/1000)+86400);
+                layout.removeAllViews();
+                isFiltered = false;
+                addEntries(entryList, layout);
+                isFiltered = true;
+                fabCalendar.setImageDrawable(getResources().getDrawable(R.drawable.close_icon));
+                fabCalendar.setOnClickListener(v -> {
+                    resetAll(layout);
+                });
+            });
+        });
+
+        fabSingleDateContainer.setOnClickListener(l -> {
+            DateSearchGUI.showDatePicker(MainActivity.main, timestamp -> {
+                List<HistoryManager.HistoryEntry> entryList = HistoryManager.getHistoryEntriesByEpocheDate(getContext(), timestamp/1000, null);
+                layout.removeAllViews();
+                isFiltered = false;
+                addEntries(entryList, layout);
+                isFiltered = true;
+                fabCalendar.setImageDrawable(getResources().getDrawable(R.drawable.close_icon));
+                fabCalendar.setOnClickListener(v -> {
+                    resetAll(layout);
+                });
+            });
+        });
 
         fabCalendar.setOnClickListener(v -> toggleFabMenu());
 
@@ -70,6 +100,7 @@ public class HistoryFragment extends Fragment {
 
     public void addEntries(List<HistoryManager.HistoryEntry> entries, LinearLayout view) {
         new Thread(() -> {
+            if (isFiltered) return;
             for (HistoryManager.HistoryEntry entry : entries) {
                 new Handler(Looper.getMainLooper()).post(() -> {
                     view.addView(new HistoryEntryView(getContext(), entry, getParentFragmentManager()));
@@ -106,5 +137,16 @@ public class HistoryFragment extends Fragment {
             animation.setDuration(200).start();
             container.postDelayed(() -> container.setVisibility(View.INVISIBLE), 200);
         }
+    }
+
+    public void resetAll(LinearLayout layout) {
+        layout.removeAllViews();
+        fabCalendar.setImageDrawable(getResources().getDrawable(R.drawable.calendar_icon));
+        fabCalendar.setOnClickListener(v -> toggleFabMenu());
+        page = 0;
+        List<HistoryManager.HistoryEntry> entries = HistoryManager.getHistoryEntriesPaginated(getContext(), page);
+        entriesCount = entries.size();
+        isFiltered = false;
+        addEntries(entries, layout);
     }
 }

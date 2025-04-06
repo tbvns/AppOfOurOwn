@@ -1,5 +1,6 @@
 package xyz.tbvns.ao3m.Storage;
 
+import android.content.Context;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.apache.commons.logging.Log;
@@ -14,8 +15,8 @@ import java.io.File;
 public class ConfigManager {
     private static final Log log = LogFactory.getLog(ConfigManager.class);
 
-    public static LibraryData getLibraryConf() {
-        File file = new File(MainActivity.main.getFilesDir().getPath() + "/library.json");
+    public static LibraryData getLibraryConf(Context context) {
+        File file = new File(context.getFilesDir().getPath() + "/library.json");
         if (!file.exists()) {
             LibraryData libraryData = new LibraryData();
             saveLibraryConf(libraryData);

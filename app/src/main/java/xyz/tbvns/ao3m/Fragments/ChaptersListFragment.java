@@ -89,20 +89,20 @@ public class ChaptersListFragment extends Fragment {
         textView.setText(work.author);
 
         ImageButton button = view.findViewById(R.id.libraryButton);
-        if (ConfigManager.getLibraryConf().isContained(work)) {
+        if (ConfigManager.getLibraryConf(getContext()).isContained(work)) {
             button.setImageDrawable(getResources().getDrawable(R.drawable.library_filled_icon));
             ((TextView) view.findViewById(R.id.libraryText)).setText("In library");
         }
 
         button.setOnClickListener(l -> {
-            if (ConfigManager.getLibraryConf().isContained(work)) {
-                LibraryData conf = ConfigManager.getLibraryConf();
+            if (ConfigManager.getLibraryConf(getContext()).isContained(work)) {
+                LibraryData conf = ConfigManager.getLibraryConf(getContext());
                 conf.removeWork(work);
                 ConfigManager.saveLibraryConf(conf);
                 button.setImageDrawable(getResources().getDrawable(R.drawable.librairy_icon));
                 ((TextView) view.findViewById(R.id.libraryText)).setText("Add to library");
             } else {
-                LibraryData conf = ConfigManager.getLibraryConf();
+                LibraryData conf = ConfigManager.getLibraryConf(getContext());
                 conf.addWork(work);
                 ConfigManager.saveLibraryConf(conf);
                 button.setImageDrawable(getResources().getDrawable(R.drawable.library_filled_icon));

@@ -70,10 +70,10 @@
                     android:id="@+id/fab_date_range"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
-                    android:src="@drawable/error_icon"
+                    android:src="@drawable/date_range_icon"
                     android:backgroundTint="@color/midnightdusk_outline"
                     android:layout_marginEnd="4dp"
-                    app:fabCustomSize="45dp"/>
+                    app:fabCustomSize="45dp" android:clickable="false"/>
         </LinearLayout>
 
         <!-- Single Date Selection -->
@@ -103,10 +103,10 @@
                     android:id="@+id/fab_single_date"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
-                    android:src="@drawable/error_icon"
+                    android:src="@drawable/date_single_icon"
                     android:backgroundTint="@color/midnightdusk_outline"
                     android:layout_marginEnd="4dp"
-                    app:fabCustomSize="45dp"/>
+                    app:fabCustomSize="45dp" android:clickable="false"/>
         </LinearLayout>
 
         <!-- Main Calendar FAB -->
@@ -118,10 +118,5 @@
                 android:layout_marginBottom="16dp"/>
 
         <!-- Search FAB -->
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/fab_search"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/search_icon"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

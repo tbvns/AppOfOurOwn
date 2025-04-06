@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import xyz.tbvns.ao3m.MainActivity;
@@ -24,7 +23,7 @@ import java.util.List;
 public class UpdateHistoryFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_history, container, false);
+        View view = inflater.inflate(R.layout.fragment_history_no_date, container, false);
 
         MainActivity.bar.setTitle("History");
 

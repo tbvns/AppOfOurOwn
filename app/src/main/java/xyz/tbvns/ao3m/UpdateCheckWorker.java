@@ -39,7 +39,7 @@ public class UpdateCheckWorker extends Worker {
 
         showProgressNotification(context, "Starting update check...", 0);
 
-        WorkAPI.Work[] works = ConfigManager.getLibraryConf().getWorks();
+        WorkAPI.Work[] works = ConfigManager.getLibraryConf(getApplicationContext()).getWorks();
         List<String> errors = new ArrayList<>();
         List<WorkAPI.Work> updatedWorks = new ArrayList<>();
         UpdatesHistoryData data = ConfigManager.getUpdateHistoryData();

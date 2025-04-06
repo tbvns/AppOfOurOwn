@@ -29,6 +29,7 @@ import xyz.tbvns.ao3m.AO3.LoginAPI;
 import xyz.tbvns.ao3m.AO3.WebBrowser;
 import xyz.tbvns.ao3m.Fragments.*;
 import xyz.tbvns.ao3m.Storage.Database.CacheManager;
+import xyz.tbvns.ao3m.Storage.Database.HistoryManager;
 
 import java.util.concurrent.TimeUnit;
 
@@ -37,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     public static ActionBar bar;
     public static NavigationBarView navigationBar;
     public static MainActivity main;
+
+    private static int current = 0;
 
     @SneakyThrows
     @Override
@@ -63,56 +66,84 @@ public class MainActivity extends AppCompatActivity {
 
         // Set up the Material 3 NavigationBar
         NavigationBarView navigationBar = findViewById(R.id.navigation_bar);
-        navigationBar.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getTitle().toString()) {
-                    case "Library":
+        navigationBar.setOnItemSelectedListener(item -> {
+            switch (item.getTitle().toString()) {
+                case "Library":
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container, new LibrairyFragment())
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                            .addToBackStack("main")
+                            .commit();
+                    current = 0;
+                    break;
+                case "Update":
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container, new UpdateHistoryFragment())
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                            .addToBackStack("main")
+                            .commit();
+                    current = 1;
+                    break;
+                case "Browse":
+                    if (current == 2) {
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.fragment_container, new LibrairyFragment())
+                                .replace(R.id.fragment_container, new AdvancedSearchFragment())
                                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                                 .addToBackStack("main")
                                 .commit();
+                        current = -1;
                         break;
-                    case "Update":
+                    }
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container, new BrowseFragment())
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                            .addToBackStack("main")
+                            .commit();
+                    current = 2;
+                    break;
+                case "History":
+                    if (current == 3) {
+                        ReaderActivity.showFullscreen(
+                                getSupportFragmentManager(),
+                                getApplicationContext(),
+                                HistoryManager.getHistoryEntriesPaginated(getApplicationContext(), 0).get(0).getChapterObj()
+                            );
+                    }
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container, new HistoryFragment())
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                            .addToBackStack("main")
+                            .commit();
+                    current = 3;
+                    break;
+                case "More":
+                    if (current == 4) {
                         getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.fragment_container, new UpdateHistoryFragment())
+                                .replace(R.id.fragment_container, new KudoHistoryFragment())
                                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                                 .addToBackStack("main")
                                 .commit();
+                        current = -1;
                         break;
-                    case "Browse":
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.fragment_container, new BrowseFragment())
-                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                                .addToBackStack("main")
-                                .commit();
-                        break;
-                    case "History":
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.fragment_container, new HistoryFragment())
-                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                                .addToBackStack("main")
-                                .commit();
-                        break;
-                    case "More":
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.fragment_container, new MoreFragment())
-                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                                .addToBackStack("main")
-                                .commit();
-                        break;
-                    default:
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.fragment_container, new LoadingFragment())
-                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                                .addToBackStack("main")
-                                .commit();
-                        break;
-                }
-
-                return true;
+                    }
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container, new MoreFragment())
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                            .addToBackStack("main")
+                            .commit();
+                    current = 4;
+                    break;
+                default:
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragment_container, new LoadingFragment())
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                            .addToBackStack("main")
+                            .commit();
+                    current = 0;
+                    break;
             }
+
+            return true;
         });
 
         if (savedInstanceState == null) {

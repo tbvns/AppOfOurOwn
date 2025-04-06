@@ -22,7 +22,7 @@ public class LibrairyFragment extends Fragment {
         MainActivity.navigationBar.getMenu().findItem(R.id.navigation_librairy).setChecked(true);
 
         LinearLayout layout = view.findViewById(R.id.mainLibrairy);
-        for (WorkAPI.Work work : ConfigManager.getLibraryConf().getWorks()) {
+        for (WorkAPI.Work work : ConfigManager.getLibraryConf(getContext()).getWorks()) {
             layout.addView(new WorkView(getContext(), work));
         }
 

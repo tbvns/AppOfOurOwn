@@ -23,7 +23,7 @@ public class KudoHistoryFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_kudo_history, container, false);
+        View view = inflater.inflate(R.layout.fragment_history_no_date, container, false);
 
         List<KudosManager.KudosWork> entries = KudosManager.getKudosWorks(getContext(), page);
         entriesCount += entries.size();
