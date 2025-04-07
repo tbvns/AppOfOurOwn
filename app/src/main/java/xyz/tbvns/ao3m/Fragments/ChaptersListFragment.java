@@ -98,13 +98,13 @@ public class ChaptersListFragment extends Fragment {
             if (ConfigManager.getLibraryConf(getContext()).isContained(work)) {
                 LibraryData conf = ConfigManager.getLibraryConf(getContext());
                 conf.removeWork(work);
-                ConfigManager.saveLibraryConf(conf);
+                ConfigManager.saveLibraryConf(conf, getContext());
                 button.setImageDrawable(getResources().getDrawable(R.drawable.librairy_icon));
                 ((TextView) view.findViewById(R.id.libraryText)).setText("Add to library");
             } else {
                 LibraryData conf = ConfigManager.getLibraryConf(getContext());
                 conf.addWork(work);
-                ConfigManager.saveLibraryConf(conf);
+                ConfigManager.saveLibraryConf(conf, getContext());
                 button.setImageDrawable(getResources().getDrawable(R.drawable.library_filled_icon));
                 ((TextView) view.findViewById(R.id.libraryText)).setText("In library");
             }

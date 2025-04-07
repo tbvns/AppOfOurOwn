@@ -28,7 +28,7 @@ public class UpdateHistoryFragment extends Fragment {
         MainActivity.bar.setTitle("History");
 
         List<HistoryManager.HistoryEntry> entries = new ArrayList<>();
-        for (UpdatesHistoryData.Entry entry : ConfigManager.getUpdateHistoryData().getEntries()) {
+        for (UpdatesHistoryData.Entry entry : ConfigManager.getUpdateHistoryData(getContext()).getEntries()) {
             HistoryManager.HistoryEntry historyEntry = new HistoryManager.HistoryEntry(Integer.parseInt(entry.getWork().workId), entry.getWork().title, entry.getDate(), entry.getChapterID() - 1, 0);
             entries.add(historyEntry);
         }

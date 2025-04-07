@@ -19,7 +19,7 @@ public class ConfigManager {
         File file = new File(context.getFilesDir().getPath() + "/library.json");
         if (!file.exists()) {
             LibraryData libraryData = new LibraryData();
-            saveLibraryConf(libraryData);
+            saveLibraryConf(libraryData, context);
             return libraryData;
         }
         try {
@@ -32,8 +32,8 @@ public class ConfigManager {
         }
     }
 
-    public static void saveLibraryConf(LibraryData conf) {
-        File file = new File(MainActivity.main.getFilesDir().getPath() + "/library.json");
+    public static void saveLibraryConf(LibraryData conf, Context context) {
+        File file = new File(context.getFilesDir().getPath() + "/library.json");
         try {
             ObjectMapper mapper = new ObjectMapper();
             mapper.registerModule(new JavaTimeModule());
@@ -71,11 +71,11 @@ public class ConfigManager {
         }
     }
 
-    public static UpdatesHistoryData getUpdateHistoryData() {
-        File file = new File(MainActivity.main.getFilesDir().getPath() + "/updateHistory.json");
+    public static UpdatesHistoryData getUpdateHistoryData(Context context) {
+        File file = new File(context.getFilesDir().getPath() + "/updateHistory.json");
         if (!file.exists()) {
             UpdatesHistoryData updatesHistoryData = new UpdatesHistoryData();
-            saveUpdateHistoryData(updatesHistoryData);
+            saveUpdateHistoryData(updatesHistoryData, context);
             return updatesHistoryData;
         }
         try {
@@ -88,8 +88,8 @@ public class ConfigManager {
         }
     }
 
-    public static void saveUpdateHistoryData(UpdatesHistoryData data) {
-        File file = new File(MainActivity.main.getFilesDir().getPath() + "/updateHistory.json");
+    public static void saveUpdateHistoryData(UpdatesHistoryData data, Context context) {
+        File file = new File(context.getFilesDir().getPath() + "/updateHistory.json");
         try {
             ObjectMapper mapper = new ObjectMapper();
             mapper.registerModule(new JavaTimeModule());
