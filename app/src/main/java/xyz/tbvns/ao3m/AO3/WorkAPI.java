@@ -17,6 +17,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import xyz.tbvns.ao3m.MainActivity;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -158,7 +159,7 @@ public class WorkAPI {
 
     @SneakyThrows
     public static APIResponse<List<Work>> fetchWorks(String url) {
-        WebBrowser.Response response = fetch(url);
+        WebBrowser.Response response = fetch(url, MainActivity.main);
         if (!response.isSuccess()) {
             return new APIResponse<>(false, response.getMessage(), null);
         }
@@ -181,7 +182,7 @@ public class WorkAPI {
     @SneakyThrows
     public static APIResponse<Work> fetchWork(String workId) {
         String workUrl = "https://archiveofourown.org/works/" + workId;
-        WebBrowser.Response response = fetch(workUrl);
+        WebBrowser.Response response = fetch(workUrl, MainActivity.main);
         if (!response.isSuccess()) {
             return new APIResponse<>(false, response.getMessage(), null);
         }

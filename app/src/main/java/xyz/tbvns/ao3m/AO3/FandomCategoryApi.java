@@ -6,6 +6,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import xyz.tbvns.ao3m.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +21,7 @@ public class FandomCategoryApi {
 
     @SneakyThrows
     public static APIResponse<List<FandomCategoryObject>> getCategoryList(String url) {
-        WebBrowser.Response response = fetch(url);
+        WebBrowser.Response response = fetch(url, MainActivity.main);
         if (!response.isSuccess()) {
             return new APIResponse<>(false, response.getMessage(), null);
         }

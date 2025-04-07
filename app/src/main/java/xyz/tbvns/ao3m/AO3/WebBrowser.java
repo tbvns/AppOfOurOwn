@@ -1,5 +1,6 @@
 package xyz.tbvns.ao3m.AO3;
 
+import android.content.Context;
 import androidx.annotation.Nullable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -55,15 +56,16 @@ public class WebBrowser {
         private boolean success;
     }
 
-    public static Response fetch(String url) {
-        if (CacheManager.containsUrl(MainActivity.main.getApplicationContext(), url)) {
+    public static Response fetch(String url, Context context) {
+        if (CacheManager.containsUrl(context.getApplicationContext(), url)) {
+            CacheManager.clearOldCache(context);
             System.out.println("Using cache for page: " + url);
-            return new Response(CacheManager.get(MainActivity.main.getApplicationContext(), url), null, true);
+            return new Response(CacheManager.get(context.getApplicationContext(), url), null, true);
         }
 
         try {
             HtmlPage page = client.getPage(url);
-            CacheManager.add(MainActivity.main.getApplicationContext(), page, url);
+            CacheManager.add(context.getApplicationContext(), page, url);
             return new Response(page, null, true);
         } catch (Exception e) {
             return new Response(null, e.getMessage(), false);

@@ -1,5 +1,6 @@
 package xyz.tbvns.ao3m.AO3;
 
+import android.content.Context;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -9,6 +10,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
+import xyz.tbvns.ao3m.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +43,44 @@ public class ChaptersAPI {
         String workUrl = ("https://archiveofourown.org/works/" + workId);
 
         // Fetch the navigate page
-        WebBrowser.Response response = WebBrowser.fetch(navigateUrl);
+        WebBrowser.Response response = WebBrowser.fetch(navigateUrl, MainActivity.main);
+        if (response.isSuccess()) {
+            HtmlPage page = (HtmlPage) response.getPage();
+            Document doc = Jsoup.parse(page.asXml(), workUrl);
+
+            // Extract chapter elements
+            Elements chapterLinks = doc.select("ol.chapter.index.group li a");
+            Elements chapterDate = doc.select("ol.chapter.index.group li span");
+
+            for (int i = 0; i < chapterLinks.size(); i++) {
+                Element link = chapterLinks.get(i);
+                Element date = chapterDate.get(i);
+                String title = link.text();
+                String url = link.attr("abs:href"); // Get absolute URL
+                String dateString = date.text().replace("(", "").replace(")", "").replace("-", "/");
+
+                if (!title.isEmpty() && !url.isEmpty()) {
+                    chapters.add(new Chapter(title, url, dateString, work, i));
+                }
+            }
+        } else {
+            return new APIResponse<>(false, response.getMessage(), null);
+        }
+
+        return new APIResponse<>(true, null, chapters);
+    }
+
+    @SneakyThrows
+    public static APIResponse<List<Chapter>> fetchChapters(WorkAPI.Work work) {
+        List<Chapter> chapters = new ArrayList<>();
+
+        // Transform URL to navigate version
+        String navigateUrl = ("https://archiveofourown.org/works/" + work.workId).replaceAll("/?$", "/navigate");
+        String workUrl = ("https://archiveofourown.org/works/" + work.workId);
+
+        // Fetch the navigate page
+        WebBrowser.Response response = WebBrowser.fetch(navigateUrl, MainActivity.main);
+
         if (response.isSuccess()) {
             HtmlPage page = (HtmlPage) response.getPage();
             Document doc = Jsoup.parse(page.asXml(), workUrl);
@@ -70,7 +109,7 @@ public class ChaptersAPI {
 
 
     @SneakyThrows
-    public static APIResponse<List<Chapter>> fetchChapters(WorkAPI.Work work) {
+    public static APIResponse<List<Chapter>> fetchChapters(WorkAPI.Work work, Context context) {
         List<Chapter> chapters = new ArrayList<>();
 
         // Transform URL to navigate version
@@ -78,7 +117,7 @@ public class ChaptersAPI {
         String workUrl = ("https://archiveofourown.org/works/" + work.workId);
 
         // Fetch the navigate page
-        WebBrowser.Response response = WebBrowser.fetch(navigateUrl);
+        WebBrowser.Response response = WebBrowser.fetch(navigateUrl, context);
 
         if (response.isSuccess()) {
             HtmlPage page = (HtmlPage) response.getPage();
@@ -108,7 +147,7 @@ public class ChaptersAPI {
 
     @SneakyThrows
     public static APIResponse<String> fetchChapterParagraphs(String url) {
-        WebBrowser.Response response = WebBrowser.fetch(url);
+        WebBrowser.Response response = WebBrowser.fetch(url, MainActivity.main);
         if (response.isSuccess()) {
             HtmlPage page = (HtmlPage) response.getPage();
             String pageContent = page.asXml();

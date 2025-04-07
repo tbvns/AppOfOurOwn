@@ -4,6 +4,7 @@ import org.htmlunit.html.HtmlPage;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import xyz.tbvns.ao3m.MainActivity;
 import xyz.tbvns.ao3m.Utils;
 
 import java.net.URLEncoder;
@@ -29,7 +30,7 @@ public class SearchAPI {
      */
     public static void updateAvailableParameters() {
 
-        WebBrowser.Response response = fetch(BASE_URL);
+        WebBrowser.Response response = fetch(BASE_URL, MainActivity.main);
         if (!response.isSuccess()) {
             Utils.sleep(5000);
             updateAvailableParameters();

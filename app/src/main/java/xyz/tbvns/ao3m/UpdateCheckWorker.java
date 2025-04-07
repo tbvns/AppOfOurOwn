@@ -65,7 +65,7 @@ public class UpdateCheckWorker extends Worker {
                 WorkAPI.Work newWork = response.getObject();
                 if (newWork.chapterCount != work.chapterCount) {
                     showUpdateNotification(context, newWork, i);
-                    APIResponse<List<ChaptersAPI.Chapter>> chapter = ChaptersAPI.fetchChapters(newWork);
+                    APIResponse<List<ChaptersAPI.Chapter>> chapter = ChaptersAPI.fetchChapters(newWork, getApplicationContext());
                     if (chapter.isSuccess()) {
                         data.addEntry(
                                 new UpdatesHistoryData.Entry(

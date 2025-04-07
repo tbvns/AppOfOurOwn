@@ -6,6 +6,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import xyz.tbvns.ao3m.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,7 @@ import java.util.concurrent.Future;
 public class FandomAPI {
     @SneakyThrows
     public static APIResponse<List<FandomObject>> getCategories() {
-        WebBrowser.Response response = WebBrowser.fetch("https://archiveofourown.org/media");
+        WebBrowser.Response response = WebBrowser.fetch("https://archiveofourown.org/media", MainActivity.main);
         if (!response.isSuccess()) {
             return new APIResponse<>(false, response.getMessage(), null);
         }
