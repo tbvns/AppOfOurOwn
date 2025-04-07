@@ -21,6 +21,7 @@
                 android:exported="false"/>
         <activity
                 android:name=".ErrorActivity"
+                android:label="Error"
                 android:exported="false"/>
         <activity
                 android:name=".LoadingActivity"
