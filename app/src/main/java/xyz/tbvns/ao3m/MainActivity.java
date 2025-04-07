@@ -25,6 +25,7 @@ import androidx.work.WorkManager;
 import androidx.work.WorkRequest;
 import com.google.android.material.navigation.NavigationBarView;
 import lombok.SneakyThrows;
+import xyz.tbvns.ao3m.AO3.ChaptersAPI;
 import xyz.tbvns.ao3m.AO3.LoginAPI;
 import xyz.tbvns.ao3m.AO3.WebBrowser;
 import xyz.tbvns.ao3m.Fragments.*;
@@ -103,10 +104,15 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case "History":
                     if (current == 3) {
+                        if (HistoryManager.getHistoryEntriesPaginated(getApplicationContext(), 0).isEmpty())
+                            break;
+                        ChaptersAPI.Chapter chapter = HistoryManager.getHistoryEntriesPaginated(getApplicationContext(), 0).get(0).getChapterObj();
+                        if (chapter == null)
+                            break;
                         ReaderActivity.showFullscreen(
                                 getSupportFragmentManager(),
                                 getApplicationContext(),
-                                HistoryManager.getHistoryEntriesPaginated(getApplicationContext(), 0).get(0).getChapterObj()
+                                chapter
                             );
                     }
                     getSupportFragmentManager().beginTransaction()

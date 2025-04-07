@@ -17,6 +17,10 @@
             android:theme="@style/Theme.AO3M.MidnightDusk">
         <activity
                 android:name=".WebActivity"
+                android:label="Web browser"
+                android:exported="false"/>
+        <activity
+                android:name=".ErrorActivity"
                 android:exported="false"/>
         <activity
                 android:name=".LoadingActivity"

@@ -19,6 +19,7 @@ import androidx.fragment.app.FragmentManager;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import xyz.tbvns.ao3m.AO3.APIResponse;
 import xyz.tbvns.ao3m.AO3.ChaptersAPI;
 import xyz.tbvns.ao3m.Storage.Data.ChapterProgress;
 import xyz.tbvns.ao3m.Storage.Database.ChapterProgressManager;
@@ -96,7 +97,7 @@ public class ReaderActivity extends AppCompatActivity {
 
     private ActivityReaderBinding binding;
 
-    public static String currentParagraphs;
+    public static APIResponse<String> currentParagraphs;
     public static ChaptersAPI.Chapter currentChapter;
 
     public static void showFullscreen(FragmentManager manager, Context context, ChaptersAPI.Chapter chapter) {
@@ -108,11 +109,26 @@ public class ReaderActivity extends AppCompatActivity {
             });
 
             //TODO: This may cause error (And will cause them). To fix when the error fragment is created
-            currentParagraphs = ChaptersAPI.fetchChapterParagraphs(chapter.getUrl()).getObject();
+            currentParagraphs = ChaptersAPI.fetchChapterParagraphs(chapter.getUrl());
             currentChapter = chapter;
 
-            if (!ChapterProgressManager.chapterExists(context, Integer.parseInt(chapter.getWork().workId), chapter.getNumber())) {
-                ChapterProgressManager.updateProgress(context, new ChapterProgress(Integer.parseInt(chapter.getWork().workId), chapter.getNumber(), "touched", 0));
+            if (!currentParagraphs.isSuccess()) {
+                Intent intent = new Intent(context, ErrorActivity.class);
+                intent.putExtra("message", currentParagraphs.getMessage());
+                context.startActivity(intent);
+                return;
+            }
+
+            try {
+                if (!ChapterProgressManager.chapterExists(context, Integer.parseInt(chapter.getWork().workId), chapter.getNumber())) {
+                    ChapterProgressManager.updateProgress(context, new ChapterProgress(Integer.parseInt(chapter.getWork().workId), chapter.getNumber(), "touched", 0));
+                }
+            } catch (Exception e) {
+                Intent intent = new Intent(context, ErrorActivity.class);
+                intent.putExtra("message", e.getMessage());
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+                return;
             }
 
             HistoryManager.insertWork(
@@ -154,7 +170,7 @@ public class ReaderActivity extends AppCompatActivity {
             }
         });
 
-        setText(currentParagraphs);
+        setText(currentParagraphs.getObject());
         getSupportActionBar().hide();
 
         findViewById(R.id.backButton).setOnClickListener(l -> {
