@@ -168,13 +168,11 @@ public class WorkAPI {
         HtmlPage page = (HtmlPage) response.getPage();
         String pageContent = page.asXml();
 
-        // Use Jsoup to parse the HtmlUnit-rendered page
         Document doc = Jsoup.parse(pageContent);
         Elements workElements = doc.select("li.work");
 
         for (Element workElement : workElements) {
             works.add(parseWork(workElement.outerHtml()));
-
         }
         return new APIResponse<>(true, null, works);
     }
@@ -310,6 +308,18 @@ public class WorkAPI {
                 : Status.incomplete;
 
         work.setClassification(classification);
+
+        if (
+                work.author == null        ||
+                work.fandoms.isEmpty()     ||
+                work.language == null      ||
+                work.publishedDate == null ||
+                work.summary == null       ||
+                work.tags == null          ||
+                work.title == null
+        ) {
+            return new APIResponse<>(false, "Missing info", null);
+        }
 
         return new APIResponse<>(true, null, work);
     }
