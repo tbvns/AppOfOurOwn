@@ -27,7 +27,7 @@ This client functions by **scraping AO3**, allowing users to browse, search, and
 
 ## 📦 Download  
 
-The app will be available for download soon! Stay tuned for APK releases.  
+#### You can download the [latest release here](https://github.com/tbvns/ClientOfOurOwn/releases/latest) and the latest [dev builds here](https://ci.tbvns.xyz/job/ClientOfOurOwn/).
 
 ---
 
