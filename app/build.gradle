@@ -5,72 +5,83 @@ plugins {
 }
 
 android {
-    namespace 'xyz.tbvns.ao3m'
-    compileSdk 35
+    namespace = "xyz.tbvns.ao3m"
+    compileSdk = 35
 
     defaultConfig {
-        applicationId "xyz.tbvns.ao3m"
-        minSdk 33
-        targetSdk 34
-        versionCode 1
-        versionName "1.0"
+        applicationId = "xyz.tbvns.ao3m"
+        minSdk = 33
+        targetSdk = 34
+        versionCode = 1
+        versionName = "1.0"
+        archivesBaseName = "CO3"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        create("release") {
+            storeFile = project.findProperty("RELEASE_STORE_FILE")?.let { file(it) }
+            storePassword = project.findProperty("RELEASE_STORE_PASSWORD") as String
+            keyAlias = project.findProperty("RELEASE_KEY_ALIAS") as String
+            keyPassword = project.findProperty("RELEASE_KEY_PASSWORD") as String
+        }
     }
 
     buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        getByName("release") {
+            minifyEnabled = false
+            proguardFiles(
+                    getDefaultProguardFile("proguard-android-optimize.txt"),
+                    "proguard-rules.pro"
+            )
+            signingConfig = signingConfigs.getByName("release")
         }
     }
+
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_23
+        targetCompatibility = JavaVersion.VERSION_23
     }
+
     buildFeatures {
-        viewBinding true
-        compose true
+        viewBinding = true
+        compose = true
     }
 
     packagingOptions {
-        exclude 'META-INF/DEPENDENCIES'
-        // You can also add other exclusions if needed
-        // exclude 'META-INF/*.kotlin_module'
-        // exclude 'META-INF/LICENSE'
+        resources.excludes.add("META-INF/DEPENDENCIES")
     }
+
     kotlinOptions {
-        jvmTarget = '11'
+        jvmTarget = "11"
     }
 }
 
-
-
 dependencies {
-
-    implementation libs.appcompat
-    implementation libs.material
-    implementation libs.constraintlayout
-    implementation libs.navigation.fragment
-    implementation libs.navigation.ui
-    implementation libs.legacy.support.v4
-    implementation platform(libs.compose.bom)
-    implementation libs.material3
-    testImplementation libs.junit
-    androidTestImplementation libs.ext.junit
-    androidTestImplementation libs.espresso.core
-    androidTestImplementation platform(libs.compose.bom)
-    androidTestImplementation libs.ui.test.junit4
+    implementation(libs.appcompat)
+    implementation(libs.material)
+    implementation(libs.constraintlayout)
+    implementation(libs.navigation.fragment)
+    implementation(libs.navigation.ui)
+    implementation(libs.legacy.support.v4)
+    implementation(platform(libs.compose.bom))
+    implementation(libs.material3)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.ext.junit)
+    androidTestImplementation(libs.espresso.core)
+    androidTestImplementation(platform(libs.compose.bom))
+    androidTestImplementation(libs.ui.test.junit4)
     implementation("androidx.work:work-runtime-ktx:2.10.0")
     runtimeOnly("androidx.work:work-runtime-ktx:2.10.0")
 
-    annotationProcessor 'org.projectlombok:lombok:1.18.36'
-    implementation 'org.projectlombok:lombok:1.18.36'
-    implementation 'org.jsoup:jsoup:1.18.3'
-    implementation group: 'org.htmlunit', name: 'htmlunit3-android', version: '4.3.0'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.18.3'
-    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.18.3'
-    implementation 'org.xerial:sqlite-jdbc:3.49.1.0'
+    annotationProcessor("org.projectlombok:lombok:1.18.36")
+    implementation("org.projectlombok:lombok:1.18.36")
+    implementation("org.jsoup:jsoup:1.18.3")
+    implementation("org.htmlunit:htmlunit3-android:4.3.0")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.18.3")
+    implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.18.3")
+    implementation("org.xerial:sqlite-jdbc:3.49.1.0")
 
-    debugImplementation libs.ui.test.manifest
+    debugImplementation(libs.ui.test.manifest)
 }
