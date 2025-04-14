@@ -45,7 +45,7 @@ public class ChaptersView extends LinearLayout {
         }
 
         setOnClickListener(l -> {
-            ReaderActivity.showFullscreen(manager, getContext(), chapter);
+            ReaderActivity.showFullscreen(getContext(), chapter, true);
         });
     }
 }

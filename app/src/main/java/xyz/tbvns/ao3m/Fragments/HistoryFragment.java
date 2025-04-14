@@ -2,6 +2,7 @@ package xyz.tbvns.ao3m.Fragments;
 
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -23,6 +24,8 @@ import java.util.List;
 
 
 public class HistoryFragment extends Fragment {
+    public static HistoryManager.HistoryEntry first;
+
     private int page = 0;
     private int entriesCount = 0;
 
@@ -37,6 +40,10 @@ public class HistoryFragment extends Fragment {
 
         List<HistoryManager.HistoryEntry> entries = HistoryManager.getHistoryEntriesPaginated(getContext(), page);
         entriesCount += entries.size();
+
+        if (!entries.isEmpty()) {
+            first = entries.getFirst();
+        }
 
         MainActivity.bar.setTitle("History");
 

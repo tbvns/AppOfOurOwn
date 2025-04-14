@@ -1,5 +1,7 @@
 package xyz.tbvns.ao3m;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.webkit.CookieManager;
 import android.webkit.WebSettings;
@@ -14,7 +16,16 @@ import androidx.core.view.WindowInsetsCompat;
 import xyz.tbvns.ao3m.Storage.ConfigManager;
 import xyz.tbvns.ao3m.Views.ErrorView;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
 public class ErrorActivity extends AppCompatActivity {
+
+    public static void show(String message, Context context) {
+        Intent intent = new Intent(context, ErrorActivity.class);
+        intent.putExtra("message", message);
+        intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,6 +1,7 @@
 package xyz.tbvns.ao3m.Views;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
@@ -8,10 +9,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.fragment.app.FragmentManager;
 import xyz.tbvns.ao3m.AO3.ChaptersAPI;
+import xyz.tbvns.ao3m.ErrorActivity;
+import xyz.tbvns.ao3m.LoadingActivity;
 import xyz.tbvns.ao3m.R;
 import xyz.tbvns.ao3m.ReaderActivity;
 import xyz.tbvns.ao3m.Storage.Database.HistoryManager;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 
 public class HistoryEntryView extends LinearLayout {
@@ -39,10 +43,22 @@ public class HistoryEntryView extends LinearLayout {
 
         setOnClickListener(l -> {
             new Thread(() -> {
-                ChaptersAPI.Chapter chapter = entry.getChapterObj();
                 new Handler(Looper.getMainLooper()).post(() -> {
-                    ReaderActivity.showFullscreen(manager, getContext(), chapter);
+                    Intent loadingIntent = new Intent(getContext(), LoadingActivity.class);
+                    loadingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY);
+                    getContext().startActivity(loadingIntent);
                 });
+
+                try {
+                    ChaptersAPI.Chapter chapter = entry.getChapterObj();
+                    new Handler(Looper.getMainLooper()).post(() -> {
+                        ReaderActivity.showFullscreen(getContext(), chapter, false);
+                    });
+                } catch (IOException e) {
+                    new Handler(Looper.getMainLooper()).post(() -> {
+                        ErrorActivity.show(e.getMessage(), getContext());
+                    });
+                }
             }).start();
         });
     }

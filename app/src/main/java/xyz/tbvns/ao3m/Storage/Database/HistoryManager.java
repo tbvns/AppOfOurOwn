@@ -8,8 +8,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
+import xyz.tbvns.ao3m.AO3.APIResponse;
 import xyz.tbvns.ao3m.AO3.ChaptersAPI;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,9 +27,13 @@ public class HistoryManager {
         private int chapter;
         private int length;
 
-        public ChaptersAPI.Chapter getChapterObj() {
-            //TODO: This may cause error (And will cause them). To fix when the error fragment is created
-            return ChaptersAPI.fetchChapters(String.valueOf(workId)).getObject().get(chapter + length);
+        public ChaptersAPI.Chapter getChapterObj() throws IOException {
+            APIResponse<List<ChaptersAPI.Chapter>> apiResponse = ChaptersAPI.fetchChapters(String.valueOf(workId));
+            if (apiResponse.isSuccess()) {
+                return apiResponse.getObject().get(chapter + length);
+            } else {
+                throw new IOException(apiResponse.getMessage());
+            }
         }
     }
 

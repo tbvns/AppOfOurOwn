@@ -100,13 +100,14 @@ public class ReaderActivity extends AppCompatActivity {
     public static APIResponse<String> currentParagraphs;
     public static ChaptersAPI.Chapter currentChapter;
 
-    public static void showFullscreen(FragmentManager manager, Context context, ChaptersAPI.Chapter chapter) {
+    public static void showFullscreen(Context context, ChaptersAPI.Chapter chapter, boolean showLoading) {
         new Thread(() -> {
-            new Handler(Looper.getMainLooper()).post(() -> {
-                Intent loadingIntent = new Intent(context, LoadingActivity.class);
-                loadingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY);
-                context.startActivity(loadingIntent);
-            });
+            if (showLoading)
+                new Handler(Looper.getMainLooper()).post(() -> {
+                    Intent loadingIntent = new Intent(context, LoadingActivity.class);
+                    loadingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY);
+                    context.startActivity(loadingIntent);
+                });
 
             //TODO: This may cause error (And will cause them). To fix when the error fragment is created
             currentParagraphs = ChaptersAPI.fetchChapterParagraphs(chapter.getUrl());
@@ -234,7 +235,7 @@ public class ReaderActivity extends AppCompatActivity {
                 if (currentChapter.getTitle().equals(chapters.get(i).getTitle())) {
                     if (-1 != i-1) {
                         finish();
-                        ReaderActivity.showFullscreen(MainActivity.main.getSupportFragmentManager(), getApplicationContext(), chapters.get(i-1));
+                        ReaderActivity.showFullscreen(getApplicationContext(), chapters.get(i-1), true);
                     } else {
                         Toast.makeText(getApplicationContext(), "This chapters does not exist.", Toast.LENGTH_SHORT).show();
                     }
@@ -248,7 +249,7 @@ public class ReaderActivity extends AppCompatActivity {
                 if (currentChapter.getTitle().equals(chapters.get(i).getTitle())) {
                     if (chapters.size() > i+1) {
                         finish();
-                        ReaderActivity.showFullscreen(MainActivity.main.getSupportFragmentManager(), getApplicationContext(), chapters.get(i+1));
+                        ReaderActivity.showFullscreen(getApplicationContext(), chapters.get(i+1), true);
                     } else {
                         Toast.makeText(getApplicationContext(), "This chapters does not exist.", Toast.LENGTH_SHORT).show();
                     }
@@ -358,7 +359,7 @@ public class ReaderActivity extends AppCompatActivity {
                     int finalI = i;
                     button.setOnClickListener(l -> {
                         finish();
-                        ReaderActivity.showFullscreen(MainActivity.main.getSupportFragmentManager(), getApplicationContext(), chapters.get(finalI +1));
+                        ReaderActivity.showFullscreen(getApplicationContext(), chapters.get(finalI +1), true);
                     });
                 }
             }

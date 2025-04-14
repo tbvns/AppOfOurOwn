@@ -318,7 +318,7 @@ public class WorkAPI {
                 work.tags == null          ||
                 work.title == null
         ) {
-            return new APIResponse<>(false, "Missing info", null);
+            return new APIResponse<>(false, "Missing info / Wrong page received (Cloudflare?)", null);
         }
 
         return new APIResponse<>(true, null, work);

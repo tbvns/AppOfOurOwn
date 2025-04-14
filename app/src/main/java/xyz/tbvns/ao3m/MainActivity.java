@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.MenuItem;
+import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -31,6 +32,7 @@ import xyz.tbvns.ao3m.AO3.WebBrowser;
 import xyz.tbvns.ao3m.Fragments.*;
 import xyz.tbvns.ao3m.Storage.Database.CacheManager;
 import xyz.tbvns.ao3m.Storage.Database.HistoryManager;
+import xyz.tbvns.ao3m.Views.HistoryEntryView;
 
 import java.util.concurrent.TimeUnit;
 
@@ -104,16 +106,12 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case "History":
                     if (current == 3) {
-                        if (HistoryManager.getHistoryEntriesPaginated(getApplicationContext(), 0).isEmpty())
+                        if (HistoryFragment.first == null) {
+                            Toast.makeText(getApplicationContext(), "No chapter found !", Toast.LENGTH_LONG).show();
                             break;
-                        ChaptersAPI.Chapter chapter = HistoryManager.getHistoryEntriesPaginated(getApplicationContext(), 0).get(0).getChapterObj();
-                        if (chapter == null)
-                            break;
-                        ReaderActivity.showFullscreen(
-                                getSupportFragmentManager(),
-                                getApplicationContext(),
-                                chapter
-                            );
+                        }
+                        new HistoryEntryView(getApplicationContext(), HistoryFragment.first, getSupportFragmentManager()).callOnClick();
+                        break;
                     }
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.fragment_container, new HistoryFragment())
