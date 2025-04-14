@@ -4,7 +4,7 @@
 
 ---
 
-<h1 align="center">App of Our Own</h1>
+<h1 align="center">Client of Our Own</h1>
 
 <p align="center"><i>An AO3 reader designed to provide a seamless mobile experience</i></p>
 
@@ -12,7 +12,7 @@
 
 ## 📖 How It Works  
 
-This app functions by **scraping AO3**, allowing users to browse, search, and read works directly within the app. It fetches data from the website while ensuring a smooth and mobile-friendly interface. Since AO3 does not offer an official API, scraping is used to retrieve and display content.  
+This client functions by **scraping AO3**, allowing users to browse, search, and read works directly within a nice UI. It fetches data from the website while ensuring a smooth and mobile-friendly interface. Since AO3 does not offer an official API, scraping is used to retrieve and display content.  
 
 ---
 
@@ -22,7 +22,6 @@ This app functions by **scraping AO3**, allowing users to browse, search, and re
 - 🔔 **Notifications** – Get notified when a saved work gets updated.  
 - 🔍 **Advanced Search & Filters** – Find works using tags, ratings, and other filters.  
 - 🌙 **Dark Mode** – Comfortable reading in low-light conditions.  
-- 📥 **Download for Offline Reading** – Save works to read anytime, anywhere.  
 
 ---
 
