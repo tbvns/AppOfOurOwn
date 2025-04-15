@@ -3,36 +3,61 @@ package xyz.tbvns.ao3m.Fragments;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.util.Log;
+import android.view.*;
 import android.widget.*;
+import androidx.activity.OnBackPressedCallback;
+import androidx.appcompat.app.ActionBar;
+import androidx.core.view.MenuHost;
+import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Lifecycle;
 import lombok.Setter;
 import lombok.SneakyThrows;
+import xyz.tbvns.ao3m.AO3.SearchAPI;
 import xyz.tbvns.ao3m.AO3.WorkAPI;
+import xyz.tbvns.ao3m.MainActivity;
 import xyz.tbvns.ao3m.R;
 import xyz.tbvns.ao3m.Utils;
 import xyz.tbvns.ao3m.Views.WorkView;
 
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SearchResultFragment extends Fragment {
     private List<WorkAPI.Work> works;
-    public SearchResultFragment(List<WorkAPI.Work> works) {
+    private boolean isEditable;
+    private boolean showEditIcon;
+    private Map<String, String> params;
+    public SearchResultFragment(List<WorkAPI.Work> works, boolean isEditable, boolean showEditIcon) {
         this.works = works;
+        this.isEditable = isEditable;
+        this.showEditIcon = showEditIcon;
     }
+
+    public SearchResultFragment(List<WorkAPI.Work> works, boolean isEditable, boolean showEditIcon, Map<String, String> params) {
+        this.works = works;
+        this.isEditable = isEditable;
+        this.showEditIcon = showEditIcon;
+        this.params = params;
+    }
+
 
     private int amount = 0;
     private int page = 1;
     private boolean fetching = false;
     @Setter private String url;
 
+
     public static void showResults(FragmentManager manager, String url, boolean backStack) {
+        showResults(manager, url, backStack, false, true, null);
+    }
+
+    public static void showResults(FragmentManager manager, String url, boolean backStack, boolean isEditable, boolean showEditIcon, Map<String, String> editParam) {
         new Thread(() -> {
             new Handler((Looper.getMainLooper())).post(() -> {
                 FragmentTransaction transaction = manager.beginTransaction()
@@ -46,7 +71,7 @@ public class SearchResultFragment extends Fragment {
 
             //TODO: This may cause error (And will cause them). To fix when the error fragment is created
             List<WorkAPI.Work> works = WorkAPI.fetchWorks(url).getObject();
-            SearchResultFragment fragment = new SearchResultFragment(works);
+            SearchResultFragment fragment = new SearchResultFragment(works, isEditable, showEditIcon, editParam);
             fragment.setUrl(url);
             new Handler((Looper.getMainLooper())).post(() -> {
                 if (backStack) {
@@ -80,6 +105,46 @@ public class SearchResultFragment extends Fragment {
                 setTextSize(20);
             }});
         }
+
+        ActionBar actionBar = MainActivity.bar;
+        if (actionBar != null) {
+            if (showEditIcon) {
+                actionBar.setDisplayHomeAsUpEnabled(true);
+            }
+        }
+
+        // Add MenuProvider to show the edit button
+        MenuHost menuHost = requireActivity();
+        menuHost.addMenuProvider(new MenuProvider() {
+            @Override
+            public void onCreateMenu(Menu menu, MenuInflater menuInflater) {
+                // Clear any existing items, optional
+                menu.clear();
+                if (showEditIcon) {
+                    menuInflater.inflate(R.menu.search_result_menu, menu);
+                }
+            }
+
+            @Override
+            public boolean onMenuItemSelected(MenuItem menuItem) {
+                if (menuItem.getItemId() == R.id.action_edit) {
+                    if (isEditable && params != null) {
+                        FragmentTransaction transaction = getParentFragmentManager().beginTransaction()
+                                .replace(R.id.fragment_container, new AdvancedSearchFragment(params))
+                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                        transaction.addToBackStack("Result");
+                        transaction.commit();
+                    } else {
+                        getParentFragmentManager().popBackStack();
+                    }
+                    return true;
+                } else {
+                    getParentFragmentManager().popBackStack();
+                }
+                return false;
+            }
+        }, getViewLifecycleOwner(), Lifecycle.State.RESUMED);
+
 
         ScrollView scrollView = view.findViewById(R.id.resultScrollView);
         scrollView.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
@@ -142,6 +207,15 @@ public class SearchResultFragment extends Fragment {
                     });
                 }
             }).start();
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ActionBar actionBar = MainActivity.bar;
+        if (actionBar != null && showEditIcon) {
+            actionBar.setDisplayHomeAsUpEnabled(false);
         }
     }
 }

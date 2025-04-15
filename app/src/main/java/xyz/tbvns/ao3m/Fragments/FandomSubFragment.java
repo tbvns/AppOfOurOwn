@@ -61,7 +61,7 @@ public class FandomSubFragment extends Fragment {
 
                                 //TODO: This may cause error (And will cause them). To fix when the error fragment is created
                                 List<WorkAPI.Work> works = WorkAPI.fetchWorks("https://archiveofourown.org" + obj.getLink()).getObject();
-                                SearchResultFragment fragment = new SearchResultFragment(works);
+                                SearchResultFragment fragment = new SearchResultFragment(works, true, true);
                                 fragment.setUrl("https://archiveofourown.org" + obj.getLink());
 
                                 new Handler(Looper.getMainLooper()).post(() -> {

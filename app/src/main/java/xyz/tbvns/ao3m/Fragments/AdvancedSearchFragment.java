@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
 import androidx.fragment.app.Fragment;
+import lombok.NoArgsConstructor;
 import xyz.tbvns.ao3m.AO3.SearchAPI;
 import xyz.tbvns.ao3m.MainActivity;
 import xyz.tbvns.ao3m.R;
@@ -16,7 +17,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@NoArgsConstructor
 public class AdvancedSearchFragment extends Fragment {
+    private Map<String, String> params;
+
+    public AdvancedSearchFragment(Map<String, String> params) {
+        super();
+        this.params = params;
+    }
 
     // UI Components
     private EditText etAnyField, etTitle, etAuthor, etDate, etWordCount;
@@ -43,6 +51,7 @@ public class AdvancedSearchFragment extends Fragment {
         spinnerSortColumn = view.findViewById(R.id.spinner_sort_column);
         spinnerSortDirection = view.findViewById(R.id.spinner_sort_direction);
         btnSearch = view.findViewById(R.id.btn_search);
+
 
         // Fetch and populate parameters in the background
         new Thread(() -> {
@@ -73,6 +82,19 @@ public class AdvancedSearchFragment extends Fragment {
         tvWorkTags.setOnClickListener(v -> toggleVisibility(llWorkTags, tvWorkTags));
         tvWorkStats.setOnClickListener(v -> toggleVisibility(llWorkStats, tvWorkStats));
         tvSearchParameters.setOnClickListener(v -> toggleVisibility(llSearchParameters, tvSearchParameters));
+
+        if (params != null) {
+            EditText etAdditionalTags = view.findViewById(R.id.et_additional_tags);
+            if (params.containsKey("work_search[freeform_names]")) {
+                etAdditionalTags.setText(params.get("work_search[freeform_names]"));
+            }
+
+            EditText etFandoms = view.findViewById(R.id.et_fandoms);
+            if (params.containsKey("work_search[fandom_names]")) {
+                etFandoms.setText(params.get("work_search[fandom_names]"));
+            }
+        }
+
 
         return view;
     }

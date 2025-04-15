@@ -96,7 +96,7 @@ public class BrowseFragment extends Fragment {
                 try {
                     getChildFragmentManager()
                             .beginTransaction()
-                            .replace(R.id.workList, new SearchResultFragment(works))
+                            .replace(R.id.workList, new SearchResultFragment(works, false, false))
                             .commitAllowingStateLoss();
                 } catch (Exception e) {}
             });
