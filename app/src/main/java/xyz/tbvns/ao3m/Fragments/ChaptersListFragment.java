@@ -14,7 +14,9 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import lombok.AllArgsConstructor;
+import xyz.tbvns.ao3m.Activity.ReaderActivity;
 import xyz.tbvns.ao3m.Api.APIResponse;
 import xyz.tbvns.ao3m.Api.ChaptersAPI;
 import xyz.tbvns.ao3m.Api.KudosAPI;
@@ -25,13 +27,16 @@ import xyz.tbvns.ao3m.Activity.MainActivity;
 import xyz.tbvns.ao3m.Activity.WebActivity;
 import xyz.tbvns.ao3m.Storage.ConfigManager;
 import xyz.tbvns.ao3m.Storage.Data.LibraryData;
+import xyz.tbvns.ao3m.Storage.Database.ChapterProgressManager;
 import xyz.tbvns.ao3m.Storage.Database.KudosManager;
 import xyz.tbvns.ao3m.Views.ChaptersView;
 import xyz.tbvns.ao3m.Views.ErrorView;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 public class ChaptersListFragment extends Fragment {
@@ -152,6 +157,22 @@ public class ChaptersListFragment extends Fragment {
             Intent intent = new Intent(getContext(), WebActivity.class);
             intent.putExtra("url", "https://archiveofourown.org/works/" + work.workId);
             startActivity(intent);
+        });
+
+        FloatingActionButton playButton = view.findViewById(R.id.playButton);
+        playButton.setOnClickListener(v -> {
+            List<ChaptersAPI.Chapter> temp = chapters;
+            Collections.reverse(temp);
+            List<ChaptersAPI.Chapter> chapterList = temp.stream().filter(c -> {
+                if (ChapterProgressManager.chapterExists(getContext(), Integer.parseInt(c.getWork().workId), c.getNumber()))
+                    return ChapterProgressManager.getChapterProgress(getContext(), Integer.parseInt(c.getWork().workId), c.getNumber()).getProgress() <= 0.99;
+                return true;
+            }).collect(Collectors.toList());
+            if (!chapterList.isEmpty()) {
+                ReaderActivity.showFullscreen(getContext(), chapterList.get(0), true);
+            } else {
+                Toast.makeText(getContext(), "No available chapter !", Toast.LENGTH_LONG).show();
+            }
         });
 
         return view;

@@ -41,7 +41,7 @@ public class HistoryFragment extends Fragment {
         entriesCount += entries.size();
 
         if (!entries.isEmpty()) {
-            first = entries.getFirst();
+            first = entries.get(0);
         }
 
         MainActivity.bar.setTitle("History");
