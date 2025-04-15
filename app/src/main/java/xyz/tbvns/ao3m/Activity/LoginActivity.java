@@ -1,4 +1,4 @@
-package xyz.tbvns.ao3m;
+package xyz.tbvns.ao3m.Activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,12 +13,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import lombok.SneakyThrows;
-import xyz.tbvns.ao3m.AO3.LoginAPI;
-import xyz.tbvns.ao3m.AO3.WebBrowser;
+import xyz.tbvns.ao3m.Api.LoginAPI;
+import xyz.tbvns.ao3m.Api.WebBrowser;
+import xyz.tbvns.ao3m.R;
 import xyz.tbvns.ao3m.Storage.ConfigManager;
 import xyz.tbvns.ao3m.Storage.Data.AccountData;
 
-import static xyz.tbvns.ao3m.AO3.WebBrowser.client;
+import static xyz.tbvns.ao3m.Api.WebBrowser.client;
 
 public class LoginActivity extends AppCompatActivity {
 

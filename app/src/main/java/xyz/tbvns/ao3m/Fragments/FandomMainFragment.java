@@ -12,10 +12,10 @@ import android.widget.Space;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import xyz.tbvns.ao3m.AO3.FandomAPI;
-import xyz.tbvns.ao3m.AO3.FandomCategoryApi;
-import xyz.tbvns.ao3m.AO3.FandomCategoryObject;
-import xyz.tbvns.ao3m.MainActivity;
+import xyz.tbvns.ao3m.Api.FandomAPI;
+import xyz.tbvns.ao3m.Api.FandomCategoryApi;
+import xyz.tbvns.ao3m.Api.FandomCategoryObject;
+import xyz.tbvns.ao3m.Activity.MainActivity;
 import xyz.tbvns.ao3m.R;
 
 import java.util.List;

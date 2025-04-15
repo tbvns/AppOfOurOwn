@@ -1,21 +1,16 @@
-package xyz.tbvns.ao3m;
+package xyz.tbvns.ao3m.Activity;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.view.MenuItem;
 import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -26,12 +21,13 @@ import androidx.work.WorkManager;
 import androidx.work.WorkRequest;
 import com.google.android.material.navigation.NavigationBarView;
 import lombok.SneakyThrows;
-import xyz.tbvns.ao3m.AO3.ChaptersAPI;
-import xyz.tbvns.ao3m.AO3.LoginAPI;
-import xyz.tbvns.ao3m.AO3.WebBrowser;
+import xyz.tbvns.ao3m.Api.LoginAPI;
+import xyz.tbvns.ao3m.Api.WebBrowser;
 import xyz.tbvns.ao3m.Fragments.*;
+import xyz.tbvns.ao3m.R;
+import xyz.tbvns.ao3m.Storage.Data.ConfigManager;
 import xyz.tbvns.ao3m.Storage.Database.CacheManager;
-import xyz.tbvns.ao3m.Storage.Database.HistoryManager;
+import xyz.tbvns.ao3m.UpdateCheckWorker;
 import xyz.tbvns.ao3m.Views.HistoryEntryView;
 
 import java.util.concurrent.TimeUnit;
@@ -48,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ConfigManager.load(getApplicationContext());
 
         main = this;
         new Thread(WebBrowser::preload).start();

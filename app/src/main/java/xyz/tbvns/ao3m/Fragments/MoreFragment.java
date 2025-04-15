@@ -6,7 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import xyz.tbvns.ao3m.LoginActivity;
+import xyz.tbvns.ao3m.Activity.CustomizationActivity;
+import xyz.tbvns.ao3m.Activity.LoginActivity;
 import xyz.tbvns.ao3m.R;
 
 public class MoreFragment extends Fragment {
@@ -14,8 +15,12 @@ public class MoreFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_more, container, false);
 
-        view.findViewById(R.id.LoginButton).setOnClickListener(v -> {
+        view.findViewById(R.id.loginButton).setOnClickListener(v -> {
             LoginActivity.show(getContext());
+        });
+
+        view.findViewById(R.id.CustomisationButton).setOnClickListener(v -> {
+            CustomizationActivity.show(getContext());
         });
 
         view.findViewById(R.id.KudoHistoryButton).setOnClickListener(v -> {

@@ -11,10 +11,10 @@ import android.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import xyz.tbvns.ao3m.AO3.APIResponse;
-import xyz.tbvns.ao3m.AO3.SearchAPI;
-import xyz.tbvns.ao3m.AO3.WorkAPI;
-import xyz.tbvns.ao3m.MainActivity;
+import xyz.tbvns.ao3m.Api.APIResponse;
+import xyz.tbvns.ao3m.Api.SearchAPI;
+import xyz.tbvns.ao3m.Api.WorkAPI;
+import xyz.tbvns.ao3m.Activity.MainActivity;
 import xyz.tbvns.ao3m.R;
 import xyz.tbvns.ao3m.Views.ErrorView;
 

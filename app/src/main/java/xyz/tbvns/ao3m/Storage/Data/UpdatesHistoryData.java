@@ -3,7 +3,7 @@ package xyz.tbvns.ao3m.Storage.Data;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import xyz.tbvns.ao3m.AO3.WorkAPI;
+import xyz.tbvns.ao3m.Api.WorkAPI;
 
 import java.util.Objects;
 

@@ -2,7 +2,6 @@ package xyz.tbvns.ao3m.Fragments;
 
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -15,7 +14,7 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import xyz.tbvns.ao3m.DateSearchGUI;
-import xyz.tbvns.ao3m.MainActivity;
+import xyz.tbvns.ao3m.Activity.MainActivity;
 import xyz.tbvns.ao3m.R;
 import xyz.tbvns.ao3m.Storage.Database.HistoryManager;
 import xyz.tbvns.ao3m.Views.HistoryEntryView;

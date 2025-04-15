@@ -1,19 +1,12 @@
-package xyz.tbvns.ao3m;
+package xyz.tbvns.ao3m.Activity;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.webkit.CookieManager;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import xyz.tbvns.ao3m.Storage.ConfigManager;
+import xyz.tbvns.ao3m.R;
 import xyz.tbvns.ao3m.Views.ErrorView;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;

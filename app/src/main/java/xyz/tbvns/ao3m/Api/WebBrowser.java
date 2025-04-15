@@ -1,4 +1,4 @@
-package xyz.tbvns.ao3m.AO3;
+package xyz.tbvns.ao3m.Api;
 
 import android.content.Context;
 import androidx.annotation.Nullable;
@@ -9,7 +9,6 @@ import org.htmlunit.Page;
 import org.htmlunit.WebClient;
 import org.htmlunit.html.HtmlPage;
 import org.htmlunit.util.Cookie;
-import xyz.tbvns.ao3m.MainActivity;
 import xyz.tbvns.ao3m.Storage.ConfigManager;
 import xyz.tbvns.ao3m.Storage.Database.CacheManager;
 

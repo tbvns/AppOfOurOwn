@@ -1,7 +1,5 @@
 plugins {
     alias(libs.plugins.android.application)
-    alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.compose)
 }
 
 android {
@@ -54,10 +52,6 @@ android {
     packagingOptions {
         resources.excludes.add("META-INF/DEPENDENCIES")
     }
-
-    kotlinOptions {
-        jvmTarget = "11"
-    }
 }
 
 dependencies {
@@ -69,6 +63,7 @@ dependencies {
     implementation(libs.legacy.support.v4)
     implementation(platform(libs.compose.bom))
     implementation(libs.material3)
+    implementation libs.activity
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -84,6 +79,8 @@ dependencies {
     implementation("com.fasterxml.jackson.core:jackson-databind:2.18.3")
     implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.18.3")
     implementation("org.xerial:sqlite-jdbc:3.49.1.0")
+    implementation 'com.github.skydoves:colorpickerview:2.3.0'
+    implementation 'com.github.tbvns:EZConf4j:-SNAPSHOT'
 
     debugImplementation(libs.ui.test.manifest)
 }

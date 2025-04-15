@@ -3,10 +3,8 @@ package xyz.tbvns.ao3m.Fragments;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.*;
 import android.widget.*;
-import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.ActionBar;
 import androidx.core.view.MenuHost;
 import androidx.core.view.MenuProvider;
@@ -16,15 +14,13 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Lifecycle;
 import lombok.Setter;
 import lombok.SneakyThrows;
-import xyz.tbvns.ao3m.AO3.SearchAPI;
-import xyz.tbvns.ao3m.AO3.WorkAPI;
-import xyz.tbvns.ao3m.MainActivity;
+import xyz.tbvns.ao3m.Api.WorkAPI;
+import xyz.tbvns.ao3m.Activity.MainActivity;
 import xyz.tbvns.ao3m.R;
 import xyz.tbvns.ao3m.Utils;
 import xyz.tbvns.ao3m.Views.WorkView;
 
 import java.net.URL;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

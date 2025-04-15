@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import xyz.tbvns.ao3m.MainActivity;
+import xyz.tbvns.ao3m.Activity.MainActivity;
 import xyz.tbvns.ao3m.Storage.Data.AccountData;
 import xyz.tbvns.ao3m.Storage.Data.LibraryData;
 import xyz.tbvns.ao3m.Storage.Data.UpdatesHistoryData;

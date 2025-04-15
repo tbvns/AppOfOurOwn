@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-import xyz.tbvns.ao3m.AO3.SearchAPI;
+import xyz.tbvns.ao3m.Api.SearchAPI;
 import xyz.tbvns.ao3m.R;
 
 import java.util.HashMap;

@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.htmlunit.html.HtmlPage;
-import xyz.tbvns.ao3m.AO3.WebBrowser;
+import xyz.tbvns.ao3m.Api.WebBrowser;
 
 public class CacheManager {
     private static final ObjectMapper mapper = new ObjectMapper();

@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 import android.widget.*;
 import androidx.fragment.app.Fragment;
 import lombok.NoArgsConstructor;
-import xyz.tbvns.ao3m.AO3.SearchAPI;
-import xyz.tbvns.ao3m.MainActivity;
+import xyz.tbvns.ao3m.Api.SearchAPI;
+import xyz.tbvns.ao3m.Activity.MainActivity;
 import xyz.tbvns.ao3m.R;
 
 import java.util.ArrayList;

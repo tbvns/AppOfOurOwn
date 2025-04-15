@@ -5,10 +5,10 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import xyz.tbvns.ao3m.AO3.WorkAPI;
+import xyz.tbvns.ao3m.Api.WorkAPI;
 import xyz.tbvns.ao3m.Fragments.ChaptersListFragment;
 import xyz.tbvns.ao3m.Fragments.FandomTagsBottomSheet;
-import xyz.tbvns.ao3m.MainActivity;
+import xyz.tbvns.ao3m.Activity.MainActivity;
 import xyz.tbvns.ao3m.R;
 import xyz.tbvns.ao3m.Utils;
 

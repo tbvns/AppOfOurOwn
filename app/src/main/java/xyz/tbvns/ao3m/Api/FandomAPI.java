@@ -1,4 +1,4 @@
-package xyz.tbvns.ao3m.AO3;
+package xyz.tbvns.ao3m.Api;
 
 import lombok.SneakyThrows;
 import org.htmlunit.html.HtmlPage;
@@ -6,7 +6,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import xyz.tbvns.ao3m.MainActivity;
+import xyz.tbvns.ao3m.Activity.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;

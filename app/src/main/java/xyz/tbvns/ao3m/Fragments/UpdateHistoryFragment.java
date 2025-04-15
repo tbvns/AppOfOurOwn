@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.fragment.app.Fragment;
-import xyz.tbvns.ao3m.MainActivity;
+import xyz.tbvns.ao3m.Activity.MainActivity;
 import xyz.tbvns.ao3m.R;
 import xyz.tbvns.ao3m.Storage.ConfigManager;
 import xyz.tbvns.ao3m.Storage.Data.UpdatesHistoryData;

@@ -1,10 +1,10 @@
-package xyz.tbvns.ao3m.AO3;
+package xyz.tbvns.ao3m.Api;
 
 import org.htmlunit.html.HtmlPage;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import xyz.tbvns.ao3m.MainActivity;
+import xyz.tbvns.ao3m.Activity.MainActivity;
 import xyz.tbvns.ao3m.Utils;
 
 import java.net.URLEncoder;
@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static xyz.tbvns.ao3m.AO3.WebBrowser.fetch;
+import static xyz.tbvns.ao3m.Api.WebBrowser.fetch;
 
 public class SearchAPI {
 

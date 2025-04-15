@@ -1,11 +1,11 @@
-package xyz.tbvns.ao3m.AO3;
+package xyz.tbvns.ao3m.Api;
 
 import org.htmlunit.html.DomElement;
 import org.htmlunit.html.HtmlForm;
 import org.htmlunit.html.HtmlPage;
 import org.htmlunit.html.HtmlSubmitInput;
 
-import static xyz.tbvns.ao3m.AO3.WebBrowser.client;
+import static xyz.tbvns.ao3m.Api.WebBrowser.client;
 
 public class KudosAPI {
     public static boolean giveKudos(String pageUrl) throws Exception {

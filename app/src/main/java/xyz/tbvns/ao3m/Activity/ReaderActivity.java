@@ -1,4 +1,4 @@
-package xyz.tbvns.ao3m;
+package xyz.tbvns.ao3m.Activity;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -15,13 +15,14 @@ import android.view.View;
 import android.view.WindowInsets;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
-import xyz.tbvns.ao3m.AO3.APIResponse;
-import xyz.tbvns.ao3m.AO3.ChaptersAPI;
+import xyz.tbvns.ao3m.Api.APIResponse;
+import xyz.tbvns.ao3m.Api.ChaptersAPI;
+import xyz.tbvns.ao3m.R;
 import xyz.tbvns.ao3m.Storage.Data.ChapterProgress;
+import xyz.tbvns.ao3m.Storage.Data.CustomizationData;
 import xyz.tbvns.ao3m.Storage.Database.ChapterProgressManager;
 import xyz.tbvns.ao3m.Storage.Database.HistoryManager;
 import xyz.tbvns.ao3m.databinding.ActivityReaderBinding;
@@ -283,7 +284,11 @@ public class ReaderActivity extends AppCompatActivity {
             layout.addView(new TextView(getApplicationContext()){{
                 setText(Html.fromHtml(title.html()));
                 setPadding(0, 50, 0, 50);
-                setTextSize(25);
+                if (CustomizationData.useTextCustomSize) {
+                    setTextSize(CustomizationData.customTextSize + 9);
+                } else  {
+                    setTextSize(25);
+                }
             }});
         }
 
@@ -291,7 +296,11 @@ public class ReaderActivity extends AppCompatActivity {
             TextView textView = new TextView(getApplicationContext()){{
                 setText(Html.fromHtml(summaryString, Html.FROM_HTML_OPTION_USE_CSS_COLORS | Html.FROM_HTML_MODE_COMPACT));
                 setPadding(50, 50, 50, 50);
-                setTextSize(14);
+                if (CustomizationData.useTextCustomSize) {
+                    setTextSize(CustomizationData.customTextSize - 2);
+                } else  {
+                    setTextSize(14);
+                }
             }};
 
             FrameLayout frameLayout = new FrameLayout(getApplicationContext());
@@ -310,7 +319,11 @@ public class ReaderActivity extends AppCompatActivity {
             TextView textView = new TextView(getApplicationContext()){{
                 setText(Html.fromHtml(startNotesString, Html.FROM_HTML_OPTION_USE_CSS_COLORS | Html.FROM_HTML_MODE_COMPACT));
                 setPadding(50, 50, 50, 50);
-                setTextSize(14);
+                if (CustomizationData.useTextCustomSize) {
+                    setTextSize(CustomizationData.customTextSize - 2);
+                } else  {
+                    setTextSize(14);
+                }
             }};
 
             // Wrap in a container to ensure padding is respected
@@ -329,14 +342,25 @@ public class ReaderActivity extends AppCompatActivity {
         layout.addView(new TextView(getApplicationContext()){{
             setText(Html.fromHtml(doc.html(), Html.FROM_HTML_OPTION_USE_CSS_COLORS | Html.FROM_HTML_MODE_LEGACY));
             setPadding(0, 50, 0, 50);
-            setTextSize(16);
+            if (CustomizationData.useTextCustomSize) {
+                setTextSize(CustomizationData.customTextSize);
+            } else  {
+                setTextSize(16);
+            }
+            if (CustomizationData.useCustomColor) {
+                setTextColor(CustomizationData.textColor);
+            }
         }});
 
         if (!endNotes.isEmpty()) {
             TextView textView = new TextView(getApplicationContext()) {{
                 setText(Html.fromHtml(endNotes, Html.FROM_HTML_OPTION_USE_CSS_COLORS | Html.FROM_HTML_MODE_COMPACT));
                 setPadding(50, 50, 50, 50);
-                setTextSize(14);
+                if (CustomizationData.useTextCustomSize) {
+                    setTextSize(CustomizationData.customTextSize - 2);
+                } else  {
+                    setTextSize(14);
+                }
             }};
 
             // Wrap in a container to ensure padding is respected
@@ -365,6 +389,9 @@ public class ReaderActivity extends AppCompatActivity {
             }
         }
 
+        if (CustomizationData.useCustomColor) {
+            layout.setBackgroundColor(CustomizationData.backgroundColor);
+        }
     }
 
     @Override

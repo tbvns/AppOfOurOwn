@@ -7,7 +7,7 @@
                                                    android:layout_height="match_parent"
                                                    app:layout_constraintTop_toTopOf="parent"
                                                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                                                   tools:context=".ReaderActivity"
+                                                   tools:context=".Activity.ReaderActivity"
                                                    android:background="@color/midnightdusk_background">
 
     <!-- The primary full-screen view. This can be replaced with whatever view

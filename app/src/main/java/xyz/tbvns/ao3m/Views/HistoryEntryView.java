@@ -8,11 +8,11 @@ import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.fragment.app.FragmentManager;
-import xyz.tbvns.ao3m.AO3.ChaptersAPI;
-import xyz.tbvns.ao3m.ErrorActivity;
-import xyz.tbvns.ao3m.LoadingActivity;
+import xyz.tbvns.ao3m.Api.ChaptersAPI;
+import xyz.tbvns.ao3m.Activity.ErrorActivity;
+import xyz.tbvns.ao3m.Activity.LoadingActivity;
 import xyz.tbvns.ao3m.R;
-import xyz.tbvns.ao3m.ReaderActivity;
+import xyz.tbvns.ao3m.Activity.ReaderActivity;
 import xyz.tbvns.ao3m.Storage.Database.HistoryManager;
 
 import java.io.IOException;

@@ -8,8 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
-import xyz.tbvns.ao3m.AO3.APIResponse;
-import xyz.tbvns.ao3m.AO3.ChaptersAPI;
+import xyz.tbvns.ao3m.Api.APIResponse;
+import xyz.tbvns.ao3m.Api.ChaptersAPI;
 
 import java.io.IOException;
 import java.util.ArrayList;

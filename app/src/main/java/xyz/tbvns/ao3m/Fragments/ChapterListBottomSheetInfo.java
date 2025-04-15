@@ -10,8 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import lombok.AllArgsConstructor;
-import xyz.tbvns.ao3m.AO3.SearchAPI;
-import xyz.tbvns.ao3m.AO3.WorkAPI;
+import xyz.tbvns.ao3m.Api.SearchAPI;
+import xyz.tbvns.ao3m.Api.WorkAPI;
 import xyz.tbvns.ao3m.R;
 import xyz.tbvns.ao3m.Utils;
 

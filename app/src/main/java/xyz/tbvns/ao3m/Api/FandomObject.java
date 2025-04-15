@@ -1,4 +1,4 @@
-package xyz.tbvns.ao3m.AO3;
+package xyz.tbvns.ao3m.Api;
 
 import lombok.Data;
 

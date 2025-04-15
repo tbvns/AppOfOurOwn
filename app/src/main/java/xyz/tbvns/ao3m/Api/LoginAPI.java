@@ -1,4 +1,4 @@
-package xyz.tbvns.ao3m.AO3;
+package xyz.tbvns.ao3m.Api;
 
 import android.content.Context;
 import android.os.Handler;
@@ -16,7 +16,7 @@ import org.htmlunit.util.Cookie;
 
 import java.util.Set;
 
-import static xyz.tbvns.ao3m.AO3.WebBrowser.client;
+import static xyz.tbvns.ao3m.Api.WebBrowser.client;
 
 @CommonsLog
 public class LoginAPI {

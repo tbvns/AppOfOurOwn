@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".Activity.CustomizationActivity" android:orientation="vertical"
+>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:padding="16dp">
+        <TextView
+                android:text="This is how your text will appear in the reader. The size you select will affect how large or small the text looks, making it easier to read according to your preference. The text and background colors you choose will also apply here, helping you find the perfect contrast for day or night reading. Use this sample to preview how your settings will look in real use."
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/sampleText"
+                android:background="@drawable/rounded_workview" android:padding="16dp"
+        />
+        <TextView
+                android:text="Text settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/textView8" android:textSize="30sp"
+                android:textColor="@color/midnightdusk_onSecondaryContainer" android:textStyle="bold"
+                android:fontFamily="sans-serif-black" android:paddingBottom="5dp" android:paddingTop="5dp"/>
+        <Switch
+                android:text="Use custom text size"
+                android:layout_width="match_parent"
+                android:layout_height="0dp" android:id="@+id/switch1" android:layout_weight="1" android:padding="5dp"/>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:layout_gravity="center" android:gravity="center">
+            <SeekBar
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" android:id="@+id/textSizeSeekBar" android:layout_weight="1"/>
+            <EditText
+                    android:layout_width="50dp"
+                    android:layout_height="40dp"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/textSizeInput" android:layout_weight="0" android:text="0"/>
+        </LinearLayout>
+        <TextView
+                android:text="Colors settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:id="@+id/textView15" android:textSize="30sp"
+                android:textColor="@color/midnightdusk_onSecondaryContainer" android:textStyle="bold"
+                android:fontFamily="sans-serif-black" android:paddingBottom="5dp"/>
+        <Switch
+                android:text="Use custom colors"
+                android:layout_width="match_parent"
+                android:layout_height="0dp" android:id="@+id/switch2" android:layout_weight="1"
+                android:padding="5dp"/>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:paddingTop="10dp" android:paddingBottom="10dp">
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" android:gravity="center"
+                    android:background="@drawable/rounded_layout_nopadding" android:id="@+id/TextColor">
+                <TextView
+                        android:text="Text color"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:id="@+id/textView17" android:layout_weight="1"
+                        android:paddingStart="16dp"/>
+                <View
+                        android:layout_width="50dp"
+                        android:layout_height="50dp" android:id="@+id/view2" android:layout_weight="0"
+                        android:background="@drawable/rounded_workview"/>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:paddingTop="10dp">
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" android:gravity="center"
+                    android:background="@drawable/rounded_layout_nopadding" android:id="@+id/BackgroundColor">
+                <TextView
+                        android:text="Background color"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:id="@+id/textView16" android:layout_weight="1"
+                        android:paddingStart="16dp"/>
+                <View
+                        android:layout_width="50dp"
+                        android:layout_height="50dp" android:id="@+id/view" android:layout_weight="0"
+                        android:background="@drawable/rounded_workview"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
