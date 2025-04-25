@@ -37,7 +37,7 @@ public class KudoHistoryEntryView extends LinearLayout {
         String text = new SimpleDateFormat("HH:mm MM/dd/YYYY").format(date * 10e2);
         chapterDate.setText(text);
 
-        setOnClickListener(l -> {
+        findViewById(R.id.chapter_item_root).setOnClickListener(l -> {
             new Thread(() -> {
                 APIResponse<WorkAPI.Work> work = WorkAPI.fetchWork(url);
                 if (!work.isSuccess()) {

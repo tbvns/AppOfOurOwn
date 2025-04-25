@@ -1,17 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/chapter_item_root"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              tools:context=".ChaptersFragment" android:orientation="vertical" android:paddingBottom="10dp">
+              android:orientation="vertical"
+              android:paddingTop="5dp"
+              android:paddingBottom="5dp"
+              android:clickable="true"
+              android:focusable="true"
+              android:background="?android:attr/selectableItemBackground"
+              tools:context=".ChaptersFragment">
+
     <TextView
+            android:id="@+id/ChapterTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:id="@+id/ChapterTitle" android:textSize="20sp"
-            android:textColor="@color/midnightdusk_onBackground" android:layout_weight="1"/>
+            android:textSize="20sp"
+            android:paddingStart="16dp"
+            android:textColor="@color/midnightdusk_onBackground" android:paddingEnd="16dp"/>
+
     <TextView
-            android:text="Date"
+            android:id="@+id/ChapterDate"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:id="@+id/ChapterDate"
-            android:textColor="@color/midnightdusk_onSurfaceVariant"/>
+            android:layout_height="wrap_content"
+            android:text="Date"
+            android:paddingStart="16dp"
+            android:textColor="@color/midnightdusk_onSurfaceVariant" android:paddingEnd="16dp"/>
+
 </LinearLayout>

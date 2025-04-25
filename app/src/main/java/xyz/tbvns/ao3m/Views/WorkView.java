@@ -80,7 +80,7 @@ public class WorkView extends LinearLayout {
             bottomSheet.show(MainActivity.main.getSupportFragmentManager(), bottomSheet.getTag());
         });
 
-        setOnClickListener(l -> {
+        findViewById(R.id.workCard).setOnClickListener(l -> {
             ChaptersListFragment.show(MainActivity.main.getSupportFragmentManager(), work);
         });
     }

@@ -1,28 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/chapter_item_root"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              tools:context=".ChaptersFragment" android:orientation="vertical" android:paddingBottom="10dp">
+              android:orientation="vertical"
+              android:clickable="true"
+              android:focusable="true"
+              android:background="?android:attr/selectableItemBackground"
+              android:paddingTop="5dp"
+              android:paddingBottom="5dp"
+              tools:context=".ChaptersFragment">
+
     <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:gravity="center_vertical">
-        <ImageView
-                android:src="@android:drawable/ic_notification_overlay"
-                android:layout_width="8dp"
-                android:layout_height="8dp" android:id="@+id/SeenIcon" android:layout_weight="0"
-                android:tint="@color/midnightdusk_primary" android:scaleType="fitXY"/>
-        <TextView
-                android:text="Title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:id="@+id/ChapterTitle" android:textSize="20sp"
-                android:textColor="@color/midnightdusk_onBackground" android:layout_weight="1"
-                android:paddingLeft="5dp"/>
-    </LinearLayout>
-    <TextView
-            android:text="Date"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:id="@+id/ChapterDate"
-            android:textColor="@color/midnightdusk_onSurfaceVariant"/>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+        <Space
+                android:layout_width="16dp"
+                android:layout_height="1dp" />
+
+        <ImageView
+                android:id="@+id/SeenIcon"
+                android:layout_width="8dp"
+                android:layout_height="8dp"
+                android:src="@android:drawable/ic_notification_overlay"
+                android:tint="@color/midnightdusk_primary"
+                android:scaleType="fitXY" />
+
+        <TextView
+                android:id="@+id/ChapterTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Title"
+                android:textSize="20sp"
+                android:textColor="@color/midnightdusk_onBackground"
+                android:paddingStart="5dp"
+                android:paddingEnd="16dp" />
+    </LinearLayout>
+
+    <TextView
+            android:id="@+id/ChapterDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Date"
+            android:textColor="@color/midnightdusk_onSurfaceVariant"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp" />
 </LinearLayout>

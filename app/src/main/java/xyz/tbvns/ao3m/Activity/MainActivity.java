@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "No chapter found !", Toast.LENGTH_LONG).show();
                             break;
                         }
-                        new HistoryEntryView(getApplicationContext(), HistoryFragment.first, getSupportFragmentManager()).callOnClick();
+                        new HistoryEntryView(getApplicationContext(), HistoryFragment.first, getSupportFragmentManager()).findViewById(R.id.chapter_item_root).callOnClick();
                         break;
                     }
                     getSupportFragmentManager().beginTransaction()

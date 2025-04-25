@@ -6,9 +6,13 @@
              tools:context=".Fragments.WorkFragment" android:orientation="vertical" android:padding="5dp"
              android:paddingTop="20dp" android:paddingVertical="20dp">
     <LinearLayout
+            android:id="@+id/workCard"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" android:background="@drawable/rounded_workview"
+            android:layout_height="match_parent"
+            android:background="@drawable/ripple_rounded_workview"
+            android:clickable="true"
+            android:focusable="true"
             android:padding="20dp">
         <LinearLayout
                 android:orientation="horizontal"

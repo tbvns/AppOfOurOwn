@@ -10,94 +10,133 @@
     <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".Fragments.ChaptersListFragment" android:padding="16dp" android:fadingEdgeLength="30dp"
+            tools:context=".Fragments.ChaptersListFragment" android:fadingEdgeLength="30dp"
             android:fadingEdge="vertical" android:requiresFadingEdge="vertical" tools:layout_editor_absoluteY="36dp"
             tools:layout_editor_absoluteX="16dp" android:id="@+id/scrollView2">
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:id="@+id/chaptersList">
-            <TextView
-                    android:text="Title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:id="@+id/titleChapterList" android:textSize="24sp"
-                    android:textColor="@color/midnightdusk_onBackground"/>
-            <TextView
-                    android:text="Author"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:id="@+id/authorChapterList"
-                    android:textColor="@color/midnightdusk_onSurfaceVariant"/>
             <LinearLayout
-                    android:orientation="horizontal"
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp" android:gravity="center">
+                    android:layout_height="match_parent" android:padding="16dp">
+                <TextView
+                        android:text="Title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:id="@+id/titleChapterList" android:textSize="24sp"
+                        android:textColor="@color/midnightdusk_onBackground"/>
+                <TextView
+                        android:text="Author"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" android:id="@+id/authorChapterList"
+                        android:textColor="@color/midnightdusk_onSurfaceVariant"/>
                 <LinearLayout
                         android:orientation="vertical"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" android:layout_weight="1" android:gravity="center">
-                    <ImageButton
-                            android:src="@drawable/librairy_icon"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp" android:id="@+id/libraryButton" android:layout_weight="0"
-                            android:scaleType="fitXY" android:background="@android:color/transparent"
-                            android:tint="@color/midnightdusk_onBackground"/>
-                    <TextView
-                            android:text="Add to library"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" android:id="@+id/libraryText" android:layout_weight="0"
-                            android:autoSizeTextType="uniform"/>
+                        android:layout_height="100dp" android:gravity="center">
+                    <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" android:layout_weight="1" android:gravity="center">
+                        <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center">
+                            <ImageButton
+                                    android:id="@+id/libraryButton"
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:src="@drawable/librairy_icon"
+                                    android:scaleType="fitXY"
+                                    android:background="?attr/selectableItemBackgroundBorderless"
+                                    android:tint="@color/midnightdusk_onBackground"/>
+                            <TextView
+                                    android:id="@+id/libraryText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Add to library"
+                                    android:autoSizeTextType="uniform"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center">
+                            <ImageButton
+                                    android:id="@+id/moreButton"
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:src="@drawable/more_icon"
+                                    android:scaleType="fitXY"
+                                    android:background="?attr/selectableItemBackgroundBorderless"
+                                    android:tint="@color/midnightdusk_onBackground"/>
+                            <TextView
+                                    android:id="@+id/moreText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Details"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center">
+                            <ImageButton
+                                    android:id="@+id/kudoButton"
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:src="@drawable/likes_icon"
+                                    android:scaleType="fitXY"
+                                    android:background="?attr/selectableItemBackgroundBorderless"
+                                    android:tint="@color/midnightdusk_onBackground"/>
+                            <TextView
+                                    android:id="@+id/kudoText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Kudo"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                                android:orientation="vertical"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center">
+                            <ImageButton
+                                    android:id="@+id/webButton"
+                                    android:layout_width="50dp"
+                                    android:layout_height="50dp"
+                                    android:src="@drawable/web_icon"
+                                    android:scaleType="fitXY"
+                                    android:background="?attr/selectableItemBackgroundBorderless"
+                                    android:tint="@color/midnightdusk_onBackground"/>
+                            <TextView
+                                    android:id="@+id/webText"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Web version"/>
+                        </LinearLayout>
+                    </LinearLayout>
                 </LinearLayout>
-                <LinearLayout
-                        android:orientation="vertical"
+                <TextView
+                        android:text="TextView"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" android:layout_weight="1" android:gravity="center">
-                    <ImageButton
-                            android:src="@drawable/more_icon"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp" android:id="@+id/moreButton" android:layout_weight="0"
-                            android:scaleType="fitXY" android:background="@android:color/transparent"
-                            android:tint="@color/midnightdusk_onBackground"/>
-                    <TextView
-                            android:text="Details"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" android:id="@+id/moreText" android:layout_weight="0"/>
-                </LinearLayout>
-                <LinearLayout
-                        android:orientation="vertical"
+                        android:layout_height="wrap_content" android:id="@+id/descChapterList"
+                        android:textColor="@color/midnightdusk_onSurfaceVariant" android:paddingBottom="10dp"/>
+                <View
+                        android:id="@+id/divider3"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" android:layout_weight="1" android:gravity="center">
-                    <ImageButton
-                            android:src="@drawable/likes_icon"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp" android:id="@+id/kudoButton" android:layout_weight="0"
-                            android:scaleType="fitXY" android:background="@android:color/transparent"
-                            android:tint="@color/midnightdusk_onBackground"/>
-                    <TextView
-                            android:text="Kudo"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" android:id="@+id/kudoText" android:layout_weight="0"/>
-                </LinearLayout>
-                <LinearLayout
-                        android:orientation="vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" android:layout_weight="1" android:gravity="center">
-                    <ImageButton
-                            android:src="@drawable/web_icon"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp" android:id="@+id/webButton" android:layout_weight="0"
-                            android:scaleType="fitXY" android:background="@android:color/transparent"
-                            android:tint="@color/midnightdusk_onBackground"/>
-                    <TextView
-                            android:text="Web version"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" android:id="@+id/webText" android:layout_weight="0"/>
-                </LinearLayout>
+                        android:layout_height="1dp"
+                        android:background="?android:attr/listDivider"
+                />
             </LinearLayout>
-            <TextView
-                    android:text="TextView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" android:id="@+id/descChapterList"
-                    android:textColor="@color/midnightdusk_onSurfaceVariant" android:paddingBottom="30dp"/>
         </LinearLayout>
     </ScrollView>
     <com.google.android.material.floatingactionbutton.FloatingActionButton

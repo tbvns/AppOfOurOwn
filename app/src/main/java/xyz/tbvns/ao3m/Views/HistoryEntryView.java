@@ -41,7 +41,7 @@ public class HistoryEntryView extends LinearLayout {
         }
         chapterDate.setText(text);
 
-        setOnClickListener(l -> {
+        findViewById(R.id.chapter_item_root).setOnClickListener(l -> {
             new Thread(() -> {
                 new Handler(Looper.getMainLooper()).post(() -> {
                     Intent loadingIntent = new Intent(getContext(), LoadingActivity.class);

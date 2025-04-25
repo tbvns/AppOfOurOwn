@@ -44,7 +44,7 @@ public class ChaptersView extends LinearLayout {
             chapterDate.setText(chapter.getDate());
         }
 
-        setOnClickListener(l -> {
+        findViewById(R.id.chapter_item_root).setOnClickListener(l -> {
             ReaderActivity.showFullscreen(getContext(), chapter, true);
         });
     }
